@@ -1,0 +1,50 @@
+				<!--{if $value[reply]}-->			
+				    <!--{eval $count=count($value[reply]);}-->	
+				 <dt name="{$value[comment][id]}"><span class="ipaddress">{$value[comment][ipaddress]}</span><span class="name">{$value[comment][username]}</span><span class="time"><!--{date('Y-m-d H:i',$value[reply][dateline])}--></span></dt> 
+					<dd class="ddCls" name="{$value['comment'][id]}">
+				    <p class="txt_comm">{$value['comment'][message]}</p>
+				    <!--{loop $value[reply] $key $value1}-->				    
+				        <!--{if $count>$key  }-->	
+					        <div class="citation2">
+				        <!--{/if}-->
+				    <!--{/loop}-->
+			
+				    <!--{loop $value[reply] $key2 $value2}-->
+				        <!--{if  $count>$key2}-->				       
+					        <div class="citation_title">
+								<span class="ipaddress">{$value2[ipaddress]}</span>
+						        <span class="name">{$value2[username]}</span>
+						        <span class="time"><!--{eval echo $key2+1;}--></span>
+					        </div>
+					        <div class="txt_comm">{$value2[message]}</div>
+					         </div>
+				        <!--{/if}-->
+				    <!--{/loop}-->	
+				   		
+				   
+					<div class="bar bluelink" name="{$value[comment][id]}" rel="1" rev="0">
+					<!--{if $_SGLOBAL[supe_uid]}-->
+					<!--{if $value[comment][uid]==$_SGLOBAL[supe_uid]}-->				
+					<span><a onfocus="this.blur();" class="answer_a delComA" href="javascript:;">删除</a></span>
+					<!--{/if}-->
+					<!--{/if}-->
+					<span><a onfocus="this.blur();" class="answer_a answerA" href="javascript:;">回复</a></span>
+						</div>
+				    </dd>
+					<!--{else}-->
+				    <dt name="{$value['comment'][id]}">
+						<span class="ipaddress">{$value['comment'][ipaddress]}</span>
+						<span class="name">{$value['comment'][username]}</span>
+						<span class="cuin"></span>
+						<span class="time"><!--{date('Y-m-d H:i',$value['comment'][dateline])}--></span>
+					</dt>
+				    <dd class="ddCls" name="{$value['comment'][id]}">
+				    <p class="txt_comm">{$value['comment'][message]}</p>
+				    <div class="bar bluelink" name="{$value['comment'][id]}" rel="1" rev="0">
+				    <!--{if $_SGLOBAL[supe_uid] && $value[comment][uid]==$_SGLOBAL[supe_uid]}-->				
+				    <span><a onfocus="this.blur();" class="answer_a delComA" href="javascript:;">删除</a></span>
+				    <!--{/if}-->
+				    <span><a onfocus="this.blur();" class="answer_a answerA" href="javascript:;">回复</a></span></div>
+				    </dd>
+				<!--{/if}-->
+				

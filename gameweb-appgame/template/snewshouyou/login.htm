@@ -1,0 +1,50 @@
+<!--{template header}-->
+<div class="container padding-left padding-right padding-top">
+        <div class="form-group margin-big-bottom margin-big-top">
+            <div class="field">
+               <input type="text" class="input" id="username" name="username" placeholder="请填写账号" />
+            </div>
+        </div>
+        <div class="form-group  margin-big-bottom">
+            <div class="field">
+                <input type="password" class="input" id="password" name="password" placeholder="请填写密码" />
+            </div>
+        </div>
+        <div class="form-button" style="background:#e9e9e9;border-radius:5px;"><input type="submit" value="马上登录" name="loginsubmit" class="button button-block nav-font border-sub" id="loginsubmit"><!--<button class="button button-block nav-font border-sub" type="submit" name="loginsubmit">马上登录</button>--></div>
+    <div class="line text-center padding-small-top  margin-big-top">
+        <a class="text-sub" href="/mobile.php?ac=register">没有账号,马上注册?</a>
+    </div>
+</div>
+
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+<script type="text/javascript">
+$('#loginsubmit').click(function(){
+	var username=$('#username').val();
+	var password=$('#password').val();
+	if(username==""){
+		alert('用户名不能为空');
+		return false;
+	}
+	if(password==""){
+		alert('密码不能为空');
+		return false;
+	}
+	$.ajax({
+		type:"GET",
+		url:'/mobile.php?ac=login&username='+encodeURIComponent(username)+'&password='+encodeURIComponent(password)+'&logincz=1',
+		dataType:'json',
+		success:function(data){
+			if(data.state==1){
+				window.location.href="/mobile.php?ac=member";
+			}else{
+				alert(data.msg);
+				return false;
+			}
+		}
+	});
+});
+</script>
+</body>
+</html>

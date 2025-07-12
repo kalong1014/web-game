@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$_SCONFIG[sitename]&nbsp;管理后台</title>
+<link href="/template/admin/css/basic.css" type="text/css" rel="stylesheet" />
+<script language="javascript" type="text/javascript" src="/template/admin/js/jquery.js"></script>
+<script type="text/javascript">
+	var lastSecCode = '';
+	function checkSeccode() {
+		var seccodeVerify = $('seccode').value;
+		if(seccodeVerify == lastSecCode) {
+			return;
+		} else {
+			lastSecCode = seccodeVerify;
+		}
+		ajaxresponse('checkseccode', 'op=checkseccode&seccode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(seccodeVerify) : seccodeVerify));
+	}
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('admincp.php?ac=$_SCONFIG[register_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	function warning(obj, msg) {
+		if((ton = obj.id.substr(5, obj.id.length)) != 'password2') {
+			$(ton).select();
+		}
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+var lastTarget = null;
+                    var target = null;
+                    var timer = 0;
+
+					function show_submenu(id, obj){
+	                    clearTimeout(timer);
+	                    if (lastTarget) lastTarget.style.display = "none";
+	                    target = document.getElementById(id);
+	                    lastTarget = target;
+	                    target.style.display = "inline";
+	                    //下拉触发
+	                    target.onmouseover = function(){
+		                    clearTimeout(timer);	
+	                    }
+	                    //移除
+	                    target.onmouseout = obj.onmouseout = function(){
+		                    timer = setTimeout(function(){
+			                    target.style.display = "none";
+		                    }, 300);	
+	                    };
+                    }
+                    
+                    function login_type_selector(login_type, type_name)
+                    {
+	                    document.getElementById('DropDown_login').style.display='none';
+	                    document.getElementById('username').value=type_name;
+	                    document.getElementById('login_type').value=login_type;
+                    }
+			    function seccode() {
+					var img = 'admincp.php?ac=seccode&rand=' + Math.random();
+					document.writeln('<img id="img_seccode" src="' + img + '" align="absmiddle">');
+				}
+				function updateseccode() {
+					var img = 'admincp.php?ac=seccode&rand=' + Math.random();
+					if ($('#img_seccode')) {        　
+						$("#img_seccode").attr("src", img);         
+					}
+				}
+</script>
+</head>
+
+<body class="denglubody">
+<div class="denglubox">
+
+  <form id="loginform" name="loginform" action="admincp.php?ac=login" method="post" class="c_form">
+    <ul class="dengluform">
+      <li><input type="text" id="username" name="username"/></li>
+      <li><input type="password" id="password" name="password"/></li>
+     
+
+      
+     <input type="hidden" name="ac" value="login" />
+	 <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+      <li><input type="submit" class="denglu_tijiao" name="loginsubmit" value="登录" /></li>
+    </ul>
+  </form>
+
+</div>
+</body>
+</html>

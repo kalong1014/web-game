@@ -1,0 +1,109 @@
+﻿
+<!doctype html>
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+<script src="js/jquery.js"></script>
+
+<script src="js/carousel.js" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+        <div class="g-cnt-3">
+		
+		<div class="page-container pageThree">
+        <div class="wraper-content">
+<div class="GametuZu wow fadeInUp" data-wow-duration="1" data-wow-delay=".6s">
+            <div id="carousel">
+                <ul class="hiSlider hiSliderCaroul">
+                                    <li class="hiSlider-item"><a href="javascript:;"><img src="dun/1.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/2.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/3.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/4.png"></a></li>
+										   <li class="hiSlider-item"><a href="javascript:;"><img src="dun/5.png"></a></li>
+                                    <li class="hiSlider-item"><a href="javascript:;"><img src="dun/6.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/7.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/8.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/9.png"></a></li>
+										   <li class="hiSlider-item"><a href="javascript:;"><img src="dun/10.png"></a></li>
+                                    <li class="hiSlider-item"><a href="javascript:;"><img src="dun/11.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/12.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/13.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/14.png"></a></li>
+										   <li class="hiSlider-item"><a href="javascript:;"><img src="dun/15.png"></a></li>
+                                    <li class="hiSlider-item"><a href="javascript:;"><img src="dun/16.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/17.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/18.png"></a></li>
+                                        <li class="hiSlider-item"><a href="javascript:;"><img src="dun/19.png"></a></li>
+										   <li class="hiSlider-item"><a href="javascript:;"><img src="dun/20.png"></a></li>
+              </ul>
+            </div>
+            <a href="javascript:;" class="btn_ji btn_prve"></a>
+            <a href="javascript:;" class="btn_ji btn_next"></a>
+        </div>
+ </div>
+
+
+	
+	
+
+	</div>
+</div>
+
+
+
+
+
+	<!-- Floatingbar结束 -->
+
+
+<script type="text/javascript">
+/****mp3---*/
+var Setting = {
+  scrollSpeed: 2,
+
+};
+$(function(){
+	var bBtn = true;
+	var musicMp3 = document.getElementById("audio");	
+	var bBtn = true;
+	$('.musicbox').on('click',function(){	
+		if( bBtn ){		
+			$(this).removeClass('musicplay').addClass('musicstop');
+			bBtn = false;
+			musicMp3.pause();
+		}else{
+					
+			$(this).removeClass('musicstop').addClass('musicplay');
+			bBtn = true;		
+			musicMp3.play();  
+		
+		}
+	});
+	
+
+	
+})	
+ // 特色五图
+    var dd = $('#carousel').carousel({
+        curDisplay: 0,
+        autoPlay: true,
+        wrap:true,
+        interval: 3000
+    });
+</script>  
+
+
+
+</body>
+</html>
+
+

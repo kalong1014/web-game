@@ -1,0 +1,174 @@
+<!--{template header}-->
+<script type="text/javascript" src="/template/$_SCONFIG[template]/js/ZeroClipboard.js"></script>
+<script language="javascript">
+	$(document).ready(function() {
+		$.ajax({
+			type: "get",
+			dataType: 'json',
+			url: "/index.php?ac=packdetail&packid=" + $packinfo[packid] + "&card=1&op=2",
+			beforeSend: function(XMLHttpRequest) {
+				$('#cardnum').html("loading....");
+			},
+			success: function(json) {
+				var card = json;
+				if (card.uid != '0' && card.status == 2 && card.card!=false) {
+					var lbnum = '<div class="ljlq_b_hao"><span id="cardnum">' + card.card + '</span><span id="clip_container"><span id="clip_button">复制</span></span></div>';
+					$('.lb_ljlq').html(lbnum);
+					init();
+				}
+			},
+			async: false,
+		});
+	});
+	var clip = null;
+	// function $(id) { return document.getElementById(id); }  
+	function init() {
+		clip = new ZeroClipboard.Client();
+		clip.setHandCursor(true);
+		clip.addEventListener('mouseOver', function(client, text) {
+			// update the text on mouse over
+			clip.setText($('#cardnum').text());
+		});
+		clip.addEventListener('complete', function(client, text) {
+			//debugstr("Copied text to clipboard: " + text );
+			alert("该地址已经复制，你可以使用Ctrl+V 粘贴。");
+		});
+		clip.glue('clip_button', 'clip_container');
+	}
+</script>
+<script>
+	$(function() {
+		init();
+	});
+	//function chklogin(pid){
+	//	var islogin=0;
+	//	
+	//	   $.ajax({
+	//          type: "get",
+	//          dataType: 'json',
+	//          url: "/index.php?ac=packdetail&op=1",
+	//          success: function (json) {
+	//				            islogin=json;
+	//				},
+	//				async: false,
+	//      });
+	//	if(islogin=='0'){
+	//		alert('只有登入后才能领取礼包。');
+	//		window.location.href="/index.php?ac=login"; 
+	//	}else{
+	//		getcard(pid);
+	//	}
+	//}
+</script>
+<div id="main" class="layout">
+	<div class="libao_con">
+		<div class="lb_con_tit"><a href="$packinfo['packurl']" class="more">相关礼包</a>{$packinfo[packname]} <span class="cur">需要登录</span>
+			<!--{if $packinfo[usecredit]}--><span class="cur">需要消耗{$packinfo[usecredit]}$_SCONFIG[creditname]</span>
+			<!--{/if}-->
+		</div>
+		<div class="libao_app clearfix">
+			<div class="libao_app_l">
+				<a href="index.php?ac=appdetail&id={$syappinfo[id]}" class="app_120">
+					<i class="app_img_120"></i>
+					<img src="{$syappinfo[logo]}">
+				</a>
+				<p class="lqlb_xt">适用于
+					<!--{if $packinfo[isandroid]=="1"}--><span class="lqlb_xtan_b"></span>
+					<!--{/if}-->
+					<!--{if $packinfo[isios]=="1"}--><span class="lqlb_xtios_b"></span>
+					<!--{/if}-->
+				</p>
+			</div>
+			<div class="lq_con_info">
+				<div class="lq_con_info_l">
+					<h2>游戏名称：{$syappinfo[name]}</h2>
+					<p>
+						<!--{if $downurls}-->安卓：
+						<!--{loop $durl $k $v}-->
+						<!--{if $k=="0"}--><a href="{$v[url]}" target="_blank">{$v[name]}</a>
+						<!--{/if}-->
+						<!--{/loop}-->
+						<!--{/if}-->&nbsp;&nbsp;
+						<!--{if $iosdownurls}-->苹果：
+						<!--{loop $iosdurl $k $v}-->
+						<!--{if $k=="0"}--><a href="{$v[url]}" target="_blank">{$v[name]}</a>
+						<!--{/if}-->
+						<!--{/loop}-->
+						<!--{/if}-->
+					</p>
+				</div>
+				<div class="lq_con_info_r">
+					<p>有效时间：
+						<!--{eval echo date('y-m-d H:i',$packinfo[starttime])}-->至
+						<!--{eval echo date('y-m-d H:i',$packinfo[endtime])}-->
+					</p>
+					<div class="shengyu">剩余情况：<span><em style="width:$percent%;"></em></span> $percent%</div>
+				</div>
+				<div class="lq_con_info_b">
+					<!--{if $istaohao}-->
+					<div class="lb_ljlq"><a href="javascript:taohao($packinfo[packid]);" class="lb_ljlq_b">淘号</a><span class="lb_ljlq_tixing">淘淘看吧，会有惊喜哟</span></div>
+					<!--{else}-->
+
+					<!--{if $cardcount}-->
+					<div class="lb_ljlq"><a href="javascript:getcard($packinfo[packid]);" class="lb_ljlq_b">立即领取</a></div>
+					<!--{else}-->
+					<div class="lb_ljlq"><a href="javascript:;" class="lb_ljlq_b_wu">被抢完了</a></div>
+					<!--{/if}-->
+
+					<!--{/if}-->
+				</div>
+			</div>
+		</div>
+		<div class="lb_con_box">
+			<div class="libao_box_tit">礼包说明</div>
+			<div class="libao_shuoming">
+				{$packinfo[packcontent]}
+			</div>
+			<div class="libao_box_tit">使用说明</div>
+			<div class="libao_shuoming">
+				<!--{if $packinfo[gameurl] || $packinfo[activate]}-->
+				<p>
+					<!--{if $packinfo[gameurl]}-->官网地址：<a href="$packinfo[gameurl]" target="_blank">进入官网</a>
+					<!--{/if}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--{if $packinfo[activate]}-->激活地址：<a href="$packinfo[activate]" target="_blank">进入激活</a>
+					<!--{/if}-->
+				</p>
+				<!--{/if}-->
+				{$packinfo[packuse]}
+
+			</div>
+			<div class="libao_box_tit">游戏说明</div>
+			<div class="libao_shuoming">
+				<!--{eval echo nl2br($syappinfo['summary'])}-->
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function getcard(packid) {
+		$.ajax({
+			type: "get",
+			dataType: 'json',
+			url: "/index.php?ac=packdetail&packid=" + packid + "&card=1",
+			beforeSend: function(XMLHttpRequest) {
+				$('#cardnum').html("loading....");
+			},
+			success: function(json) {
+				var card = json;
+				if (card.uid == '0') {
+					alert('只有登入后才能领取礼包。');
+					window.location.href = "/index.php?ac=login";
+				} else {
+					if (card.status==0) {
+						alert(card.error);
+					} else {
+						var lbnum = '<div class="ljlq_b_hao"><span id="cardnum">' + card.card + '</span><span id="clip_container"><span id="clip_button">复制</span></span></div>';
+						$('.lb_ljlq').html(lbnum);
+						init();
+					}
+				}
+			}
+		});
+	}
+</script>
+<!--{template footer}-->

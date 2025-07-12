@@ -1,0 +1,22 @@
+ <!--{template header}-->
+	<div class="bdrcontent">
+		<h2 class="con_title">Ucenter通信配置信息</h2>
+	<p>温馨提醒：请正确填入Ucenter配置信息。<a href="http://bbs.yyjia.com/thread-1233-1-1.html" target="_blank">点击查看教程</a></p>
+	<form method="post" action="admincp.php?ac=config&op=syndata" >
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr><td></td><td><input type="radio" name="qiyonguc" value="1" <!--{if $_SCONFIG[qiyonguc]=="1"}-->checked="checked"<!--{/if}-->> 启用 <input type="radio" name="qiyonguc" value="0" <!--{if $_SCONFIG[qiyonguc]=="0" || !$_SCONFIG[qiyonguc]}-->checked="checked"<!--{/if}-->> 不启用</td></tr>
+	<tr><td class="td_tit">ucenter通信配置信息：</td><td><textarea style="height:260px;" name="tongxin" >{$_SCONFIG['ucinfo']}</textarea></td></tr>
+	<tr><td class="td_tit"></td><td > <input type="submit" name="tijiao" value="提交"  class="tijiao_button"><input type="submit" name="tbdata" value="同步数据"  class="tijiao_button"></td></tr>
+	</table>
+	</form>
+	<div>
+	<!--{if $inuserinfo}-->	
+	
+	<table>
+	<tr><td>同步用户ID</td><td>同步用户名</td><tr>
+	<!--{loop $inuserinfo $value}-->
+	<tr><td>{$value[uid]}</td><td>{$value[username]}</td></tr>
+	<!--{/loop}-->
+	</table>
+	<!--{/if}-->
+ <!--{template footer}-->

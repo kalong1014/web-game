@@ -1,0 +1,44 @@
+<!--{template header}-->
+<div id="main">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit"><span class="f_right"><a href="/index.php?ac=chkvendor&op=packs">添加礼包</a></span>礼包管理</div>
+    <div class="o_appcon">
+	<div class="o_appgltit clearfix"><a href="index.php?ac=chkvendor&op=managepack&isverify=0" $packcss[0]>待审核</a><a href="index.php?ac=chkvendor&op=managepack&isverify=1"  $packcss[1]>通过审核</a><a href="index.php?ac=chkvendor&op=managepack&isverify=-1" $packcss[-1]>未通过审核</a></div>
+      <div class="o_appglcon">
+	  <!--{if $packinfo}-->
+      <table width="100%" class="shouyou_tb">
+        <tbody>
+          <tr>
+            <th width="70">游戏名称</th>
+            <th width="60">区服</th>
+			<th width="80">系统</th>
+            <th>礼包名称</th>
+            <th width="80">礼包类型</th>
+            <th width="80">开始时间</th>
+			<th width="80">结束时间</th>
+            <th width="80">操作</th>
+          </tr>
+		  <!--{loop $packinfo $value}-->
+          <tr>
+            <td><!--{if $value[packlogo]}--><img src="$value[packlogo]" width="60px" height="60px"><!--{else}--><!--{/if}--><div>$value[gamename]</div></td>
+            <td>{$value[addressnum]}</td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td>{$value[packname]}</td>
+            <td>$ptypeinfo[$value[packtype]]</td>
+            <td><!--{eval echo date('Y-m-d H',$value[starttime])}-->点</td>
+			<td><!--{eval echo date('Y-m-d H',$value[endtime])}-->点</td>
+			<td><!--{if $value[isverify]=="0"}--><a class="o_appglcon_bj" href="index.php?ac=chkvendor&op=packedit&packid=$value[packid]">编辑</a><a class="o_appglcon_sc" href="index.php?ac=chkvendor&op=packdel&packid=$value[packid]">删除</a><!--{else}-->无操作<!--{/if}--></td>
+          </tr>
+         <!--{/loop}-->
+        </tbody>
+      </table>
+	   <div class="fenye">{$multi}</div>
+	   <!--{else}-->
+	  <div class="o_appglcon_ts">目前还没有相关信息...</div>
+	  <!--{/if}-->
+	   </div>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

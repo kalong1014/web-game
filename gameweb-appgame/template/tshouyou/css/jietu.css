@@ -1,0 +1,35 @@
+.context-con .contain{margin-bottom:0}
+.game-pic .context-con{padding:12px 0;position:relative}
+.pic-con{width:910px;overflow:hidden;margin:0 auto;position:relative}
+.pic-con ul{width:500%;overflow:hidden;position:relative}
+.pic-con ul li{border:2px solid #fff;margin-right:15px;float:left;cursor:pointer}
+.pic-con ul li:hover{border-color:#f60}
+.pic-con ul li img{display:block;width:210px}
+.game-pic-yr{user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}
+.game-pic-yr.style1 .context-con{height:360px}
+.game-pic-yr.style1 .pic-con{width:720px;height:322px}
+.game-pic-yr.style1 .meng-con{width:522px;height:320px;left:227px;top:23px}
+.game-pic-yr.style1 .meng-l,.game-pic-yr.style1 .meng-r{height:200px;top:48px}
+.game-pic-yr.style1 .meng-b{background:url(../images/focus_bottom_bg1.png) no-repeat 0 0}
+.game-pic-yr.style2 .context-con{height:520px}
+.game-pic-yr.style2 .pic-con{width:680px;height:480px}
+.game-pic-yr.style2 .meng-con{width:372px;height:481px;left:294px;top:20px}
+.game-pic-yr.style2 .meng-l,.game-pic-yr.style2 .meng-r{height:300px;top:80px}
+.game-pic-yr.style2 .meng-b{background:url(../images/focus_bottom_bg2.png) no-repeat 0 0}
+.game-pic-yr .context-con{position:relative;padding:0;overflow:hidden}
+.game-pic-yr .ctrl{width:240px;height:200px;display:block;position:absolute;top:50%;margin-top:-110px;z-index:5;background:url(../images/focus_ctrl.png) no-repeat 100px 100px;_background:url(../images/focus_ctrl.gif) no-repeat 100px 100px;cursor:pointer}
+.game-pic-yr .prev{background-position:15px 40px;left:10px}
+.game-pic-yr .prev:hover,.game-pic-yr .prev.current{background-position:16px -291px}
+.game-pic-yr .next{background-position:163px -126px;right:10px}
+.game-pic-yr .next:hover,.game-pic-yr .next.current{background-position:163px -460px}
+.game-pic-yr .pic-con{margin:20px auto 0 auto;overflow:hidden}
+.game-pic-yr .pic-con li{position:absolute;top:0}
+.game-pic-yr .pic-con li img{width:100%;height:100%;display:block;font-size:0}
+.game-pic-yr .meng-con{position:absolute;_display:none !important}
+.game-pic-yr .meng-l,.game-pic-yr .meng-r{width:26px;position:absolute;left:-10px;background:url(../images/focus_side_bg.png) repeat-y 0 0;z-index:6}
+.game-pic-yr .meng-r{left:auto;right:10px;background:url(../images/focus_side_bg.png) repeat-y -26px 0}
+.game-pic-yr .meng-b{width:100%;height:32px;position:absolute;bottom:0;left:-12px;}
+
+
+
+

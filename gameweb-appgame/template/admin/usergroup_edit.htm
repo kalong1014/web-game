@@ -1,0 +1,61 @@
+ <!--{template header}-->
+	<h2 class="con_title">用户组管理</h2>
+	
+	<div class="bdrcontent">
+		<div class="usergroupnav"><a href="admincp.php?ac=usergroup&op=edit&group=putong" <!--{if $group=="putong"}-->class="dangqian"<!--{/if}-->>普通用户组</a> <a href="admincp.php?ac=usergroup&op=edit&group=teshu" <!--{if $group=="teshu"}-->class="dangqian"<!--{/if}-->>特殊用户组</a></div>
+		<form method="post" name="myform" id="batchform" action="admincp.php" enctype="multipart/form-data" >
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<input type="hidden" name="ac" value="usergroup" />
+		<input type="hidden" name="op" value="caozuo" />
+		<!--{if $group=="teshu"}-->
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <td width="100">组名</td>          
+        <td><input class="sousuobox_input1" type="text" name="group[group_name]" <!--{if $groupinfo[group_name]}-->value="$groupinfo[group_name]"<!--{else}-->value=""<!--{/if}-->></td>
+        </tr>
+		<tr>
+        <td>发布应用</td>
+		<td><input type="radio" name="group[isapps]" value="1" <!--{if $groupinfo[isapps]=="1"}-->checked="checked"<!--{/if}-->>是 <input type="radio" name="group[isapps]" value="0" <!--{if $groupinfo[isapps]=="0"}-->checked="checked"<!--{/if}-->>否</td>
+		</tr>
+		<tr>
+        <td>发布资讯</td>
+		<td><input type="radio" name="group[isnews]" value="1" <!--{if $groupinfo[isnews]=="1"}-->checked="checked"<!--{/if}-->>是 <input type="radio" name="group[isnews]"value="0" <!--{if $groupinfo[isnews]=="0"}-->checked="checked"<!--{/if}-->>否</td>
+		</tr>
+		<tr>
+        <td>发布开服表</td>
+		<td><input type="radio" name="group[isopen]" value="1" <!--{if $groupinfo[isopen]=="1"}-->checked="checked"<!--{/if}-->>是 <input type="radio" name="group[isopen]"value="0" <!--{if $groupinfo[isopen]=="0"}-->checked="checked"<!--{/if}-->>否</td>
+		</tr>
+		<tr>
+        <td>发布开测表</td>
+		<td><input type="radio" name="group[istest]" value="1" <!--{if $groupinfo[istest]=="1"}-->checked="checked"<!--{/if}-->>是 <input type="radio" name="group[istest]"value="0" <!--{if $groupinfo[istest]=="0"}-->checked="checked"<!--{/if}-->>否</td>
+		</tr>
+		<tr>
+        <td>发布礼包</td>
+		<td><input type="radio" name="group[ispack]" value="1" <!--{if $groupinfo[ispack]=="1"}-->checked="checked"<!--{/if}-->>是 <input type="radio" name="group[ispack]"value="0" <!--{if $groupinfo[ispack]=="0"}-->checked="checked"<!--{/if}-->>否</td>
+		</tr>
+		</table>
+		<input type="hidden" value="1" name="group[type]">
+		<!--{elseif $group=="putong"}-->
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <td width="100">组名</td>          
+        <td><input class="sousuobox_input1" type="text" name="group[group_name]" <!--{if $groupinfo[group_name]}-->value="$groupinfo[group_name]"<!--{else}-->value=""<!--{/if}-->></td>
+        </tr>
+		<tr>
+        <td>经验值</td>
+		<td>下限 ： <input class="sousuobox_input1" type="test" value="$groupinfo[lowerexperience]" name="group[lowerexperience]"> 上限 ： <input class="sousuobox_input1" type="test" value="$groupinfo[upexperience]" name="group[upexperience]"></td>
+		</tr>       
+		</table>
+		<input type="hidden" value="2" name="group[type]">
+		<!--{/if}-->
+		<div class="footactions">
+		<input type="hidden" name="groupid" value="{$groupinfo[group_id]}"/>
+		<!--{if $groupinfo}-->
+		<input type="submit" name="savesubmit" value="保存"  class="tijiao_button">
+		<!--{else}-->
+		<input type="submit" name="tijiaosubmit" value="提交"  class="tijiao_button">
+		<!--{/if}-->
+		</div>
+		</form>	
+	</div>	
+ <!--{template footer}-->

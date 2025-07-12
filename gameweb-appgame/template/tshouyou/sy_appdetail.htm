@@ -1,0 +1,438 @@
+<!--{template header}-->
+<link href="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/css/jietu.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="http://$_SCONFIG[siteurl]/template/tshouyou/js/jquery-jietu.js"></script>
+<script type="text/javascript" src="http://$_SCONFIG[siteurl]/template/tshouyou/js/jietu.js"></script>
+<script>
+	function erweima(url, type, k) {
+		url = encodeURIComponent(url);
+		var ewmurl = "/index.php?ac=qrcode&url=" + url;
+		if (type == "android") {
+			$('.an_erweimacss img').css("display", "none");
+			$('#erweima_an_' + k + ' img').attr("src", ewmurl);
+			$('#erweima_an_' + k + ' img').css("display", "block");
+		} else {
+			$('.ios_erweimacss img').css("display", "none");
+			$('#erweima_ios_' + k + ' img').attr("src", ewmurl);
+			$('#erweima_ios_' + k + ' img').css("display", "block");
+		}
+	}
+
+	function checkinfo() {
+		var checked = [];
+		var message = $('#jiucuotext').val();
+		$('input:checkbox:checked').each(function() {
+			checked.push($('.chkerror').val());
+		});
+		if (checked == "" && message == "") {
+			alert("还没有选择错误信息或者留言内容");
+			return false;
+		}
+	}
+
+	function share() {
+		window.location.href = "/index.php?ac=common&op=share";
+	}
+</script>
+<div id="main" class="layout">
+	<div class="appcon">
+		<!--{if $appinfo[dlogo]}-->
+		<div class="apptu"><img src="$appinfo[dlogo]"  width="100%"></div>
+		<!--{/if}-->
+		<div class="appinfo clearfix">
+			<div class="app_content_introbox clearfix">
+				<div class="app_content_introbox1">
+					<div class="app_120">
+						<i class="app_img_120"></i>
+						<img src="{$appinfo[logo]}">
+					</div>
+				</div>
+				<div class="app_gcon2">
+					<h1><a href="<!--{eval echo $_SERVER['REQUEST_URI']}-->">{$appinfo[name]}</a></h1>
+					<p class="app_gcon2_pf"><span class="appstar bigstar<!--{if $appinfo[star]<6 && $appinfo[star]!=0}--><!--{eval echo $appinfo[star]*10}--><!--{elseif $appinfo[star]==0}-->30<!--{else}-->{$appinfo[star]}<!--{/if}-->"></span><em>{$appinfo[score]}</em>(已有{$appinfo['commentnum']}人评分)
+						<a
+							class="woyaopingfen" href="javascript:void();" onClick=" setTimeout('document.getElementById(\'commentText\').focus()',120); return false;">我要评分</a>
+					</p>
+					<dl class="clearfix">
+						<dt>状&#12288;态：</dt>
+						<dd>
+							<!--{if $appinfo[yystate]=="1"}-->运营
+							<!--{elseif $appinfo[yystate]=="2"}-->公测
+							<!--{elseif $appinfo[yystate]=="3"}-->内测
+							<!--{elseif $appinfo[yystate]=="4"}-->封测
+							<!--{elseif $appinfo[yystate]=="5"}-->预告
+							<!--{/if}-->
+						</dd>
+						<dt>标&#12288;签：</dt>
+						<dd><a href="/" target="_blank">{$appinfo[tags]}</a></dd>
+						<dt>下载量：</dt>
+						<dd>
+							<!--{if $appinfo[downloadcount]<100000}-->{$appinfo[downloadcount]}
+							<!--{else}-->10万+
+							<!--{/if}-->
+						</dd>
+						<dt>开发商：</dt>
+						<dd>{$appinfo[developers]}</dd>
+						<dt>时&#12288;间：</dt>
+						<dd>
+							<!--{eval echo date('y-m-d',$appinfo[updatetime])}-->
+						</dd>
+						<dt>语&#12288;言：</dt>
+						<dd>{$appinfo[language]}</dd>
+					</dl>
+					<div class="fenxiangdm" onclick="share()">
+						{$_SCONFIG[bdshare]}
+					</div>
+				</div>
+				<!--<div class="app_gcon3">
+              <div class="erweimaxz_tu"><img src="http://$_SCONFIG[siteurl]/index.php?ac=qrcode&id=$_GET[id]"></div>
+              <p>扫二维码下载到手机</p>
+            </div>-->
+			</div>
+			<div class="tongleihot">
+				<div class="tonglei_tit">热门游戏</div>
+				<ul class="tongleihotcon">
+					<!--{loop $rmapps $key $value}-->
+					<li>
+						<a href="{$value[url]}" class="app_90" target="_blank">
+							<i class="app_img_90"></i>
+							<img src="{$value[logo]}">
+						</a>
+						<p class="app_tit_90"><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+					</li>
+					<!--{/loop}-->
+				</ul>
+			</div>
+			<div class="app_content_xiazai clearfix">
+				<div class="app_content_xiazai_b">
+					<div class="app_content_xiazai_ban">
+						<a href="javascript:void(0);" class="button_an">安卓下载</a>
+						<a href="javascript:void(0);" class="button_an2">安卓下载</a>
+					</div>
+					<div class="app_content_xiazai_bios">
+						<a href="javascript:void(0);" class="button_ios">IOS下载</a>
+						<a href="javascript:void(0);" class="button_ios2">IOS下载</a>
+					</div>
+				</div>
+				<div class="app_content_xiazai_box_an">
+					<div class="app_content_lvsj"></div>
+					<!--{if $downurls}-->
+					<!--{loop $durl $k $v}-->
+					<p><a href="{$v[url]}" target="_blank" onmousemove="erweima('$v[url]','android','$k');" rel="nofollow">{$v[name]}</a><span id="erweima_an_$k" class="an_erweimacss"><img style="width:164px; height:164px; display:none;" src=""></span></p>
+					<!--{/loop}-->
+					<!--{else}-->
+					<p>暂无下载地址</p>
+					<!--{/if}-->
+				</div>
+				<div class="app_content_xiazai_box_ios">
+					<div class="app_content_lansj"></div>
+
+					<!--{if $iosdownurls}-->
+					<!--{loop $iosdurl $k $v}-->
+					<p><a href="{$v[url]}" target="_blank" onmousemove="erweima('$v[url]','apple',$k);" rel="nofollow">{$v[name]}</a><span id="erweima_ios_$k" class="ios_erweimacss"><img style="width:164px; height:164px; display:none;" src=""></span></p>
+					<!--{/loop}-->
+					<!--{else}-->
+					<p>暂无下载地址</p>
+					<!--{/if}-->
+				</div>
+			</div>
+
+			<div class="banquants"><a href="javascript:void(0)" class="jiucuo" rel="nofollow"><span>纠错举报</span></a>我站仅对该软件提供链接服务，该软件内容来自于第三方上传分享，版权问题均与我站无关。如果该软件触犯了您的权利，请点此<a href="index.php?ac=contact&op=copyright" target="_blank" rel="nofollow">版权申诉</a>。</div>
+
+			<div class="jiucuobox">
+				<div class="jiucuo_head"><a href="javascript:void(0)" class="jiucuo_guanbi">关闭</a>纠错举报</div>
+				<div class="jiucuo_con">
+					<form action="/index.php?ac=appdetail&op=jubao" method="post" onsubmit="return checkinfo()">
+						<input type="hidden" value="jubao" name="op">
+						<div class="jiucuo_con_tit">$appinfo[name]</div>
+						<ul>
+							<li><input type="checkbox" class="chkerror" id="reportype1" name="reportype[1]" value="无法下载"><label for="reportype1">无法下载</label></li>
+							<li><input type="checkbox" class="chkerror" id="reportype2" name="reportype[2]" value="无法安装启动"><label for="reportype2">无法安装启动</label></li>
+							<li><input type="checkbox" class="chkerror" id="reportype5" name="reportype[3]" value="版本太旧需要更新"><label for="reportype5">版本太旧需要更新</label></li>
+							<li><input type="checkbox" class="chkerror" id="reportype6" name="reportype[4]" value="恶意扣费"><label for="reportype6">恶意扣费</label></li>
+							<li><input type="checkbox" class="chkerror" id="reportype7" name="reportype[5]" value="携带病毒"><label for="reportype7">携带病毒</label></li>
+							<li><input type="checkbox" class="chkerror" id="reportype8" name="reportype[6]" value="含有恶意插件"><label for="reportype8">含有恶意插件</label></li>
+							<li><input type="checkbox" class="chkerror" id="reportype9" name="reportype[7]" value="侵犯版权"><label for="reportype9">侵犯版权</label></li>
+						</ul>
+						<textarea id="jiucuotext" name="jiucuotext"></textarea>
+						<input type="hidden" value="{$appinfo[appid]}" name="appid">
+						<input type="hidden" value="4" name="type">
+				</div>
+				<div class="jiucuo_foot"><input type="submit" class="jiucuo_tj" value="提交" name="jubao"><a class="jiucuo_qx" href="javascript:void(0)">取消</a></div>
+				</form>
+			</div>
+
+			<div class="app_xg">
+				<!-- 相关数据信息-->
+				<!-- 开服信息-->
+				<!--{eval $todayopen=getopengames(0,0,10,0,$appinfo[id])}-->
+				<!-- 开测信息-->
+				<!--{eval $todaytest=gettestgames(0,0,10,0,$appinfo[id])}-->
+				<!-- 礼包信息-->
+				<!--{eval $packs=getpackinfo(0,0,0,10,0,$appinfo[id])}-->
+				<ul class="app_cgnav clearfix">
+					<li onClick="tabChange(this,'app_xgcon')" class="cli"><a href="javascript:void(0);">游戏资料</a></li>
+					
+					<!--{if $_SCONFIG[ishidden]=="0" || $todayopen[list]!=""}-->
+					<li onClick="tabChange(this,'app_xgcon')"><a href="javascript:void(0);">开服信息</a></li>
+					<!--{/if}-->
+					
+					<!--{if $_SCONFIG[ishidden]=="0" || $todaytest[list]!=""}-->
+					<li onClick="tabChange(this,'app_xgcon')"><a href="javascript:void(0);">开测信息</a></li>
+					<!--{/if}-->
+					
+					<!--{if $_SCONFIG[ishidden]=="0" || $packs[list]!=""}-->
+					<li onClick="tabChange(this,'app_xgcon')"><a href="javascript:void(0);">礼包信息</a></li>
+					<!--{/if}-->
+					<!--{eval $synewscate=getcategorylist(2,-1,-1,4,1,"",-1,-1,1);}-->
+					<!--{loop $synewscate[id] $k $v}-->
+					<li onClick="tabChange(this,'app_xgcon')"><a href="javascript:void(0);">$v[categoryname]</a></li>
+					<!--{/loop}-->
+				</ul>
+				<div id="app_xgcon">
+					<dl>
+						<dd>
+							<div class="app_content_introcon">
+								<h2><a href="javascript:void(0)" class="zhankai_b">+ 展开全部</a><a style="display:none;" href="javascript:void(0)" class="zhankai_b2">- 收起部分</a><a href="<!--{eval echo $_SERVER['REQUEST_URI']}-->">{$appinfo[name]}</a>介绍</h2>
+								<div class="app_content_introcon_js">
+									<!--{eval echo nl2br($appinfo['summary'])}-->
+								</div>
+								<h2><a href="<!--{eval echo $_SERVER['REQUEST_URI']}-->">{$appinfo[name]}</a>截图</h2>
+								<div class="clearfix box game-pic-yr">
+									<div class="context-con">
+										<ul class="pic-con">
+											<!--{loop $imgurl $k $v}-->
+											<li><img src="{$v}" /></li>
+											<!--{/loop}-->
+										</ul>
+										<div class="meng-con">
+											<div class="meng-l"></div>
+											<div class="meng-r"></div>
+											<div class="meng-b"></div>
+										</div>
+										<span class="ctrl next"></span>
+										<span class="ctrl prev"></span>
+									</div>
+								</div>
+							</div>
+						</dd>
+					</dl>
+
+					
+					<!--{if $_SCONFIG[ishidden]=="0" || $todayopen[list]!=""}-->
+					<dl class="hidden">
+						<dd>
+							<!--{if $todayopen[list]}-->
+							<div class="kc_con syapp_kc">
+								<table>
+									<tbody>
+										<tr>
+											<th class="text_left" width="180">服务器名称</th>
+											<th class="text_left" width="150">开服时间</th>
+											<th class="text_left" width="150">开服状态</th>
+											<th class="text_left" width="100">适用平台</th>
+											<th class="text_left">运营商</th>
+											<th class="text_left" width="150">下载游戏</th>
+										</tr>
+										<!--{loop $todayopen[list] $key $value}-->
+										<tr>
+											<td class="text_left">{$value[addressnum]}</td>
+											<td class="text_left">
+												<!--{eval echo date('m-d H:i',$value[starttime])}-->
+											</td>
+											<td class="text_left">
+												<!--{if $value[starttime]<$dayBegin}-->已经开服
+												<!--{elseif $value[starttime]>$dayEnd}-->即将开服
+												<!--{else}-->今日开服
+												<!--{/if}-->
+											</td>
+											<td class="text_left">
+												<!--{if $value[isios]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_ios.jpg">
+												<!--{/if}-->
+												<!--{if $value[isandroid]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_an.jpg">
+												<!--{/if}-->
+											</td>
+											<td class="text_left">{$value[useplatform]}</td>
+											<td class="text_left"><a <!--{if $value[appledw]}-->href="$value[appledw]" class="k_ios_d" target="_blank"<!--{else}--> class="k_ios_d_wu" <!--{/if}--> ><span>苹果下载</span></a><a <!--{if $value[andrdw]}-->href="$value[andrdw]" class="k_an_d" target="_blank"<!--{else}--> class="k_an_d_wu" <!--{/if}-->><span>安卓下载</span></a></td>
+										</tr>
+										<!--{/loop}-->
+									</tbody>
+								</table>
+							</div>
+
+							<!--{else}-->
+
+							<div>没有相关开服信息...</div>
+							<!--{/if}-->
+						</dd>
+					</dl>
+					<!--{/if}-->
+
+				
+					<!--{if $_SCONFIG[ishidden]=="0" || $todaytest[list]!=""}-->
+					<dl class="hidden">
+						<dd>
+							<!--{if $todaytest[list]}-->
+							<div class="kc_con syapp_kc">
+								<table>
+									<tbody>
+										<tr>
+											<th class="text_left" width="180">服务器名称</th>
+											<th class="text_left" width="150">开测时间</th>
+											<th class="text_left" width="150">开测状态</th>
+											<th class="text_left" width="100">适用平台</th>
+											<th class="text_left">运营商</th>
+											<th class="text_left" width="150">下载游戏</th>
+										</tr>
+										<!--{loop $todaytest[list] $key $value}-->
+										<tr>
+											<td class="text_left">{$value[addressnum]}</td>
+											<td class="text_left">
+												<!--{eval echo date('m-d H:i',$value[starttime])}-->
+											</td>
+											<td class="text_left">$ttypeinfo[$value[testtype]][name]</td>
+											<td class="text_left">
+												<!--{if $value[isios]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_ios.jpg">
+												<!--{/if}-->
+												<!--{if $value[isandroid]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_an.jpg">
+												<!--{/if}-->
+											</td>
+											<td class="text_left">{$value[useplatform]}</td>
+											<td class="text_left"><a <!--{if $value[appledw]}-->href="$value[appledw]" class="k_ios_d" target="_blank"<!--{else}--> class="k_ios_d_wu" <!--{/if}--> ><span>苹果下载</span></a><a <!--{if $value[andrdw]}-->href="$value[andrdw]" class="k_an_d" target="_blank"<!--{else}--> class="k_an_d_wu" <!--{/if}-->><span>安卓下载</span></a></td>
+										</tr>
+										<!--{/loop}-->
+									</tbody>
+								</table>
+							</div>
+							<!--{else}-->
+							<div>没有相关开测信息...</div>
+							<!--{/if}-->
+						</dd>
+					</dl>
+					<!--{/if}-->
+
+				
+
+					<!--{if $_SCONFIG[ishidden]=="0" || $packs[list]!=""}-->
+					<dl class="hidden">
+						<dd>
+							<!--{if $packs[list]}-->
+							<div class="kc_con syapp_kc">
+								<table>
+									<tbody>
+										<tr>
+											<th class="text_left">礼包名称</th>
+											<th width="100">类型</th>
+											<th width="120">开始时间</th>
+											<th width="100">适用平台</th>
+											<th width="100">区服</th>
+											<th width="100">运营商</th>
+											<th width="100">剩余总数</th>
+											<th width="120">领取</th>
+										</tr>
+										<!--{loop $packs[list] $key $value}-->
+										<tr>
+											<td class="text_left">{$value[packname]}</td>
+											<td>$ptypeinfo[$value[packtype]]</td>
+											<td>
+												<!--{eval echo date('y-m-d',$value[starttime])}-->
+											</td>
+											<td>
+												<!--{if $value[isios]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_ios.jpg">
+												<!--{/if}-->
+												<!--{if $value[isandroid]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_an.jpg">
+												<!--{/if}-->
+											</td>
+											<td>{$value[addressnum]}</td>
+											<td>{$value[useplatform]}</td>
+											<td>$value[lbnum]</td>
+											<td><a href="$value['pdetailurl']" class="k_lqlb" target="_blank">领取礼包</a></td>
+										</tr>
+										<!--{/loop}-->
+									</tbody>
+								</table>
+							</div>
+							<!--{else}-->
+							<div>没有相关礼包信息...</div>
+							<!--{/if}-->
+						</dd>
+					</dl>
+					<!--{/if}-->
+					<!--{loop $synewscate[id] $k $cv}-->
+					<dl class="hidden">
+						<dd>
+							<ul class="app_xgnews">
+								<!--{eval $newslist=getnewslist(4,-1,-1,1,"dateline",10,$k,0,"",$appinfo[appid])}-->
+								<!--{if $newslist[list]}-->
+								<!--{loop $newslist[list] $k $v}-->
+								<li><span class="date"><!--{eval echo date('y-m-d H:i',$v[dateline])}--></span><a href="$v[newsurl]">{$v[title]}</a></li>
+								<!--{/loop}-->
+								<!--{else}-->
+								<div>没有相关{$cv[categoryname]}资讯...</div>
+								<!--{/if}-->
+							</ul>
+						</dd>
+					</dl>
+					<!--{/loop}-->
+				</div>
+			</div>
+		</div>
+		<!--{if $_SCONFIG[appdetailad]}-->
+		<div class="m_ad_box">$_SCONFIG[appdetailad]</div>
+		<!--{/if}-->
+		<div class="cainixihuan">
+			<div class="itit"><a href="index.php?ac=games&op=score" class="more" target="_blank">更多</a>猜你喜欢</div>
+			<ul class="cainixihuan_con clearfix">
+				<!--{loop $syapps $key $value}-->
+				<li>
+					<a href="{$value[url]}" class="app_90" target="_blank">
+						<i class="app_img_90"></i>
+						<img src="{$value[logo]}">
+					</a>
+					<p class="app_tit_90"><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+					<p class="app_star_90"><span class="star bigstar<!--{if $value[star]<6 && $value[star]!=0}--><!--{eval echo $value[star]*10}--><!--{elseif $value[star]==0}-->30<!--{else}-->{$value[star]}<!--{/if}-->"></span></p>
+					<div class="iremen_dwon"><a href="{$value[url]}" target="_blank">立即下载</a></div>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<!--{template comment}-->
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".app_content_tu_list").hover(function() {
+			$(this).addClass("app_content_tu_hover");
+		}, function() {
+			$(this).removeClass("app_content_tu_hover");
+		});
+	});
+	$(document).ready(function() {
+		$(".zhankai_b").click(function() {
+			$(".zhankai_b").css("display", "none");
+			$(".zhankai_b2").css("display", "block");
+			$(".app_content_introcon_js").css({
+				"display": "block",
+				"height": "auto",
+			});
+		});
+	});
+	$(document).ready(function() {
+		$(".zhankai_b2").click(function() {
+			$(".zhankai_b2").css("display", "none");
+			$(".zhankai_b").css("display", "block");
+			$(".app_content_introcon_js").css({
+				"display": "block",
+				"height": "80px",
+			});
+		});
+	});
+	$(document).ready(function() {
+		$("area[rel^='prettyPhoto']").prettyPhoto();
+		$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({
+			animation_speed: 'fast',
+			slideshow: 10000,
+			hideflash: true
+		});
+	});
+</script>
+<!--{template footer}-->

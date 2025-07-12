@@ -1,0 +1,46 @@
+ <!--{template header}-->
+<div class="mainarea">
+	<div class="maininner">
+<form method="post"  action="admincp.php?ac=website&op=add" >
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>添加过滤关键词</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable" style =" width :auto;" width="600px">
+			<tr>
+			<input type="hidden" name="id" <!--{if $websiteinfo[id]}--> value="<!--{$websiteinfo[id]}-->" <!--{else}--> value="" <!--{/if}--> type="text" size="50"/>
+				<td style =" width :100px;">站点ID</td>
+				<td><input name="websiteinfo[siteid]" type="text" size="35" <!--{if $websiteinfo[siteid]}--> value="<!--{$websiteinfo[siteid]}-->" <!--{else}--> value="" <!--{/if}--> /> </td>
+			</tr>
+			
+            <tr>
+				<td style =" width :100px;">站点名称</td>
+				<td><input name="websiteinfo[sitename]" type="text" size="35" <!--{if $websiteinfo[sitename]}--> value="<!--{$websiteinfo[sitename]}-->" <!--{else}--> value="" <!--{/if}--> /> </td>
+			</tr>
+			
+			<tr>
+				<td style =" width :100px;">通信KEY</td>
+				<td><input name="websiteinfo[wkey]" type="text" size="35" <!--{if $websiteinfo[wkey]}--> value="<!--{$websiteinfo[wkey]}-->" <!--{else}--> value="" <!--{/if}--> /> </td>
+			</tr>
+
+            <tr>
+				<td>站点URL</td>
+                <td><input type="text" name="websiteinfo[url]"  size="35" <!--{if $websiteinfo[url]}--> value="<!--{$websiteinfo[url]}-->" <!--{else}--> value="http://" <!--{/if}--> /></td>      
+			</tr>				
+		</table>
+	</div>	
+	
+	<div class="footactions">
+    <input type="hidden" name="do" value="save"/>
+		<input type="submit" id="blogbutton" name="blogbutton" value="添加" onclick="validate(this);" style="display: none;" />
+		<input type="button" id="issuance" onclick="document.getElementById('blogbutton').click();" <!--{if $websiteinfo[id]}--> value="编辑站点" <!--{else}--> value="添加站点" <!--{/if}--> class="submit" /></td>
+	</div>
+	</form>
+
+	</div>
+</div>
+
+ <!--{template footer}-->
+
+
+

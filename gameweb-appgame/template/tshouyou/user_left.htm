@@ -1,0 +1,53 @@
+  <script language="javascript" type="text/javascript" src="/template/tshouyou/js/datepicker/WdatePicker.js"></script>
+<div class="user_sidebar">
+    <div class="user_info clearfix">
+      <div class="user_info_tx">
+        <!--{if $userinfo[userlogo]}--><img src="{$userinfo[userlogo]}" /><!--{else}--><img src="/image/u_touxiang.jpg" /><!--{/if}-->
+      </div>
+      <div class="user_info_con">
+          <p class="user_info_name"><a href="index.php?ac=user&op=data">您好,<!--{eval echo $_SGLOBAL[supe_username]}--></a></p>
+      </div>
+    </div>
+    <ul class="user_tab">
+      <li <!--{if $_GET[ac]=="user"}-->class="cli"<!--{/if}-->><a href="/index.php?ac=user">用户后台</a></li>
+      <li <!--{if $_GET[ac]=="chkvendor"}-->class="cli"<!--{/if}-->><a href="/index.php?ac=chkvendor">开发者后台</a></li>
+      <li class="user_kfz" style="display:none;"><a href="/index.php?ac=user&op=chkvendor">开发者认证</a></li>
+    </ul>
+    <div id="user_navbox">
+        <!--{if $_GET[ac]=="user"}-->
+		<ul>
+          <li><a href="/index.php?ac=user&op=loveapp" $dangqian[loveapp]>猜你喜欢</a></li>
+		  <li><a href="/index.php?ac=user&op=credit" $dangqian[credit]>我的$_SCONFIG[creditname]</a></li>
+          <li><a href="/index.php?ac=user&op=pass" $dangqian[pass]>修改密码</a></li>
+          <li><a href="/index.php?ac=user&op=download" $dangqian[download]>下载记录</a></li>
+          <li><a href="/index.php?ac=user&op=comment" $dangqian[comment]>我的评论</a></li>
+		  <li><a href="/index.php?ac=user&op=cards" $dangqian[cards]>存卡箱</a></li>
+          <li><a href="/index.php?ac=user&op=jubao" $dangqian[jubao]>我的举报</a></li>
+		  <li><a href="/index.php?ac=user&op=remind" $dangqian[remind]>我的提醒</a></li>
+		  <li><a href="/index.php?ac=user&op=message" $dangqian[message]>我的消息</a></li>
+        </ul>
+		<!--{elseif $_GET[ac]=="chkvendor"}-->
+        <ul>
+          <li><a href="/index.php?ac=chkvendor&op=chkvendor" $dangqian[chkvendor]>开发者资料</a></li>
+         <!--{if $devinfo[isverify]=="1" || $userinfo[is_admin]=="1"}-->
+		  <!--{if $userinfo[isapps]=="1"}-->
+          <li><span class="f_right"><a href="/index.php?ac=chkvendor&op=uploadapp">上传</a></span><a href="/index.php?ac=chkvendor&op=myapps" $dangqian[myapps]>应用管理</a></li>
+		  <!--{/if}-->
+		   <!--{if $userinfo[isnews]=="1"}-->
+          <li><span class="f_right"><a href="/index.php?ac=chkvendor&op=uploadnews">发布</a></span><a href="/index.php?ac=chkvendor&op=mynews" $dangqian[mynews]>资讯管理</a></li>
+		  <!--{/if}-->
+		  <!--{if $userinfo[isopen]=="1"}-->
+          <li><span class="f_right"><a href="/index.php?ac=chkvendor&op=open">添加</a></span><a href="/index.php?ac=chkvendor&op=managekfb" $dangqian[managekfb]>开服表管理</a></li>
+		  <!--{/if}-->
+		  <!--{if $userinfo[istest]=="1"}-->
+          <li><span class="f_right"><a href="/index.php?ac=chkvendor&op=test">添加</a></span><a href="/index.php?ac=chkvendor&op=managekcb" $dangqian[managekcb]>开测表管理</a></li>
+		  <!--{/if}-->
+		  <!--{if $userinfo[ispack]=="1"}-->
+          <li><span class="f_right"><a href="/index.php?ac=chkvendor&op=packs">添加</a></span><a href="/index.php?ac=chkvendor&op=managepack" $dangqian[managepack]>礼包管理</a></li>
+		  <!--{/if}-->
+		  <li><a href="/index.php?ac=chkvendor&op=mygames" $dangqian[mygames]>旗下游戏管理</a></li>
+		  <!--{/if}-->
+        </ul>
+		<!--{/if}-->
+    </div>
+  </div>

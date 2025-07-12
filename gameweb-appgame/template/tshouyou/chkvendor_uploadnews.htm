@@ -1,0 +1,179 @@
+<!--{template header}-->
+<style>
+.yincang{display:none;}
+.mainarea { padding:20px;}
+.mainarea td { padding:10px 0;}
+.footactions { padding-left:310px;}
+.mainarea textarea { width:100%; height:100px;}
+.mainarea input.con_input { height:30px; line-height:40px; width:200px; padding:5px; border-radius:2px;border:1px solid #ddd;background-color:#fff;}
+.mainarea input.con_input:focus { border-color:rgba(82,168,236,0.8);outline:0;outline:thin dotted \9;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);}
+.mainarea input.tijiao_button { width:120px; height:46px; border:1px solid #00498d; background-color:#005caa; color:#fff; font-size:16px; font-family:"微软雅黑";border-radius:2px;}
+#edui1 { width:auto;}
+</style>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit"><span class="f_right"><a href="/index.php?ac=chkvendor&op=mynews">资讯管理</a></span>发布资讯</div>
+<script>
+var imgurl="$_SCONFIG[attachurl]";
+if(imgurl){
+	imgattachurl=imgurl;
+}else{
+	imgattachurl='/attachment/';
+}
+</script>
+<script>
+$(function(){
+	 var name=$('#gamename').val();
+	 if(name){
+	 	searchname(name);
+	 }
+});
+function searchname(name){
+	if(name==""){
+		alert("关联游戏不能为空，请重新填写...");
+		return;
+	}	
+		$.ajax({
+		url:"/index.php?ac=chkvendor&gamename="+encodeURIComponent(name),
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var snames="";
+			var infos=json.info;
+			var sames=json.same;
+			for(var i=0;i<sames.length;i++){
+				samesinfo=sames[i];
+				snames=snames+"<a href=\"javascript:setname('"+samesinfo.name+"','"+samesinfo.id+"');\">"+samesinfo.name+"</span>"+" ";
+			}
+			$('#glgames').html(snames);
+			if(json.error=="isnull"){
+				alert("游戏名称不存在,请确认输入是否有错...");
+				$('#gamename').val('');
+				return;
+			}else{
+				$('#appid').val(infos.id);
+			}
+		}
+	});
+}
+function deladpic(){
+	$('#adpic').val('');
+	$('#xsadpic').hide();
+}
+function setname(gname,appid){
+	$('#gamename').val(gname);
+	$('#appid').val(appid);
+}
+</script>
+    <script type="text/javascript" charset="utf-8">
+        window.UEDITOR_HOME_URL = "/admin/ueditor/";
+    </script>
+    <script type="text/javascript" src="/admin/ueditor/ueditor.config.js"></script>
+     <script type="text/javascript" src="/admin/ueditor/ueditor.all.min.js"></script> 
+<div class="mainarea">
+	<div class="maininner">	
+            <script type="text/javascript">
+	           	$(document).ready(function(){
+					$("#gjshezhi").click(function(){
+						gjszvalue=$('#title1').attr("class");
+						if(gjszvalue=="xianshi"){
+							$('#title1').attr("class","yincang");
+							$('#keyword1').attr("class","yincang");
+							$('#description1').attr("class","yincang");
+							$('#viewnum').attr("class","yincang");
+							$('#weeknum').attr("class","yincang");
+							$('#daynum').attr("class","yincang");
+							$('#adpic').attr("class","yincang");
+							$('#isad').attr("class","yincang");
+						}else{
+							$('#title1').attr("class","xianshi");
+							$('#keyword1').attr("class","xianshi");
+							$('#description1').attr("class","xianshi");
+							$('#viewnum').attr("class","xianshi");
+							$('#weeknum').attr("class","xianshi");
+							$('#daynum').attr("class","xianshi");
+							$('#adpic').attr("class","xianshi");
+							$('#isad').attr("class","xianshi");
+						}
+						
+					});
+					});
+					</script>
+	<!--{if $userinfo[isnews]=="1"}-->
+    <form method="post" enctype="multipart/form-data" action="index.php?ac=chkvendor&op=uploadnews" >
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		 <input type="hidden" name="newsinfo[type]" value="4">
+		 <!--{if $newsinfo}-->
+		 <input type="hidden" name="newid" value="{$newsinfo[newid]}" />
+		 <input type="hidden" name="newsinfo[adpic]" value="{$newsinfo[adpic]}" id="adpic" />
+		 <!--{/if}-->
+			<tr>
+				<td class="td_tit">资讯标题：</td>
+				<td><input class="con_input" name="newsinfo[title]" type="text" value="{$newsinfo['title']}" /> </td>
+			</tr>
+			<tr>
+				<td class="td_tit">关联游戏名称：</td>
+				<td><input type="text" name="name" value="$newsinfo[appname]" class="con_input" id="gamename" onblur="searchname(this.value)"><span>	你是不是在找:<span id="glgames"></span></span></td>
+				<input type="hidden" name="newsinfo[appid]" value="$newsinfo[appid]" id="appid">
+			</tr>
+			<tr>
+			  <td class="td_tit">类别选择：</td>
+			  <td>
+				<span id="lanmu"><select name="newsinfo[categoryid]">
+				<!--{loop $newscategorylist $v}-->
+				<!--{if $v['isshouyou']==1}-->
+				<option value="{$v[categoryid]}" <!--{if $v[categoryid]==$newsinfo[categoryid]}-->selected="selected"<!--{/if}-->>{$v[categoryname]}</option>
+				<!--{/if}-->
+				<!--{/loop}-->
+				</select>
+				</span>
+   		      </td>
+			</tr>
+         	<tr>
+				<td class="td_tit">资讯简介：</td>
+				<td><textarea id="text1" class="xheditor" name="newsinfo[description]"><!--{eval echo trim($newsinfo[description])}--></textarea></td>
+			</tr>
+         	<tr>
+				<td class="td_tit">资讯海报：(500*300)</td>
+				<td><input type="file" name="adpic"/>
+                <!--{if $newsinfo[adpic]}-->
+                <span id="xsadpic"><a href="javascript:;"><img src="{$newsinfo[adpic]}" style="height:100px; vertical-align:middle;"></a> <input type="button" value="删除" onclick="deladpic()"/>
+			</span>	
+				<!--{/if}--></td>
+			</tr>
+            <tr>
+                <td class="td_tit">资讯内容：</td>
+                <td>
+                    <textarea class="userData" name="news_data[content]" id="myEditor" style="height:100%;
+                            width:640px; border:0px">{$newsinfo['content']}</textarea>
+                            <script type="text/javascript">
+                                var editor = new UE.ui.Editor();
+                                editor.render("myEditor");
+                            </script> 
+                </td>
+            </tr>	
+	</table>
+	</div>	
+		
+	<div class="footactions">
+		<!--{if $newsinfo}-->
+		<input type="submit" id="issuance" name="savebutton" value="保存发布" class="tijiao_button" />
+		<!--{else}-->
+		<input type="submit" id="blogbutton" name="blogbutton" value="提交发布"  class="tijiao_button" />
+		<!--{/if}-->
+	</div>
+	</form>
+ <!--{else}-->
+ <div>你还没有发布的权限，请与站长联系。</div>
+ <!--{/if}-->
+	</div>
+</div>
+
+  </div>
+</div>
+
+
+
+<!--{template footer}-->

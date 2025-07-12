@@ -1,0 +1,47 @@
+<!--{template header}-->
+ <script type="text/javascript">
+function selectAll(checkbox) {
+	if(typeof($("#check").attr('checked'))=="undefined")		
+       $('.kfbox').attr('checked', false);
+	else
+	   $('.kfbox').attr('checked',true);			
+    }
+</script>
+
+<div id="main">
+  <div class="content">
+    <h2 class="con_title">开服列表</h2>
+      <table>
+      <tbody>
+        <tr>
+            <th width="60">选择</th>
+			<th>游戏</th>
+            <th width="70">区服</th>
+            <th width="90">系统要求</th>
+            <th width="150">厂商平台</th>
+            <th width="120">时间</th>
+            <th width="80">操作</th>
+        </tr>
+        <!--{loop $kfbinfo $key $value}-->
+        <tr> 
+			<td><input type="checkbox" value="{$value[id]}" class="kfbox" name="ids[]"/></td>
+            <td class="text_left">{$value[gamename]}</td>
+            <td>{$value[addressnum]}</td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td>{$value[useplatform]}</td>
+            <td><!--{eval echo date('Y-m-d',$value[starttime])}-->  <!--{eval echo date('H',$value[starttime])}-->点</td>
+            <td><a href="javascript:;">采用</a>
+			</td>
+        </tr>
+        <!--{/loop}-->
+      </tbody>
+      </table>
+      <div class="footactions">
+     		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)"> 全选
+	    	<input type="submit" name="verifysubmit" value="审核"  class="submit sub2zf">
+       </div>
+       <div class="fenye">{$multi}</div>
+	  </form>
+    </div>
+  </div>
+<!--{template footer}-->

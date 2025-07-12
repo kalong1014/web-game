@@ -1,0 +1,8 @@
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index-(.*)\.(htm|html|shtml) /index.php?rewrite=$1 [L]
+RewriteRule ^(mobile)/(.*)\.(htm|html|shtml) /mobile.php\?rewrite=$2 [L]
+</IfModule>
+# END WordPress

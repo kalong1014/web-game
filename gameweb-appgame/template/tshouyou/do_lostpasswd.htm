@@ -1,0 +1,100 @@
+<!--{template header}-->
+<script type="text/javascript">
+    var usetime="$_SCONFIG[usetime]";
+    var count_time= 60*parseInt(usetime);//定义规定的时间，60秒后再次发送
+    function start_timer(){
+		if(count_time == 0){
+            $('#dxbtn').removeAttr("disabled");
+            $('#dxbtn').val("重新发送");
+            count_time= 60*parseInt(usetime);
+        }else{
+            $('#dxbtn').attr("disabled",true);
+            $('#dxbtn').val("重新发送("+count_time+")");
+            count_time--;
+            setTimeout(function(){start_timer();},1000);
+        }
+    }
+	function checkmobile(mobile){
+		var ismobile = RegExp(/^(0|86|17951)?(13[0-9]|15[012356789]|18[0-9]|14[57])[0-9]{8}$/).test(mobile); 
+		if (ismobile) {
+			$('#chkmobilemsg').html('');
+			$('#username').val(mobile);
+			$('#dxbtn').attr("disabled",false);
+		} else {
+			$('#chkmobilemsg').html('	请填写正确的手机号码');
+			$('#chkmobile').val('');
+			$('#dxbtn').attr("disabled",true);
+			return;
+		}
+	}
+	function sendmessage(){
+		var mobile=$('#chkmobile').val();
+		var uname=$('#username').val();
+		$.ajax({
+				type:"GET",
+				url:'/index.php?ac=sendmsg&op=getpwd&username='+uname+'&mobile='+mobile,
+				dataType:'json',
+				success:function(data){
+					if(data.status==1){
+						alert(data.msg);
+					}else{
+						alert('短信发送失败');
+					}
+				}
+		})
+		start_timer();
+	}
+</script>
+<div class="layout logreg clearfix">
+  <ul class="logreg_nav">
+      <li><a href="index.php?ac=login<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->">用户登录</a></li>
+      <li><a href="index.php?ac=register<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->">用户注册</a></li>
+      <li><a href="index.php?ac=lostpasswd<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->" class="dangqian">找回密码</a></li>
+  </ul>
+<!--{if empty($op)}-->
+  <div id="reg-form" class="logreg_con">
+    <h2>取回密码</h2>
+	<!--{if $_SCONFIG[kqdxyz]}-->
+	<p class="zhtx">请输入您在本站注册的手机号码。</p>
+	<!--{else}-->
+	<p class="zhtx">请输入您在本站注册的账户，邮箱。</p>
+	<!--{/if}-->
+    <form id="theform" action="index.php?ac=lostpasswd&op=" method="POST" class="c_form">
+    <ul class="form-list">
+		
+		<!--手机取回密码-->
+		<!--{if $_SCONFIG[kqdxyz]}-->
+		<li><label class="mn_infobox" for="username">手机号码：</label><input type="text" id="chkmobile" name="mobile" value="" class="text-input" tabindex="2" onblur="checkmobile(this.value)"> <span id="chkmobilemsg">请输入手机号</span></li></li>
+		<input type="hidden" id="username" name="username" value="">
+		<li><label class="mn_infobox"></label><input type="button" id="dxbtn" value="发送短信" onclick="sendmessage()" disabled=""></li>
+		<li><label for="chkmobilenum" class="mn_infobox">手机验证码：</label><input type="text" id="chkcode" name="mobilecode" value="" class="text-input" tabindex="3" /><span>请输入手机验证码</span></li>
+		<!--{else}-->
+		<li><label class="mn_infobox" for="username">账号：</label><input type="text" id="username" name="username" value="" class="text-input" tabindex="1"></li>
+		<!--{/if}-->
+		<!--{if $_SCONFIG[kqyouxiang]}-->
+		<li><label for="email" class="mn_infobox">邮箱：</label><input type="text" id="email" name="email" value="" class="text-input" tabindex="4"></li>
+		<!--{/if}-->
+		<li class="plwid"><input type="submit" id="lostpwsubmit" name="lostpwsubmit" value="提交" class="tijiao" />
+	        <input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></li>
+    </ul>
+</form>
+</div>
+<!--{elseif $op=='reset'}-->
+  <div id="reg-form" class="logreg_con">
+    <h2>重设密码</h2>
+    <form id="theform" action="index.php?ac=lostpasswd&op=reset" method="POST" class="c_form">
+    <ul class="form-list">
+	<li><label class="mn_infobox">账号：</label><span style="font-weight:bolder;">{$emailinfo['username']}</span></li>
+	<li><label for="password" class="mn_infobox">新密码：</label><input type="password" id="newpasswd1" name="newpasswd1" value="" class="text-input"> <span id="s_newpasswd1"></span></li>
+	<li><label for="password2" class="mn_infobox">确认新密码：</label><input type="password" id="newpasswd2" name="newpasswd2" value="" class="text-input"> <span id="s_newpasswd2"></span></li>
+	<li class="plwid"><input type="submit" id="resetsubmit" name="resetsubmit" value="重设密码" class="tijiao" />
+	<input type="hidden" name="mobilecode" value="{$mobilecode}" />
+	<input type="hidden" name="uid" value="{$emailinfo['uid']}" />
+	<input type="hidden" name="email_num" value="{$emailinfo['email_num']}" />
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></li>
+	</ul>
+    </form>
+</div>
+<!--{/if}-->
+</div>
+<!--{template footer}-->

@@ -1,0 +1,258 @@
+ <!--{template header}-->
+<style type="text/css">
+.close{
+float:right;margin-right:5px;
+}
+.shuoming{
+float:left; margin-left:5px;
+}
+#altersublx{ display:none;}
+</style>
+	        <script type="text/javascript">
+	            function selectAll(checkbox) {
+				if(typeof($("#chkall").attr('checked'))=="undefined")
+					$('input[type=checkbox]').attr('checked', false);		 
+					else
+					$('input[type=checkbox]').attr('checked',true);	
+	            }
+	        </script>
+            <script type="text/javascript">
+	            function selectAll3(checkbox) {
+				if(typeof($("#chkall1").attr('checked'))=="undefined")
+			
+					$('.subcheckbox').attr('checked', false);		 
+				else
+					$('.subcheckbox').attr('checked',true);	
+				}
+				function guideclose(){
+				$('#guide').hide();
+				}
+	        </script>
+            
+            <script type="text/javascript">
+	           	$(document).ready(function(){
+					$(".catalog a").click(function(){
+						$("#catidid").val($(this).attr("rel"));
+						$(".catalog a").attr("class","");
+						$(this).attr("class","currentsub");
+						$("#searchsub").submit();
+					});
+					
+					
+					$(".type a").click(function(){
+						$("#typeid").val($(this).attr("rel"));
+						$(".type a").attr("class","");
+						$(this).attr("class","currentsub");
+						$("#searchsub").submit();
+					});
+					
+					
+					$(".subtype a").click(function(){
+						$("#subtypeid").val($(this).attr("rel"));
+						$(".subtype a").attr("class","");
+						$(this).attr("class","currentsub");
+						$("#searchsub").submit();
+					});
+					
+					$(".recom a").click(function(){
+						$("#recomtypeid").val($(this).attr("rel"));
+						$(".recom a").attr("class","");
+						$(this).attr("class","currentsub");
+						$("#searchsub").submit();
+					});
+					
+					
+				});
+	        </script>
+			<script type="text/javascript">
+			function addalter(){   
+				return document.getElementById("altersublx").innerHTML;
+			}
+			function altersublx(){
+				document.getElementById("xskuang").innerHTML=addalter();	
+			}
+  		</SCRIPT>
+
+  <h2 class="con_title">专辑管理</h2>
+  <div class="sc_tishi"><span class="sc_tishi_s">总共有满足条件的数据 <strong>$count</strong> 个</span><a href="admincp.php?ac=subject&op=add&type={$type}&subtype=<!--{eval echo $subtype}-->" class="sc_tishi_b">新增专辑</a></div>
+<!--{if $op1!="gamelist"}-->
+	<form method="get" action="admincp.php?ac=subject&op=list&subtype=<!--{eval echo $subtype}-->" id="searchsub">
+	<div class="sousuobox">			
+		<table cellspacing="0" cellpadding="0">
+		<tr>
+		<td>搜索专辑：
+        名称 <input class="sousuobox_input1" name="subjectname" type="text" value="$subjectname"/>
+		<select name="recomtype" class="select4z">
+			<option value="-1" >推荐状态</option>
+			<option value="1" <!--{if $_GET[recomtype]==1}-->selected="selected"<!--{/if}-->>推荐</option>
+            <option value="2" <!--{if $_GET[recomtype]==2}-->selected="selected"<!--{/if}-->>未推荐</option>
+		</select>
+		
+		<select name="isshow" class="select4z">
+			<option value="-1" >审核状态</option>
+			<option value="1" <!--{if $_GET[isshow]==1}-->selected="selected"<!--{/if}-->>审核</option>
+            <option value="2" <!--{if $_GET[isshow]==2}-->selected="selected"<!--{/if}-->>待审核</option>
+		</select>
+		
+		<select name="sublx" class="select2z">
+			<option value="-1" >类别</option>
+			<option value="1" <!--{if $_GET[sublx]==1}-->selected="selected"<!--{/if}-->>游戏</option>
+            <option value="2" <!--{if $_GET[sublx]==2}-->selected="selected"<!--{/if}-->>软件</option>
+		</select>
+		<!--{if $subtype==2}-->
+		<select name="subsx" class="select2z">
+			<option value="-1" >分类</option>
+			<option value="1" <!--{if $_GET[subsx]==1}-->selected="selected"<!--{/if}-->>iPhone</option>
+            <option value="2" <!--{if $_GET[subsx]==2}-->selected="selected"<!--{/if}-->>iPad</option>
+		</select>
+		<!--{/if}-->
+		<select name="orderby" class="select6z">
+		<option <!--{if $_GET[orderby]=="appnum"}-->selected="selected"<!--{/if}--> value="appnum ">专辑游戏数</option>
+        <option <!--{if $_GET[orderby]=="viewnum"}-->selected="selected"<!--{/if}--> value="viewnum ">专辑点击数</option>
+		</select>
+		<select name="perpage" class="select6z">
+		<option <!--{if $_GET[perpage]=="20"}-->selected="selected"<!--{/if}--> value="20">每页显示20个</option>
+		<option <!--{if $_GET[perpage]=="50"}-->selected="selected"<!--{/if}--> value="50">每页显示50个</option>
+		<option <!--{if $_GET[perpage]=="100"}-->selected="selected"<!--{/if}--> value="100">每页显示100个</option>
+		</select>
+		</td>
+		<input type="hidden" name="type" value="1"/>
+		<input type="hidden" name="ac" value="subject" />
+		<input type="hidden" name="subtype" value="<!--{eval echo $_GET[subtype]}-->" />
+        <td class="sousuobox_bu"><input type="submit" name="subject_search" value="搜索" class="submit sub2zf"></td>
+		</tr>
+		</table>
+	</div>
+    
+	</form>
+<!--{/if}-->
+<!--{if $list}-->
+	<form method="get" id="batchform" action="admincp.php?ac=subject&op=caozuo">
+    <input type="hidden" name="ac" value="subject" />	
+    <input type="hidden" name="op" value="caozuo" />	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />	
+	<div class="bdrcontent text_center">	
+	
+		<table cellspacing="0" cellpadding="0" class="formtable">   
+		<tr>
+        <th width="60">选择</th>
+        <th>专辑名称</th>
+		<th width="65">别名</th>
+		<!--{if $subtype==2}--><th width="60">分类</th><!--{/if}-->
+        <th width="60">类别</th>
+		<th width="60">图片</th>
+        <th width="60">应用数</th>
+        <th width="65">点击数</th>
+		<th width="100">时间</th>  
+		<th width="60">审核</th> 
+		<th width="30">推荐</th> 
+        <th width="170">操作</th>
+        </tr>
+		<!--{loop $list $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" value="$value[id]" class="subcheckbox"></td>
+        <td class="text_left"><a href="admincp.php?ac=subject&op=applist&subtype=$_GET[subtype]&id=$value[id]">$value[subjectname]</a></td>   
+        <td><input type="text" class="sousuobox_input1" name="subjects[<!--{eval echo $value[id]}-->][engname]" value="{$value[engname]}" style="width:60px"/></td>
+		<!--{if $subtype==2}-->
+		<td>
+		<!--{if $value[isphone]==1 && $value[ispad]!=1}-->iPhone<!--{elseif $value[isphone]!=1 && $value[ispad]==1}-->iPad<!--{else}--> 不限<!--{/if}-->
+		</td>
+		<!--{/if}-->
+		
+		<td>
+		<!--{if $value[sublx]==1}-->
+		<a href="admincp.php?ac=subject&op=sublx1&id=$value[id]">游戏</a>
+		<!--{else}-->
+		<a href="admincp.php?ac=subject&op=sublx2&id=$value[id]">软件</a>
+		<!--{/if}-->
+		</td>
+        <td ><img src="$value[logo]" width="40px" height="30px"/></td>
+		<td >$value[subappnums]</td>
+        <td ><input type="text" class="sousuobox_input1" style="width:60px" name="subjects[<!--{eval echo $value[id]}-->][viewnum]" value="{$value[viewnum]}" /></td>
+		<td ><!--{eval echo date('Y-m-d',$value[dateline])}--></td> 
+		 <td >
+		 <!--{if $value[isverify]==1}-->
+		 <a href="admincp.php?ac=subject&op=verify&id=$value[id]">通过</a>
+		 <!--{else}-->
+		 <a href="admincp.php?ac=subject&op=noverify&id=$value[id]" >待审核</a>
+		 <!--{/if}-->
+		 </td> 
+		 <td >
+		 <!--{if $value[isrecommend]==1}-->
+		  <a href="admincp.php?ac=subject&op=recommend&id=$value[id]" >是</a>
+		 <!--{else}-->
+		  <a href="admincp.php?ac=subject&op=norecommend&id=$value[id]" >否</a>
+		 <!--{/if}-->
+		 </td>           
+        <td >
+        	<a href="admincp.php?ac=subject&op=edit&subtype=$subtype&id=$value[id]">编辑</a>
+            <a href="admincp.php?ac=subject&op=delete&id=$value[id]">删除</a>
+             <!--{if $value[serverid]}--><a href="admincp.php?ac=subclient&op=applist&subserverid=$value[serverid]&subtype=$value[subtype]">添加专辑应用</a><!--{/if}-->
+        </td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	
+	</div>
+    <div class="fenye">$multi</div>
+	<div class="footactions">
+		<input type="checkbox" id="chkall1" name="chkall"  onclick="selectAll3(this)">全选  
+        <input type="submit" name="subinfoalter" value="保存修改" class="submit sub6zf">
+		<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">
+        <input type="submit" name="isshowsubmit" value="审核" class="submit sub2zf">
+        <input type="submit" name="isrecomsubmit" value="推荐" class="submit sub2zf">	
+	</div>
+	<div id="xskuang"></div>
+
+	</form>
+
+		
+		<!--类别修改弹出框-->
+	  
+		<div id="altersublx">
+		<div id="xsalter">
+		<table>
+		<tr><td>类别修改:</td>
+			<td><input type="radio" name="sublx" value="2">软件</td>
+			<td><input type="radio" name="sublx" value="1">游戏</td>
+			<td><input type="submit" name="altersublx" value="执行操作" ></td>
+		</tr>
+		</table>
+		</div>
+		</div>
+<!--{elseif $list_game}-->
+<form method="post" id="batchform" action="admincp.php?ac=subject&op=caozuo2">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />	
+	<div class="bdrcontent">	
+		<p class="tishi_con tishi_shuju"><!--{if $subjectinfo[serverid]}--><a href="admincp.php?ac=subclient&op=applist&subserverid=$subjectinfo[serverid]&subtype=$subjectinfo[subtype]" class="sub6zf">添加专辑应用</a><!--{/if}--><strong><!--{eval echo $subjectinfo['subjectname']}--></strong>专辑：总共有应用 <strong>$count</strong> 个</p>	   
+		<table cellspacing="0" cellpadding="0" class="formtable">   
+		<tr>
+        <th width="40">选择</th>
+        <th>应用名称</th>
+        <th width="100">操作</th>
+        </tr>
+		<!--{loop $list_game $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" value="$value[id]"></td></td>
+        <td><a href="admincp.php?ac=<!--{if $_GET[subtype]=="1"}-->android<!--{else}-->apple<!--{/if}-->&op=edit&id=$value[id]">$value[name]</a></td>   
+        <td> <a href="admincp.php?ac=subject&op=delete_game_subject&id=$value[id]&sid=$subject_id">删除</a> <!--{if $value[recomsubject]!=0}--><a href="admincp.php?ac=subject&op=cancel_recom_game_subject&id=$value[id]">取消推荐</a><!--{else}--><a href="admincp.php?ac=subject&op=recom_game_subject&id=$value[id]">推荐</a><!--{/if}--></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+    <div class="fenye">$multi</div>
+	<div class="footactions">
+		<input type="checkbox" id="chkall" name="chkall" onclick="selectAll(this)">全选
+		<input type="hidden" name="subject_id" value="$subject_id">
+		<input type="submit" name="delete_game_subject" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="tijiao_button">	
+	</div>
+	</form>
+<!--{else}-->
+	
+	<div class="bdrcontent">
+		<p class="tishi_con tishi_shuju"><a href="admincp.php?ac=subject&op=add&type={$type}&subtype=<!--{eval echo $subtype}-->" class="sub4zf">新增专辑</a>指定条件下还没有数据或专辑</p>
+	</div>
+
+<!--{/if}-->
+
+ <!--{template footer}-->

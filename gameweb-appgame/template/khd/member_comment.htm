@@ -1,0 +1,100 @@
+<!--{template header}-->
+<div class="container padding-top padding-left padding-right" id="comment_list">
+    <!--{if $commentlist}-->
+	<!--{loop $commentlist $key $value}-->
+    <div class="line" id="message_{$value['id']}">
+        <div class="xs9 xm9 xl9 xb9">
+            <a href="{$SCRIPT_NAME}?ac=detail&id={$value[appid]}">
+                <div class="xs3 xm3 xl3 xb3">
+                    <img src="{$appinfos[$value[appid]][logo]}" class="radius-big float-left game-icon">
+                </div>
+                <div class="xs9 xm9 xl9 xb9 padding-left padding-top">
+                    <strong>{$appinfos[$value[appid]][name]}</strong>
+                    <p class="  text-small text-gray">{$value[message]}</p>
+                </div>
+            </a>
+        </div>
+        <div class="xs3 xm3 xl3 xb3">
+            <div class="float-right padding-top"><a href="javascript:delcomment('$value[id]');" class="button button-small border-yellow">删除</a></div>
+        </div>
+    </div>
+    <hr class="bg-line" id="line_{$value['id']}">
+   <!--{/loop}-->
+   <!--{else}-->
+   <div class="line">暂无评论信息</div>
+   <!--{/if}-->
+</div>
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <!--{template search_box}-->
+</div>
+<div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+<input type="hidden" value="2" id="page_num" loading='no'>
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	$(window).scroll(function(){
+	  if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+	  	var isload=$('#page_num').attr('loading');
+		if(isload=="no"){
+			$('#page_num').attr("loading","yes");
+			var page_num=$('#page_num').val();
+			var addlisthtml="";
+			$.ajax({
+				type:"GET",
+				url:'/{$SCRIPT_NAME}?ac=member&op=comment&reqPageNum='+page_num,
+				dataType:'json',
+				beforeSend:function(){
+				  $('.ajax_loading').show() //显示加载时候的提示
+				},
+				success:function(data){
+					 var addapplist=data.commentlist;
+					 var apps=data.appinfos;
+					 if(addapplist){
+						 $.each(addapplist, function(i,val){
+						 	var cappid=val.appid;
+						 	var appinfo=apps[cappid];
+							addlisthtml+=' <div class="line" id="message_'+val.id+'"><div class="xs9 xm9 xl9 xb9"><a href="'+appinfo.murl+'"><div class="xs3 xm3 xl3 xb3"><img src="'+appinfo.logo+'" class="radius-big float-left game-icon"></div><div class="xs9 xm9 xl9 xb9 padding-left padding-top"><strong class="text-big">'+appinfo.name+'</strong><p class="text-left height-little margin-small-bottom text-small text-gray">'+val.message+'</p></div></a></div><div class="xs3 xm3 xl3 xb3"><div class="float-right padding-top"><a href="javascript:delcomment('+val.id+');" class="button button-small border-sub">删除</a></div></div></div><hr class="bg-line" id="line_'+val.id+'">';
+						 });
+						 $('#comment_list').append(addlisthtml);
+						 var npage_num = parseInt(page_num) + 1;
+						 $('#page_num').val(npage_num);
+						 $('#page_num').attr("loading","no");
+					 }else{
+						$('#page_num').attr("loading","yes");
+					 }
+					 $('.ajax_loading').hide() //请求成功,隐藏加载提示
+				}
+			})
+		}
+	  }
+	})
+  })
+function delcomment(cid){
+	$.ajax({
+		type:"GET",
+		url:'/$SCRIPT_NAME?ac=member&op=delcomment&cid='+cid,
+		dataType:'json',
+		success:function(data){
+			$('#message_'+cid).hide();
+			$('#line_'+cid).hide();
+		}
+	});
+
+} 
+</script>
+<script src="http://apps.bdimg.com/libs/jquery/1.8.0/jquery.min.js"></script>
+
+	<script>
+    var height= $(window).height();
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+</script>
+</body>
+</html>

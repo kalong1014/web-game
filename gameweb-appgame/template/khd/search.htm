@@ -1,0 +1,44 @@
+<!--{template header}-->
+<div class="tabs">
+<div class="container padding-top padding-left padding-right" id="tab1">
+ <!--{eval $appinfo=getapplists(4,0,-1,-1,0,"viewmun",20,0,$idcategorylist,0)}-->
+   <!--{loop $appinfo[app][list] $key $value}--> 
+    <div class="line">
+        <div class="xs9 xm9 xl9 xb9">
+            <a href="{$SCRIPT_NAME}?ac=appdetail&id={$value['id']}">
+                <div class="xs3 xm3 xl3 xb3">
+                    <img src="{$value[logo]}" class="radius-big float-left game-icon">
+                </div>
+                <div class="xs9 xm9 xl9 xb9 padding-left">
+                    <p class="gamename">{$value[name]}</p>
+					<div class="line padding-bottom padding-top">
+						<span class="star bigstar{$value[star]} text-left"></span>
+					</div>
+                    <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{if $value['downloadcount']>999}--><!--{eval echo number_format($value['downloadcount']/1000,1)."万"}--><!--{else}-->{$value['downloadcount']}<!--{/if}-->下载<span>|</span>{$value[size]}</p>
+                </div>
+            </a>
+        </div>
+        <div class="xs3 xm3 xl3 xb3">
+            <div class="float-right padding-top"><a href="{$SCRIPT_NAME}?ac=down&id={$value['id']}" class="button button-small border-sub">下载</a></div>
+        </div>
+    </div>
+    <hr class="bg-line">
+    <!--{/loop}-->
+</div>
+</div>
+
+<div class="line"style="height: 75px"></div>
+<!--footer-->
+<!--{template nav_buttom}-->
+<script>
+    $('document').ready(function () {
+        var height = $('#nav').height() + 20;
+        $('.white-mask').css({'top': height});
+    });
+    $('#view-all').click(function () {
+        $('#mask').removeClass('hidden');
+    });
+
+</script>
+</body>
+</html>

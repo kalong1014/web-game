@@ -1,0 +1,114 @@
+ <!--{template header}-->
+<script type="text/javascript" src="{$_SCONFIG[installdir]}/template/admin/js/hdm.js"></script>
+  <script type="text/javascript">
+	            function selectAll(checkbox) {
+				if(typeof($("#check").attr('checked'))=="undefined")
+					$('.box1').attr('checked', false);		 
+					else
+					$('.box1').attr('checked',true);	
+	            }
+	</script>
+	  <script type="text/javascript">
+	            function selectAll2(checkbox) {
+				if(typeof($("#check2").attr('checked'))=="undefined")
+					$('.box2').attr('checked', false);		 
+					else
+					$('.box2').attr('checked',true);	
+	            }
+	</script>
+	  <script type="text/javascript">
+	            function selectAll3(checkbox) {
+				if(typeof($("#check3").attr('checked'))=="undefined")
+					$('.box3').attr('checked', false);		 
+					else
+					$('.box3').attr('checked',true);	
+	            }
+	</script>
+
+<h2 class="con_title">栏目管理</h2>
+	<div class="sc_tishi"><a href="admincp.php?ac=sycate&op=edit" class="sc_tishi_b">添加栏目</a></div>
+<div class="bdrcontent text_center">
+        <div class="tabmenu">
+          <ul>
+		    <li onmouseover="tabChange(this,'tabcontent')" class="cli">资讯类</li>
+          </ul>
+        </div>
+     <div id="tabcontent">
+      <ul>
+		<div id="news">		
+		<!--{if $newslist}-->
+        <div class="newslist1"  >
+		<form method="post" action="admincp.php?ac=sycate" id="news">
+        <input type="hidden" name="ac" value="sycate" />
+        <input type="hidden" name="op" value="caozuo" />
+        <input type="hidden" name="apple" value="{$apple}" />
+        <input type="hidden" name="android" value="{$android}" />
+		<input type="hidden" name="wphone" value="{$wphone}" />
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		
+
+			<table>
+            <tr>
+            <th width="60">选择</th>
+            <th>栏目名称</th>
+			<th width="100">栏目别名</th>
+			<th width="100">绑定栏目</th>
+            <th width="60">级别</th>
+			<th width="100">审核状态</th>
+            <th width="100">导航显示</th>
+            <th width="100">操作</th>
+            </tr>
+            <!--{loop $newslist $key $value}-->
+			<tr>
+            	<td><input type="checkbox"  class="box3" name="ids[]" value="$value[categoryid]"></td>
+                <td class="text_left"><!--{$value[categoryname]}--></td>
+				<td><input type="text" name="engname[<!--{eval echo $value[categoryid]}-->]" class="sousuobox_input1" style="width:80px;" <!--{if $value[engname]}-->value="{$value[engname]}"<!--{else}-->value=""<!--{/if}-->></td>
+				<td>
+				<select name="categoryid[{$value[categoryid]}]">
+					<option value="0">请选择类别</option>
+					<!--{loop $catalog $key $val}-->
+					<!--{if $val[isshouyou]=="1"}-->
+					<option value="{$val['categoryid']}" <!--{if $value[serverid]==$val[categoryid]}--> selected="selected" <!--{/if}-->>{$val['categoryname']}</option>
+					<!--{/if}-->
+					<!--{/loop}-->
+				</select>
+				</td>
+				
+                <td><input type="text" name="displayorder[<!--{eval echo $value[categoryid]}-->]" class="sousuobox_input1" style="width:40px;" <!--{if $value[displayorder]}-->value="$value[displayorder]"<!--{else}-->value=""<!--{/if}-->></td>
+				<td><!--{if $value[isverify]=="1" }-->
+				<a href="admincp.php?ac=sycate&op=noverify&type={$type}&id=<!--{$value[categoryid]}-->">已生效</a>
+				<!--{else}-->
+				<a href="admincp.php?ac=sycate&op=verify&type={$type}&id=<!--{$value[categoryid]}-->">未生效</a>
+				<!--{/if}--></td>
+                <td><!--{if $value[isnav]=="1" }-->
+				<a href="admincp.php?ac=sycate&op=noshow&type={$type}&id=<!--{$value[categoryid]}-->">显示</a>
+				<!--{else}-->
+				<a href="admincp.php?ac=sycate&op=show&type={$type}&id=<!--{$value[categoryid]}-->">不显示</a>
+				<!--{/if}--></td>
+                <td>
+                <a href="admincp.php?ac=sycate&op=edit&type={$type}&id=<!--{$value[categoryid]}-->">编辑</a>
+                <a href="admincp.php?ac=sycate&op=delete&type={$type}&id=<!--{$value[categoryid]}-->">删除</a>
+                </td>
+			</tr>
+            <!--{/loop}-->			
+			</table>	
+		<div class="footactions">
+			<input type="checkbox" id="check3" name="chkall" onclick="selectAll3(this)">全选
+			<input type="submit" name="savealert" value="保存修改" class="submit sub6zf">
+			<input type="submit" name="deletesubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">
+			<div class="fenye">$multi</div>
+            
+		</div>
+		</form>	
+        </div>	
+        <!--{else}-->
+	<div class="newslis1t" >
+		<p>指定条件下还没有数据</p>
+	</div>
+
+    <!--{/if}-->
+
+	</div>
+</ul>
+</div>
+ <!--{template footer}-->

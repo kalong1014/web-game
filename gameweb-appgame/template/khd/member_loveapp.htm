@@ -1,0 +1,109 @@
+<!--{template header}-->
+<!--tab1-->
+<div class="container padding-top padding-left padding-right" id="tab1">
+	  <!--{eval $syrecom=getapplists(4,0,-1,-1,0,"isrecommend",20)}-->
+	 <!--{if $syrecom[app][list]}-->
+	 <!--{loop $syrecom[app][list] $key $value}-->
+    <div class="line">
+        <div class="xs9 xm9 xl9 xb9">
+            <a href="{$SCRIPT_NAME}?ac=detail&id={$value['id']}">
+                <div class="xs3 xm3 xl3 xb3">
+                    <img src="{$value[logo]}" class="radius-big float-left game-icon">
+                </div>
+                <div class="xs9 xm9 xl9 xb9 padding-left">
+                    <p class="gamename">{$value[name]}</p>
+                    <div class="line padding-bottom padding-top">
+                        <span class="star bigstar{$value[star]} text-left"></span>
+                    </div>
+                    <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{if $value['downloadcount']>9999}--><!--{eval echo number_format($value['downloadcount']/10000,1)."万"}--><!--{else}-->{$value['downloadcount']}<!--{/if}-->下载<span>|</span>{$value[size]}</p>
+                </div>
+            </a>
+        </div>
+        <div class="xs3 xm3 xl3 xb3">
+            <div class="float-right padding-top">
+			
+			<!--{if $viewtype=="android"}-->
+			<!--{if $value[downurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+			<!--{/if}-->
+			<!--{elseif $viewtype=="apple"}-->
+			<!--{if $value[iosdownurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+			<!--{/if}-->
+			<!--{/if}-->
+			
+			</div>
+        </div>
+    </div>
+    <hr class="bg-line">
+   	<!--{/loop}-->
+	<!--{else}-->
+	<div>暂无相关数据</div>
+	<!--{/if}-->
+</div>
+</div>
+<div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+<input type="hidden" value="2" id="page_num" loading='no'>
+<div class="line" style="height: 75px"></div>
+
+<!--footer-->
+<!--{template nav_buttom}-->
+<script>
+    $('.icon-times').click(function(){
+        $(this).parent().addClass('hidden')
+    });
+</script>
+<script>
+    $('document').ready(function () {
+        var height = $('#nav').height() + 20;
+        $('.white-mask').css({'top': height});
+    });
+    $('#view-all').click(function () {
+        $('#mask').removeClass('hidden');
+    });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	$(window).scroll(function(){
+	  if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+	  	var isload=$('#page_num').attr('loading');
+		if(isload=="no"){
+			$('#page_num').attr("loading","yes");
+			var page_num=$('#page_num').val();
+			var addlisthtml="";
+			var cateid="$cateid";
+			var orderby="$orderby";
+			$.ajax({
+				type:"GET",
+				url:'/$SCRIPT_NAME?ac=member&op=loveapp&reqPageNum='+page_num,
+				dataType:'json',
+				beforeSend:function(){
+				  $('.ajax_loading').show() //显示加载时候的提示
+				},
+				success:function(data){
+					 var addapplist=data.moreFineList.list;
+					 if(addapplist){
+						 $.each(addapplist, function(i,val){     
+							 addlisthtml+='<div class="line"><div class="xs9 xm9 xl9 xb9"><a href="'+val.url+'"><div class="float:left"><img src="'+val.logo+'" class="radius-big float-left game-icon"></div><div class="padding-left" style="float:left"><p class="gamename">'+val.name+'</p><div class="line padding-bottom padding-top"><span class="star bigstar'+val.star+' text-left"></span></div><p class="text-left height-little margin-small-bottom text-small text-gray">'+val.downloadcount+'下载<span>|</span>'+val.size+'</p></div></a></div><div class="xs3 xm3 xl3 xb3"><div class="float-right padding-top">'+val.downhtml+'</div></div></div><hr class="bg-line">';
+						 });
+						 $('#tab1').append(addlisthtml);
+						 var npage_num = parseInt(page_num) + 1;
+						 $('#page_num').val(npage_num);
+						 $('#page_num').attr("loading","no");
+					 }else{
+						$('#page_num').attr("loading","yes");
+					 }
+					 $('.ajax_loading').hide() //请求成功,隐藏加载提示
+				}
+			})
+		}
+	  }
+	})
+  })
+</script>
+</body>
+</html>

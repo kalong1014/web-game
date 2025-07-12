@@ -1,0 +1,156 @@
+<?php
+require("../../inc/header.php");
+
+/*
+		SoftName : EmpireBak Version 2010
+		Author   : wm_chief
+		Copyright: Powered by www.phome.net
+*/
+
+E_D("DROP TABLE IF EXISTS `config`;");
+E_C("CREATE TABLE `config` (
+  `var` varchar(30) NOT NULL DEFAULT '' COMMENT '配置变量名称',
+  `datavalue` text NOT NULL COMMENT '配置变量的值',
+  PRIMARY KEY (`var`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8");
+E_D("replace into `config` values('sitename','应用+');");
+E_D("replace into `config` values('sitelogo','');");
+E_D("replace into `config` values('adminemail','webmaster@www.admin.com');");
+E_D("replace into `config` values('seccode_register','1');");
+E_D("replace into `config` values('allowrewrite','0');");
+E_D("replace into `config` values('protype','7');");
+E_D("replace into `config` values('template','tshouyou');");
+E_D("replace into `config` values('indexsubject','');");
+E_D("replace into `config` values('creditname','积分');");
+E_D("replace into `config` values('isnewversion','newversion');");
+E_D("replace into `config` values('footinfos','应用作品版权归原作者享有，如无意之中侵犯了您的版权，请您按照《<a href=\"/index.php?ac=contact&op=copyright\"  target=\"_blank\">版权保护投诉指引</a>》来信告知，本网站将应您的要求删除。\r\n');");
+E_D("replace into `config` values('syfootinfo','<a href=\"index.php?ac=contact&op=copyright\" target=\"_blank\" >版权声明</a> | <a href=\"index.php?ac=contact&op=upload\" target=\"_blank\" >新闻投递</a> | <a href=\"index.php?ac=contact&op=comment\" target=\"_blank\" >提交应用</a> | <a href=\"index.php?ac=contact&op=address\" target=\"_blank\" >联系我们</a>| <a href=\"index.php?ac=sitemap&op=app\" target=\"_blank\" >网站地图</a> | <a href=\"/data/gugemap.xml\" target=\"_blank\">谷歌地图</a> | <a href=\"/data/baidumap.xml\" target=\"_blank\">百度地图</a> | <a href=\"index.php?ac=rss\" target=\"_blank\" >RSS</a>');");
+E_D("replace into `config` values('bdshare','<!-- Baidu Button BEGIN -->\r\n<div id=\"bdshare\" class=\"bdshare_t bds_tools get-codes-bdshare\">\r\n<a class=\"bds_tsina\"></a>\r\n<a class=\"bds_qzone\"></a>\r\n<a class=\"bds_tqq\"></a>\r\n<a class=\"bds_renren\"></a>\r\n<a class=\"bds_t163\"></a>\r\n<span class=\"bds_more\">更多</span>\r\n<a class=\"shareCount\"></a>\r\n</div>\r\n<script type=\"text/javascript\" id=\"bdshare_js\" data=\"type=tools&uid=0\" ></script>\r\n<script type=\"text/javascript\" id=\"bdshell_js\"></script>\r\n<script type=\"text/javascript\">\r\ndocument.getElementById(\"bdshell_js\").src = \"http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=\" + Math.ceil(new Date()/3600000)\r\n</script>\r\n<!-- Baidu Button END -->');");
+E_D("replace into `config` values('catalogkeyword','%catalogname%应用,%catalogname%应用大全');");
+E_D("replace into `config` values('isindexsubject','1');");
+E_D("replace into `config` values('isindextags','1');");
+E_D("replace into `config` values('qiyongyzm','1');");
+E_D("replace into `config` values('contact','联系方式：<br/>\r\n应用+团队<br/>\r\n客服热线：0592-3510767（周一至周五 9：00-18：00）<br/>\r\n客服邮箱：601454294@qq.com<br/>\r\n客服QQ：601454294<br/>');");
+E_D("replace into `config` values('agreement','<p>使用协议\r\n一、服务条款的确认和接纳<br/>\r\n<br/>\r\n为获得本网站提供基于互联网的相关服务，服务使用人(以下称“用户”)必须同意本协议的全部条款并按照页面上的提示完成注册程序。如果用户在注册程序过程中点击“我同意”按钮即表示用户与本网站达成协议，完全接受本协议项下的全部条款。<br/>\r\n除本服务协议外，您应同时阅读并接受“作品上传须知”，“留言须知”及“版权声明”，该“作品上传须知”，“留言须知”及“版权声明”为本协议之不可分割的一部分。<br/>\r\n<br/>\r\n二、服务内容<br/>\r\n<br/>\r\n本网站服务的具体内容由本网站根据实际情况提供。本网站保留随时变更、中断或终止部分或全部网络服务包括收费网络服务的权利。<br/>\r\n用户必须同意接受本网站通过电子邮件或其他方式向用户发送广告或其他相关商业信息。<br/>\r\n本网站仅提供相关的网络服务，除此之外与相关网络服务有关的设备(如电脑、调制解调器及其他与接入互联网有关的装置)及所需的费用(如为接入互联网而支付的电话费及上网费)均应由用户自行负担。<br/>\r\n<br/>\r\n三、使用规则<br/>\r\n<br/>\r\n1、用户帐号、密码和安全<br/>\r\n<br/>\r\n用户在申请使用本网站提供的网络服务时，必须提供准确的个人资料，如个人资料有任何变动，必须及时更新。<br/>\r\n用户注册成功后，本网站将给予每个用户一个用户帐号及相应的密码，用户应采取合理措施维护其密码和帐号的安全。用户对利用该密码和帐号所进行的一切活动负全部责任；由该等活动所导致的任何损失或损害由用户承担，本网站不承担任何责任。<br/>\r\n盗取他人用户帐号或利用网络通讯骚扰他人，均属于非法行为。用户不得采用测试、欺骗等任何非法手段，盗取其他用户的帐号和对他人进行骚扰。<br/>\r\n<br/>\r\n<br/>\r\n2、用户应遵守以下法律及法规<br/>\r\n<br/>\r\n用户同意遵守《中华人民共和国保守国家秘密法》、《中华人民共和国著作权法》、《中华人民共和国计算机信息系统安全保护条例》、《计算机软件保护条例》、《互联网电子公告服务管理规定》、《信息网络传播权保护条例》等有关计算机及互联网规定的法律、法规、实施办法。在任何情况下，本网站合理地认为用户的行为可能违反上述法律、法规，本网站可以在任何时候，不经事先通知终止向该用户提供服务。 <br/>\r\n<br/>\r\n<br/>\r\n3、禁止用户从事以下行为：<br/>\r\n<br/>\r\n3.1 使用本网站服务发送或传播敏感信息和违反国家法律制度的信息，包括但不限于下列信息:<br/>\r\n<br/>\r\n(a) 反对宪法所确定的基本原则的；<br/>\r\n(b) 危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；<br/>\r\n(c) 损害国家荣誉和利益的；<br/>\r\n(d) 煽动民族仇恨、民族歧视，破坏民族团结的；<br/>\r\n(e) 破坏国家宗教政策，宣扬邪教和封建迷信的；<br/>\r\n(f) 散布谣言，扰乱社会秩序，破坏社会稳定的；<br/>\r\n(g) 散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；<br/>\r\n(h) 侮辱或者诽谤他人，侵害他人合法权益的；<br/>\r\n(i) 含有法律、行政法规禁止的其他内容的。<br/>\r\n<br/>\r\n3.2 使用本网站提供的服务进行任何非法、淫秽、色情及其他违反公序良俗之活动，包括但不限于非法传销、诈骗、侵权、反动行为等。<br/>\r\n3.3 对本网站服务的任何部分或服务之使用或获得进行复制、拷贝、出售，或利用本网站服务进行调查、广告或其他商业目的，但本网站对特定服务另有适用指引或规定的除外。<br/>\r\n<br/>\r\n在任何情况下，本网站合理地认为用户的行为可能违反上述规<br/>定，本网站可以在任何时候，不经事先通知终止向该用户提供服务。<br/>\r\n<br/>\r\n<br/>\r\n四、 内容权利<br/>\r\n<br/>\r\n用户上载的内容是指用户在本网站上载或发布的游戏或其它任何形式的内容包括文字、图片、音频等。<br/>\r\n除非本网站收到相反通知，本网站将用户视为其在本网站上载或发布的内容的版权拥有人。用户在本网站上载或发布内容即视为其同意授予本网站所有上述内容的在全球范围内的免费、不可撤销的无限期的并且可转让的非独家使用权许可，本网站有权展示、散布及推广前述内容，有权对前述内容进行任何形式的复制、修改、出版、发行及以其他方式使用或者授权第三方进行复制、修改、出版、发行及以其他方式使用。<br/>\r\n因用户进行上述内容在本网站的上载或发布，而导致任何第三方提出索赔要求或衍生的任何损害或损失，由用户承担全部责任。<br/>\r\n内容权利详情请见：“作品上传须知”，“留言须知”及“版权声明”<br/>\r\n<br/>\r\n五、隐私保护<br/>\r\n<br/>\r\n保护用户隐私是本网站的重点原则，本网站保证不对外公开或向第三方提供用户注册资料及用户在使用服务时存储在本网站的非公开内容，但下列情况除外：<br/>\r\n1、事先获得用户的明确授权；<br/>\r\n2、根据有关的法律法规要求；<br/>\r\n3、按照相关政府主管部门的要求；<br/>\r\n4、为维护用户及社会公众的利益；<br/>\r\n5、为维护本网站的合法权益。<br/>\r\n本网站可能会与第三方合作向用户提供相关的服务，在此情况下，如该第三方同意承担与本网站同等的保护用户隐私的责任，则本网站可将用户的注册资料等提供给该第三方。<br/>\r\n在不透露单个用户隐私资料的前提下，本网站有权对整个用户数据库进行分析并对用户数据库进行商业上的利用。<br/>\r\n<br/>\r\n六、 关于第三方链接<br/>\r\n<br/>\r\n本网站服务可能会提供与其他国际互联网网站或资源进行链接。因使用或依赖上述网站或资源所生的损失或损害，本网站不负担任何责任。<br/>\r\n<br/>\r\n七、 免责声明<br/>\r\n<br/>\r\n1、本网站对于任何自本网站而获得的他人的信息、内容或者广告宣传等任何资讯（以下统称“信息”），不保证真实、准确和完整性。如果任何单位或者个人通过上述“信息”而进行任何行为，须自行甄别真伪和谨慎预防风险，否则，无论何种原因，本网站不对任何非与本网站直接发生的交易和/或行为承担任何直接、间接、附带或衍生的损失和责任。<br/>\r\n<br/>\r\n2、本网站不保证（包括但不限于）：<br/>\r\n<br/>\r\n(a) 本网站适合您的使用要求；<br/>\r\n(b) 本网站不受干扰，及时、安全、可靠或不出现错误；<br/>\r\n(c) 您经由本网站取得的任何产品、服务或其他材料符合您的期望。<br/>\r\n<br/>\r\n<br/>\r\n3、您使用经由本网站下载或取得的任何资料，其风险由您自行承担；因该等使用导致您电脑系统损坏或资料流失，您应自己负完全责任；<br/>\r\n<br/>\r\n4、基于以下原因而造成的利润、商业信誉、资料损失或其他有形或无形损失，本网站不承担任何直接、间接的赔偿：<br/>\r\n<br/>\r\n(a) 对本网站的使用或无法使用； <br/>\r\n(b) 经由本网站购买或取得的任何产品、资料或服务；<br/> \r\n(c) 用户资料遭到未授权的使用或修改；<br/>\r\n(d) 其他与本网站相关的事宜。<br/>\r\n<br/>\r\n<br/>\r\n八、服务变更、中断或终止<br/>\r\n<br/>\r\n如因系统维护或升级的需要而需暂停网络服务，本网站将尽可能事先在重要页面进行通告。<br/>\r\n如发生下列任何一种情形，本网站有权随时中断或终止向用户提供服务而无需通知用户：<br/>\r\n1、用户提供的个人资料不真实。<br/>\r\n2、用户违反本协议中规定的使用规则。<br/>\r\n3、用户注册后，连续六个月没有登陆账号的。<br/>\r\n4、用户在使用收费网络服务时未按规定向本网站支付相应的服务费。<br/>\r\n除前款所述情形外，本网站同时保留在不事先通知用户的情况下随时中断或终止部分或全部服务的权利，对于所有服务的中断或终止而造成的任何损失，本网站无需对用户或任何第三方承担任何责任。<br/>\r\n<br/>\r\n九、修改协议<br/>\r\n<br/>\r\n本网站有权随时修改本协议的有关条款，一旦条款内容发生变动，本网站将会在相关的页面提示修改内容。<br/>\r\n用户如果不同意本网站对服务条款所做的修改，可以放弃使用或访问本网站或取消已经获得的服务。如果用户继续使用服务，则视为用户接受服务条款的变动。<br/>\r\n<br/>\r\n十、法律管辖<br/>\r\n<br/>\r\n本协议的订立、执行和解释及争议的解决均应适用中国法律。<br/>\r\n如双方就本协议内容或其执行发生任何争议，双方应尽量友好协商解决；协商不成时，任何一方均可向本网站所在地的人民法院提起诉讼。<br/>\r\n<br/>\r\n十一、通知和送达<br/>\r\n<br/>\r\n本协议项下所有的通知均可通过重要页面公告、电子邮件或常规的信件传送等方式进行；该等通知于发送之日视为已送达收件人。<br/>\r\n用户对于本网站的通知应当通过本网站对外正式公布的通信地址、电子邮件地址等联系信息进行送达。<br/>\r\n<br/>\r\n十二、其他规定<br/>\r\n<br/>\r\n本协议构成双方对本协议之约定事项及其他有关事宜的完整协议，除本协议规定的之外，未赋予本协议各方其他权利。<br/>\r\n如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。<br/>\r\n本协议中的标题仅为方便而设，在解释本协议时应被忽略。<br/>\r\n<br/>\r\n十三、本协议解释权归本网站所有。<br/>\r\n</p>');");
+E_D("replace into `config` values('sitexlogo','image/x_logo.jpg');");
+E_D("replace into `config` values('description','应用大全');");
+E_D("replace into `config` values('title','应用大全网');");
+E_D("replace into `config` values('keyword','游戏大全,应用大全');");
+E_D("replace into `config` values('serverurl','http://s.yyjia.com');");
+E_D("replace into `config` values('siteid','');");
+E_D("replace into `config` values('key','127.0.0.1');");
+E_D("replace into `config` values('flink','<a target=\"_blank\" href=\"http://www.51gn.com\">赛车游戏</a>');");
+E_D("replace into `config` values('banner','');");
+E_D("replace into `config` values('syrmzjad','');");
+E_D("replace into `config` values('errorad','');");
+E_D("replace into `config` values('errorad2','');");
+E_D("replace into `config` values('globalad','');");
+E_D("replace into `config` values('middlead','');");
+E_D("replace into `config` values('buttomad','');");
+E_D("replace into `config` values('logoad','');");
+E_D("replace into `config` values('symiddlead','');");
+E_D("replace into `config` values('floatad','');");
+E_D("replace into `config` values('leftad1','<img src=\"/image/ad.jpg\"/>');");
+E_D("replace into `config` values('leftad2','<img src=\"/image/ad.jpg\"/>');");
+E_D("replace into `config` values('bottomad1','<img src=\"/image/ad.jpg\"/>');");
+E_D("replace into `config` values('bottomad2','<img src=\"/image/ad.jpg\"/>');");
+E_D("replace into `config` values('playad','<img src=\"/image/ad.jpg\"/>');");
+E_D("replace into `config` values('playads','');");
+E_D("replace into `config` values('siteurl','localhost');");
+E_D("replace into `config` values('gamekeyword','%gamename%,%gamename%应用%sitename%%catalogname%%gamename%');");
+E_D("replace into `config` values('copyright','本网站一贯高度重视知识产权保护并遵守中华人民共和国各项知识产权法律、法规和具有约束力的规范性文件。本网站坚信著作权拥有者的合法权益应该得到尊重和依法保护。本网站坚决反对任何违反中华人民共和国有关著作权的法律法规的行为。由于我们无法对用户上传到本网站的所有信息进行充分的监测，我们制定了旨在保护知识产权权利人合法权益的措施和步骤，当著作权人和/或依法可以行使信息网络传播权的权利人（以下简称“权利人”）发现本网站上用户上传内容侵犯其信息网络传播权时，权利人应事先向本网站发出权利通知，本网站将根据相关法律规定采取措施删除相关内容。具体措施和步骤如下：<br/>\r\n<br/>\r\n如果您是某一作品的著作权人和/或依法可以行使信息网络传播权的权利人，且您认为本网站站上用户上传内容侵犯了您对该等作品的信息网络传播权，请您务必书面通知本网站，您应对书面通知陈述之真实性负责。<br/>\r\n<br/>\r\n为方便本网站及时处理您之意见，您的通知书中应至少包含以下内容：<br/>\r\n您的名称（姓名）、联系方式及地址；<br/>\r\n要求删除的作品的名称和在本网站的地址；<br/>\r\n构成侵权地初步证明材料，谨此提示以下材料可能构成初步证明：<br/>\r\n对于涉嫌侵权作品拥有著作权或依法可以行使信息网络传播权的权属证明；<br/>\r\n对涉嫌侵权作品侵权事实的举证。<br/>\r\n您的签名。 <br/>\r\n<br/>\r\n<br/>\r\n一旦收到符合上述要求之通知，我们采取包括删除等相应措施。如不符合上述条件，我们会请您提供相应信息，且暂不采取包括删除等相应措施。<br/>\r\n<br/>\r\n在本网站上载作品的用户视为同意本网站就前款情况所采用的相应措施。本网站不因此而承担任何违约责任或其他任何法律责任。本网站在收到上述通知后会发送电子邮件通知上载该等作品的用户。对于多次上载涉嫌侵权作品的用户，我们将取消其用户资格。<br/>');");
+E_D("replace into `config` values('upload','作品上传须知<br/>\r\n<br/>\r\n本网站在此郑重提请您注意，任何经由本网站的服务以上载、张贴、发送电子邮件或任何其它方式传送的作品，无论系公开还是私下传送，均由内容提供者、上传者承担责任。您若在本网站上散布和传播反动、色情或其他违反国家法律的信息（详见用户须知使用规则3.1），本网站有权在无需事先通知的情况下做出独立判断而立即取消您对帐号使用，同时本网站的系统记录有可能作为您违反法律的证据。<br/>\r\n<br/>\r\n因您进行上述作品在本网站的上载、传播而导致任何第三方提出索赔要求或衍生的任何损害或损失，概与本网站无关，而由您承担全部责任。<br/>\r\n<br/>\r\n作品须知的约束对象，包括拥有帐号的服务使用人及尚未拥有账号但使用本网站部分服务（包括但不限于上载游戏，提交留言）的服务使用人。若您不同意上述内容，请勿上传作品。<br/>');");
+E_D("replace into `config` values('comment','您上传的留言是指您在本网站上载、传播的文字、图片、链接或其它任何形式的内容。<br/>\r\n<br/>\r\n本网站在此郑重提请您注意，任何经由本网站的服务以上载、张贴、发送电子邮件或任何其它方式传送的内容，无论系公开还是私下传送，均由内容提供者、上传者承担责任。您若在本网站上散布和传播反动、色情或其他违反国家法律的信息（详见用户须知使用规则3.1），本网站有权在无需事先通知的情况下做出独立判断而立即取消您对帐号使用，同时本网站的系统记录有可能作为您违反法律的证据。<br/>\r\n<br/>\r\n因您进行上述作品和内容在本网站的上载、传播而导致任何第三方提出索赔要求或衍生的任何损害或损失，概与本网站无关，而由您承担全部责任。<br/>\r\n<br/>\r\n留言须知的约束对象，包括拥有帐号的服务使用人及尚未拥有账号但使用本网站部分服务（包括但不限于上载游戏，提交留言）的服务使用人。若您不同意上述内容，请勿提交留言。');");
+E_D("replace into `config` values('ismemcache','0');");
+E_D("replace into `config` values('showbigpic','1');");
+E_D("replace into `config` values('lengthstart','');");
+E_D("replace into `config` values('lengthend','');");
+E_D("replace into `config` values('istop10','1');");
+E_D("replace into `config` values('istab','1');");
+E_D("replace into `config` values('color','lan');");
+E_D("replace into `config` values('rewritepre','');");
+E_D("replace into `config` values('subjectinfotitle','');");
+E_D("replace into `config` values('subjectinfokeyword','');");
+E_D("replace into `config` values('subjectinfodescript','');");
+E_D("replace into `config` values('tagtitle','');");
+E_D("replace into `config` values('tagkeyword','');");
+E_D("replace into `config` values('tagdescript','');");
+E_D("replace into `config` values('taginfotitle','');");
+E_D("replace into `config` values('taginfokeyword','');");
+E_D("replace into `config` values('taginfodescript','');");
+E_D("replace into `config` values('shouyou_title','手机网游第一门户_最新手机网游排行_最热手机网游下载_%sitename%');");
+E_D("replace into `config` values('shouyou_keyword','手机网游第一门户,最新手机网游排行,最热手机网游下载');");
+E_D("replace into `config` values('shouyou_description','%sitename%提供最新最全手机网游免费下载、手机网游攻略评测、手机网游排行、手机网游放号礼包、玩家公会、玩家论坛等全方位的服务，是中国最专业和用户最多的手机网游下载门户');");
+E_D("replace into `config` values('games_title','最热%tagname%类手机网游_%sitename%');");
+E_D("replace into `config` values('games_keyword','%tagname%类手机网游');");
+E_D("replace into `config` values('games_description','');");
+E_D("replace into `config` values('server_title','手机网游新服表_%sitename%');");
+E_D("replace into `config` values('server_keyword','手机网游新服表');");
+E_D("replace into `config` values('server_description','');");
+E_D("replace into `config` values('test_title','手机网游测试表_%sitename%');");
+E_D("replace into `config` values('test_keyword','手机网游测试表');");
+E_D("replace into `config` values('test_description','');");
+E_D("replace into `config` values('syapp_title','%appname%_手机网游下载');");
+E_D("replace into `config` values('syapp_keyword','%sitename%,手机网游下载');");
+E_D("replace into `config` values('syapp_description','');");
+E_D("replace into `config` values('pack_title','%packname%_%sitename%');");
+E_D("replace into `config` values('pack_keyword','%packname%,%sitename%');");
+E_D("replace into `config` values('pack_description','%packname%,%sitename%');");
+E_D("replace into `config` values('syrank_title','手机网游排行榜');");
+E_D("replace into `config` values('syrank_keyword','手机网游排行榜');");
+E_D("replace into `config` values('syrank_description','');");
+E_D("replace into `config` values('synews_title','最新新闻_%newscatename%_%sitename%');");
+E_D("replace into `config` values('synews_keyword','最新新闻,%newscatename%,%sitename%');");
+E_D("replace into `config` values('synews_description','');");
+E_D("replace into `config` values('synewsde_title','%newsname%_%sitename%');");
+E_D("replace into `config` values('synewsde_keyword','%newsname%,%sitename%');");
+E_D("replace into `config` values('synewsde_description','');");
+E_D("replace into `config` values('newsde_description','');");
+E_D("replace into `config` values('htime','0');");
+E_D("replace into `config` values('downnum','0');");
+E_D("replace into `config` values('newsdownnum','0');");
+E_D("replace into `config` values('updateappsnums','0');");
+E_D("replace into `config` values('updatenewsnums','0');");
+E_D("replace into `config` values('sourcetype','1,2');");
+E_D("replace into `config` values('isautodown','1');");
+E_D("replace into `config` values('starttime','1376543088');");
+E_D("replace into `config` values('isappverify','0');");
+E_D("replace into `config` values('isnewsverify','0');");
+E_D("replace into `config` values('issubverify','0');");
+E_D("replace into `config` values('applefootinfo','');");
+E_D("replace into `config` values('version','应用+手游版_1.6');");
+E_D("replace into `config` values('mtemplate','snewshouyou');");
+E_D("replace into `config` values('testtype','{\"1\":{\"name\":\"&u5c01&u6d4b\",\"bianhao\":1},\"2\":{\"name\":\"&u5220&u6863&u5185&u4fa7\",\"bianhao\":2},\"3\":{\"name\":\"&u4e0d&u5220&u6863&u5185&u4fa7\",\"bianhao\":3},\"4\":{\"name\":\"&u4e8c&u6b21&u5185&u4fa7\",\"bianhao\":4},\"5\":{\"name\":\"&u516c&u6d4b\",\"bianhao\":5}}');");
+E_D("replace into `config` values('packtype','{\"1\":\"&u793c&u5305\",\"2\":\"&u65b0&u624b&u5361\",\"3\":\"&u6fc0&u6d3b&u7801\",\"4\":\"&u6d4b&u8bd5&u53f7\"}');");
+E_D("replace into `config` values('chkupdate','1');");
+E_D("replace into `config` values('sdupdate','0');");
+E_D("replace into `config` values('symtitle','手机网游第一门户_最新手机网游排行_最热手机网游下载_%sitename%');");
+E_D("replace into `config` values('symkeyword','手机网游第一门户,最新手机网游排行,最热手机网游下载');");
+E_D("replace into `config` values('symdescription','%sitename%提供最新最全手机网游免费下载、手机网游攻略评测、手机网游排行、手机网游放号礼包、玩家公会、玩家论坛等全方位的服务，是中国最专业和用户最多的手机网游下载门户');");
+E_D("replace into `config` values('symgametitle','最热%catename%手机网游_%sitename%');");
+E_D("replace into `config` values('symgamekeyword','%catename%手机网游');");
+E_D("replace into `config` values('symgamedescription','');");
+E_D("replace into `config` values('sympacktitle','手机游戏礼包_手机游戏激活码_手机游戏兑换码免费领取');");
+E_D("replace into `config` values('sympackkeyword','手机游戏礼包免费领取,手机游戏激活码免费领取,手机游戏兑换码免费领取');");
+E_D("replace into `config` values('sympackdescription','');");
+E_D("replace into `config` values('sympackdetailtitle','%packname%_免费领取_%sitename%');");
+E_D("replace into `config` values('sympackdetailkeyword','%packname%免费领取');");
+E_D("replace into `config` values('sympackdetaildescription','');");
+E_D("replace into `config` values('symopentitle','手机网游新服表_%sitename%');");
+E_D("replace into `config` values('symopenkeyword','手机网游新服表');");
+E_D("replace into `config` values('symopendescription','');");
+E_D("replace into `config` values('symtesttitle','手机网游测试表_%sitename%');");
+E_D("replace into `config` values('symtestkeyword','手机网游测试表');");
+E_D("replace into `config` values('symtestdescription','');");
+E_D("replace into `config` values('symnewstitle','最新新闻_%sitename%');");
+E_D("replace into `config` values('symnewskeyword','最新新闻,%sitename%');");
+E_D("replace into `config` values('symnewsdescription','');");
+E_D("replace into `config` values('symnewsdetailtitle','');");
+E_D("replace into `config` values('symnewsdetailkeyword','');");
+E_D("replace into `config` values('symnewsdetaildescription','');");
+E_D("replace into `config` values('symdetailtitle','%appname%_手机网游下载');");
+E_D("replace into `config` values('symdetailkeyword','%sitename%,手机网游下载');");
+E_D("replace into `config` values('symdetaildescription','');");
+
+require("../../inc/footer.php");
+?>

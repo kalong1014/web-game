@@ -1,0 +1,115 @@
+<!--{template header}-->
+<script>
+function searchgamename(){
+	var name=$('#gamename').val();
+	var adown=$('#an_downurl').val();
+	var idown=$('#ios_downurl').val();
+	if(name==""){
+		alert("游戏名称不能为空，请重新填写...");
+		return;
+	}
+		$.ajax({
+		url:"/index.php?ac=chkvendor&op=mygames&addgame=1&name="+name+"&adown="+adown+"&idown="+idown,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			if(json.error=="error"){
+				alert("游戏名称不存在或未入库,请确认输入是否有错，如有问题可咨询客服...");
+				$('#gamename').val('');
+				return;
+			}else if(json.error=="error2"){
+				alert("该游戏下载地址已经添加");
+				$('#gamename').val('');
+			}else{
+				var a=json.aid;
+				var i=json.iaid;
+				if(a||i){
+					alert('添加成功');
+					 history.go(0);
+				}else{
+					alert('添加失败');
+					 history.go(0);
+				}
+			}
+		}
+	});
+
+}
+function alterinfo(appid){
+	var adown=$('#downurl_'+appid+'_adownurl').val();
+	var idown=$('#downurl_'+appid+'_idownurl').val();
+	$.ajax({
+		url:"/index.php?ac=chkvendor&op=mygames&alert=1&appid="+appid+"&adown="+adown+"&idown="+idown,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var a=json.a;
+			var i=json.i;
+			if(a||i){
+				alert('修改成功');
+			}
+		}
+	});
+}
+function delinfo(appid){
+	if(confirm('会删除该相关的区服的礼包，开服信息，确认删除？')){
+		$.ajax({
+		url:"/index.php?ac=chkvendor&op=mygames&delgames=1&appid="+appid,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var d=json.del;
+			if(d){
+				alert('删除成功');
+				 history.go(0);
+			}else{
+				alert('删除失败');
+			}
+		}
+	  });
+	}
+}
+</script>
+<div id="main">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit">旗下游戏管理</div>
+    <div class="o_appcon o_renzheng">
+	<div class="o_tishi" style="font-size:14px;">
+	游戏名称: <input type="text" class="qixia_input" name="mygames[gamename]" value="" id="gamename"> 
+	安卓下载地址: <input type="text" value="" class="qixia_input" id="an_downurl"> 
+	苹果下载地址: <input type="text" value="" class="qixia_input" id="ios_downurl"> 
+	<input class="o_appglcon_bj" type="submit" value="添加" name="addmygames" onclick="searchgamename()">	
+	</div>
+	  <div class="o_appglcon">
+	  <!--{if $mygames}-->
+      <table width="100%" class="shouyou_tb">
+        <tbody>
+          <tr> 
+            <th class="text_left">游戏名称</th>
+			<th width="130">安卓下载地址</th>
+			<th width="130">苹果下载地址</th>
+            <th width="100">添加时间</th>
+            <th width="100">操作</th>
+          </tr>
+		  
+		  <!--{loop $mygames $value}-->
+          <tr>
+            <td class="text_left">{$value[name]}</td>
+			<td><input class="qixia_input" type="text" value="{$value[androidurl]}" name="downurl[<!--{eval echo $value[appid]}-->][adownurl]" id="downurl_$value[appid]_adownurl" /></td> 
+			<td><input class="qixia_input" type="text" value="{$value[iosurl]}" name="downurl[<!--{eval echo $value[appid]}-->][idownurl]" id="downurl_$value[appid]_idownurl" /></td>      
+            <td><!--{eval echo date('Y-m-d',$value[dateline])}--></td>
+			<td><input class="o_appglcon_bj" type="submit" value="修改" name="alertinfo" onclick="alterinfo($value[appid])">	<input class="o_appglcon_sc" type="submit" value="删除" name="delete" onclick="delinfo($value[appid])"></td>
+          </tr>
+		  <!--{/loop}-->
+        </tbody>
+      </table>
+	  <div class="fenye">{$multi}</div>
+	   <!--{else}-->
+	  <div class="o_appglcon_ts">目前还没有相关信息...</div>
+	  <!--{/if}-->
+	  </div>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

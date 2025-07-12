@@ -1,0 +1,96 @@
+ <!--{template header}-->
+ <style type="text/css">
+ .lujin1{display:block;}
+ .lujin2{display:none;}
+ .lujin3{display:none;}
+ .lujin1, .lujin2, .lujin3 { padding-left:25px;}
+ .tishi_conb { float:left; margin-right:50px;}
+ .bdrcontent select { width:100px; background-color:#fff; border:1px solid #ddd; border-radius:2px; height:24px; line-height:24px; vertical-align:middle;}
+ </style>
+<script language="javascript" type="text/javascript">
+function chanagerewrite(fs){
+	if(fs==3){
+		$('.lujin3').show();
+	}else{
+		$('.lujin3').hide();
+	}
+	if(fs==2){
+		$('.lujin2').show();
+	}else{
+		$('.lujin2').hide();
+	}
+	if(fs==1){
+		$('.lujin1').show();
+	}else{
+		$('.lujin1').hide();
+	}
+}
+$(document).ready(function(){
+$("#pzcx").change(function()
+{
+	var fs=$("#pzcx option[@selected]").val();
+	chanagerewrite(fs);
+});
+});
+window.onload=function(){
+	var fs="$_SCONFIG[rewritetype]";
+	chanagerewrite(fs);
+}
+</script>
+	<div class="bdrcontent">
+		<h2 class="con_title">Rewrite配置</h2>
+		 <div class="tishi_con clearfix">
+           <div class="tishi_conb">
+		     <h4>方式三栏目路径目录提示</h4>
+		     <p>CID：栏目id</p>
+		     <p>CNAME：栏目英文名</p>
+		     <p>APPTYPE：栏目类型</p>
+		     <p>ORDER：排序方式</p>
+		     <p>PAGE：分页</p>
+           </div>
+           <div class="tishi_conb">
+		     <h4>方式三详细页路径目录提示</h4>
+		     <p>CID：栏目id</p>
+		     <p>CNAME：栏目英文名</p>
+		     <p>PAGE：分页</p> 
+           </div>
+        </div>
+	 <form method="post" action="admincp.php?ac=config">
+	 <input type="hidden" name="op" value="rewrite" >
+	 <table>
+	  <tr>			
+        <td> 路径重写 : <input type="radio" name="config[allowrewrite]"  value="1"    <!--{if $_SCONFIG['allowrewrite']=="1"}--> checked="checked" <!--{/if}-->/>是 <input type="radio" name="config[allowrewrite]"  value="0" <!--{if $_SCONFIG['allowrewrite']!="1"}--> checked="checked" <!--{/if}--> />否 &nbsp;&nbsp;(<a href="http://bbs.yyjia.com/thread-1249-1-1.html" target="_blank">操作说明</a>)</td>
+	 </tr>
+	 <tr><td><span style="font-weight:bold; color:#333;">重写方式：</span> <select name="config[rewritetype]" id="pzcx" onchange="cxfs()">
+	 <option value="1" <!--{if $_SCONFIG['rewritetype']==1}-->selected="selected"<!--{/if}-->>默认</option>
+	 <option value="2" <!--{if $_SCONFIG['rewritetype']==2}-->selected="selected"<!--{/if}-->>方式二</option>
+	 <option value="3" <!--{if $_SCONFIG['rewritetype']==3}-->selected="selected"<!--{/if}-->>方式三</option> 
+	 </select></td></tr>
+	 <tr class="lujin1"><td>栏目页重写路径(域名)：/android/dongzuomaoxian/</td></tr>
+	 <tr class="lujin1"><td>APP详细页重写路径(域名)：/android/dongzuomaoxian/28561.htm</td></tr>
+	 <tr class="lujin1"><td>资讯详细页重写路径(域名)：/android/news/zuixin/886.htm</td></tr>
+	 
+	 <tr class="lujin2"><td>栏目页重写路径(域名)：/android/applists-lx-game-cname-dongzuomaoxian.html</td></tr>
+	 <tr class="lujin2"><td>APP详细页重写路径(域名)：/android/detail-cname-jingyingcelve-id-1282.html</td></tr>
+	 <tr class="lujin2"><td>资讯详细页重写路径(域名)：/android/newdetail-cname-zuixin-newid-151.html</td></tr>
+
+	 <tr class="lujin3"><td>APP栏目重写路径：(android/wphone/iphone/ipad)/<input class="con_input" type="text" name="config[applists_rewriteurl]"></td></tr>
+	 <tr class="lujin3"><td>APP栏目重写分页路径：(android/wphone/iphone/ipad)/<input class="con_input" type="text" name="config[applists_page_rewriteurl]"></td></tr>
+	 <tr class="lujin3"><td>APP详细页重写路径：(android/wphone/iphone/ipad)/<input class="con_input" type="text" name="config[detail_rewriteurl]"></td></tr>
+	 <tr class="lujin3"><td>APP详细页重写分页路径：(android/wphone/iphone/ipad)/<input class="con_input" type="text" name="config[detail_page_rewriteurl]"></td></tr>
+	 <tr class="lujin3"><td>资讯栏目重写路径：(android/wphone/iphone/ipad)/<input class="con_input" type="text" name="config[newslists_rewriteurl]"></td></tr>
+	 <tr class="lujin3"><td>资讯栏目重写分页路径：(android/wphone/iphone/ipad)/<input class="con_input" type="text" name="config[newslists_page_rewriteurl]"></td></tr>
+	 <tr class="lujin3"><td>资讯详细页重写路径：(android/wphone/iphone/ipad)/<input class="con_input" type="text" name="config[newsdetail_rewriteurl]"></td></tr>
+	 <tr><td><span style="font-weight:bold; color:#333;">重写后缀方式：</span> <select name="config[rewriteend]">
+	 <option value="1" <!--{if $_SCONFIG['rewriteend']==1}-->selected="selected"<!--{/if}-->>.htm</option>
+	 <option value="2" <!--{if $_SCONFIG['rewriteend']==2}-->selected="selected"<!--{/if}-->>.html</option>
+	 <option value="3" <!--{if $_SCONFIG['rewriteend']==3}-->selected="selected"<!--{/if}-->>.shtml</option> 
+	 </select></td></tr>
+	 </table>
+	<div class="footactions">
+	<input type="submit" name="configrewrite" class="tijiao_button" value="确认提交"/>
+    </div>
+	</form>
+</div>
+
+ <!--{template footer}-->

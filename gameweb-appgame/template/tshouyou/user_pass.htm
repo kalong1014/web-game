@@ -1,0 +1,19 @@
+<!--{template header}-->
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit">修改密码</h2>
+    <div class="user_content_con">
+      <form action="index.php?ac=user&op=pass" method="post" >
+        <ul class="user_input">
+          <li><label for="">用户名：</label>{$userinfo[username]}</li>
+		  <li><label for="">旧密码：</label><input name="oldpassword" id="password1" type="password" value=""/></li>
+          <li><label for="">新密码：</label><input name="password" id="password2" type="password" value=""/></li>
+          <li><label for="">确认新密码：</label><input name="password2" id="password3" type="password" value="" /></li>
+          <li><input class="usr_tijiao" type="submit" name="alterpass" value="确认修改" /></li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

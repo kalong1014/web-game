@@ -1,0 +1,97 @@
+<!--{template header}-->
+<div class="container padding-right padding-left padding-large-top">
+    <div class="line padding-bottom" id="sign-in">
+        <img src="/template/$_SCONFIG[template]/images/daily_sign.png" style="width:22px"><span class="text-gray padding-left text-big">每日签到</span><img src="/template/$_SCONFIG[template]/images/sign_in.png" class="float-right" id="signover">
+    </div>
+    <hr class="bg-line">
+    <div> <a href="{$SCRIPT_NAME}?ac=member&op=loveapp"><div class="line padding-bottom padding-top" id="follow">
+        <img src="/template/$_SCONFIG[template]/images/iconfont_xihuan.png" style="width:23px"><span class="text-gray padding-left text-big">猜你喜欢</span><img src="/template/$_SCONFIG[template]/images/see_more.png" class="float-right">
+    </a></div>
+    <hr class="bg-line">
+   <div><a href="{$SCRIPT_NAME}?ac=member&op=password"><div class="line padding-bottom padding-top" id="message">
+        <img src="/template/$_SCONFIG[template]/images/my_message.png" style="width:22px"><span class="text-gray padding-left text-big">修改密码</span><img src="/template/$_SCONFIG[template]/images/see_more.png" class="float-right">
+   </a></div>
+	<hr class="bg-line">
+    <div><a href="{$SCRIPT_NAME}?ac=member&op=comment"><div class="line padding-bottom padding-top" id="commments">
+        <img src="/template/$_SCONFIG[template]/images/my_comment.png" style="width:23px"><span class="text-gray padding-left text-big">我的评论</span><img src="/template/$_SCONFIG[template]/images/see_more.png" class="float-right">
+    </a></div>
+	<hr class="bg-line">
+    <div><a href="{$SCRIPT_NAME}?ac=member&op=mypacks"><div class="line padding-bottom padding-top" id="commments">
+        <img src="/template/$_SCONFIG[template]/images/mb_packs.png" style="width:23px"><span class="text-gray padding-left text-big">我的礼包</span><img src="/template/$_SCONFIG[template]/images/see_more.png" class="float-right">
+    </a></div>
+    <hr class="bg-line">
+   <div><a href="/index.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]&cz=khd"><div class="line padding-bottom padding-top" id="exit">
+        <img src="/template/$_SCONFIG[template]/images/out.png" style="width:22px"><span class="text-gray padding-left text-big">退出</span><img src="/template/$_SCONFIG[template]/images/see_more.png" class="float-right">
+    </a></div>
+</div>
+<div class="hidden" id="blackmask">
+    <div class="black-mask"></div>
+    <div class="container" style="position: fixed;z-index: 11;" id="signin">
+        <div class="line">
+            <img src="/template/$_SCONFIG[template]/images/sign_in_head_bg.png" width="80%">
+        </div>
+        <div class="line">
+            <img src="/template/$_SCONFIG[template]/images/sign_in_bottom_bg.png" width="80%">
+        </div>
+        <div class="line" style="position:absolute;width: 120px;" id="success">
+            <div class="line">
+                <span class="text-large text-sub padding-left" id="get_result">签到成功</span>
+            </div>
+            <hr class="bg-yellow" style="margin: 5px 0;">
+            <p class="text-sub padding-left">连续签到 <span class="text-yellow" id="get_daynum"></span> 天</p>
+            <span class="text-sub">获得<span class="text-yellow" id="get_credit"></span> {$_SCONFIG[creditname]} <span class="text-yellow" id="get_experience"></span> 经验</span>
+        </div>
+        <div class="line text-center" style="margin: -15px 56px 0 0;z-index: 12">
+            <img src="/template/$_SCONFIG[template]/images/sign_cancel.png" style="width:35px;height: 35px" id="close">
+        </div>
+    </div>
+</div>
+<div class="line" style="height: 75px"></div>
+<!--footer-->
+<!--{template nav_buttom}-->
+<script>
+    var height= $(window).height();
+    var width= $(window).width();
+    $('#signin').css('left',width/6);
+    $('#signin').css('top',height/5);
+    $('#success').css('marginLeft',width/6);
+    $('#success').css('marginTop',-height/5);
+</script>
+<script>
+    $('#sign-in').click(function(){
+		var uid="$_SGLOBAL[supe_uid]";
+		if(uid=="0"){
+			alert("登入后才能签到");
+			exit();
+		}
+		$.ajax({
+			url:"/index.php?ac=common&op=qiandao&uid="+uid,
+			type:'get',
+			dataType:'json',
+			success:function(json){
+				var msgs=json.msg;
+				var qdinfo=json.info;
+				$('#blackmask').removeClass('hidden');
+				if(msgs){
+					$('#get_result').html(msgs);
+					$('#get_credit').html('0');
+					$('#get_experience').html('0');
+				}else{
+					$('#get_result').html('签到成功');
+					$('#get_daynum').html(qdinfo.loginnum);
+					$('#get_credit').html(qdinfo.credit);
+					$('#get_experience').html(qdinfo.experience);
+				}
+			}
+		});
+        
+		
+    });
+</script>
+<script>
+    $('#blackmask').click(function(){
+        $('#blackmask').addClass('hidden');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+ <!--{template header}-->
+    <h2 class="con_title">APP打开图片配置</h2>
+	<div class="bdrcontent">
+    <h3 style="margin-bottom:10px;"></h3>
+    <form method="post" action="admincp.php?ac=config&op=appopenpic" enctype="multipart/form-data">
+	<ul>
+    <li>更新时间：<!--{eval echo date('Y-m-d',$openpic[date])}--></li>
+	<li>上传图片：<input type="file" name="apppic_1"><!--{if $openpic['list'][0]}--><img src="$openpic['list'][0]?<!--{eval echo time()}-->" height="80"><a href="admincp.php?ac=config&op=appopenpic&del=1">删除</a><!--{/if}--></li>
+	<li>上传图片：<input type="file" name="apppic_2"><!--{if $openpic['list'][1]}--><img src="$openpic['list'][1]?<!--{eval echo time()}-->" height="80"><a href="admincp.php?ac=config&op=appopenpic&del=2">删除</a><!--{/if}--></li>
+	<li>上传图片：<input type="file" name="apppic_3"><!--{if $openpic['list'][2]}--><img src="$openpic['list'][2]?<!--{eval echo time()}-->" height="80"><a href="admincp.php?ac=config&op=appopenpic&del=3">删除</a><!--{/if}--></li>
+	<li>上传图片：<input type="file" name="apppic_4"><!--{if $openpic['list'][3]}--><img src="$openpic['list'][3]?<!--{eval echo time()}-->" height="80"><a href="admincp.php?ac=config&op=appopenpic&del=4">删除</a><!--{/if}--></li>
+	<li>上传图片：<input type="file" name="apppic_5"><!--{if $openpic['list'][4]}--><img src="$openpic['list'][4]?<!--{eval echo time()}-->" height="80"><a href="admincp.php?ac=config&op=appopenpic&del=5">删除</a><!--{/if}--></li>
+    </ul>
+	<div></div>
+	<div class="footactions"><input type="submit" id="blogbutton" name="subappopenpic" class="tijiao_button" value="确认提交"/></div>
+ <!--{template footer}-->

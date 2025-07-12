@@ -1,0 +1,155 @@
+<!--{template header}-->
+<script language="javascript">
+function getcard(packid){
+	$.ajax({
+		type: "get",
+		dataType: 'json',
+		url: "/{$SCRIPT_NAME}?ac=packdetail&packid="+packid+"&card=1",
+		beforeSend: function (XMLHttpRequest) {
+		  // $('#cardnum').html("loading....");
+		},
+		success: function(json){
+			var card=json;
+			if(card.error){
+				alert(card.error);
+			}else if(card.islogin){
+				alert(card.islogin);
+				window.location.href="/$SCRIPT_NAME?ac=login";
+			}else {
+				var lbnum='<div ><input id="cardn" style="max-width:100%;border:0px;background-color:#ff7a17;color:white;text-align:center;"    value="'+card.card+'"/></span></div>';
+				$('.lb_ljlq').html(lbnum);
+				$('#residue').html(card.num);
+				$("#hid").css('display','none');
+				$(".hides").css('display','block');
+			}
+		   
+		}
+	});
+}
+
+
+</script>
+<!--game-->
+<div class=" text-center elementwidth text-big padding-left padding-right">
+    <div class="line">
+        <div class="media media-x padding-big-top">
+            <a href="javascript:void(0);" class="float-left">
+                <img src="{$syappinfo[logo]}" class="radius-big game-icon">
+            </a>
+
+            <div class="media-body">
+                <strong style="text-align:left !important;font-size:14px;">{$packinfo[packname]}</strong>
+                <p style="font-size:12px;"><span>{$packinfo[addressnum]} <span>条件:{$packinfo['usecredit']}{$_SCONFIG[creditname]}</span></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container padding-big-top padding-right padding-left">
+    <div class="container   margin-big-bottom">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png" class="images1">
+                <span class="text-big">礼包说明</span>
+            </div>
+        </div>
+        <hr>
+        <div class="line padding-right padding-left">
+            <div>
+			    <p class="text-indent text-left text-small text-gray">有效期：<!--{eval echo date('Y-m-d',$packinfo[dateline])}--> 剩余:<span id='residue'>{$cardcount}</span> 个</p>
+                <p class="text-indent text-left text-small text-gray">
+                   {$packinfo[packcontent]}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container margin-big-bottom">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png" class="images1">
+                <span class="text-big">使用说明</span>
+            </div>
+        </div>
+        <hr>
+        <div class="line padding-right padding-left">
+            <div>
+                <p class="text-indent text-left text-small text-gray">
+                    {$packinfo[packuse]}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container  margin-big-bottom">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png" class="images1">
+                <span class="text-big">游戏说明</span>
+            </div>
+        </div>
+        <hr>
+        <div class="line padding-right padding-left">
+            <div>
+                <p class="text-indent text-left text-small text-gray">
+                   <!--{eval echo nl2br($syappinfo['summary'])}-->
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="padding-small-top padding-small-bottom padding-big-left padding-big-right elementwidth bg-white" style="position:fixed;bottom:0;z-index: 1;">
+	<!--{if $cardcount}-->
+	<a href="javascript:getcard('$packinfo[packid]');"  class="button bg-yellow button-block text-center" id="hid" style="color:#fff">领取</a>
+	<!--{else}-->
+	<a href="javascript:void(0);" style="color: white;" class="button bg-yellow button-block text-center" id="hid">被抢完了</a>
+		<!--{/if}-->
+	<div class="button bg-yellow button-block text-center lb_ljlq hides"><span id="cardnum"></span></div>
+</div>
+
+
+
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+
+<script>
+$(document).ready(function(){
+	var card="$mycard";
+	if(card)
+    {
+	 var lbnum='<div ><input id="cardn" style="max-width:100%;border:0px;background-color:#ff7a17;color:white;text-align:center;" onclick="iclick(this)" value="'+card+'"/></span></div>';
+				$('.lb_ljlq').html(lbnum);
+				$('#residue').html(card.num);
+				$("#hid").css('display','none');
+	}else
+	{
+		$(".hides").css('display','none');
+	}
+	
+})
+</script>
+<script type="text/javascript">
+  function iclick(inp)
+  {
+  	console.log(123);
+  	$(inp).select();
+  }
+
+
+
+ </script>
+ <script type="text/javascript">
+/*
+*复制提示js代码
+*
+*http://ihuan.me
+*/
+function warning(){
+    if(navigator.userAgent.indexOf("MSIE")>0)  {   
+        art.dialog.alert('复制成功');
+    } else {  
+        alert("复制成功");
+    }
+}
+document.body.oncopy=function(){warning();}
+</script>
+</body>
+</html>

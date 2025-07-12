@@ -1,0 +1,14 @@
+ <!--{template header}-->
+	<div class="bdrcontent">
+		<h2 class="con_title">资讯内链设置</h2> 
+	<form method="post" action="admincp.php?ac=config&op=newslink" >
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr><td>案例说明</td><td><a href="http://bbs.yyjia.com/thread-1394-1-1.html" target="_blank">点击查看</a></td></tr>
+	<tr><td>资讯外链位置</td><td><input type="checkbox" name="config[newstoplink]" value="1" <!--{if $_SCONFIG[newstoplink]=="1"}-->checked="checked"<!--{/if}-->> 资讯顶部 <input type="checkbox" name="config[newsbuttonlink]" value="1" <!--{if $_SCONFIG[newsbuttonlink]=="1"}-->checked="checked"<!--{/if}-->> 资讯底部</td></tr>
+	<tr><td>资讯外链信息</td><td><textarea name="config[newsbtlink]">$_SCONFIG[newsbtlink]</textarea></td></tr>
+	<tr><td>手游资讯关联应用添加外链</td><td><input type="radio" name="config[kqapplink]" value="1" <!--{if $_SCONFIG[kqapplink]}-->checked="checked"<!--{/if}-->> 开启 <input type="radio" name="config[kqapplink]" value="0" <!--{if $_SCONFIG[kqapplink]==""}-->checked="checked"<!--{/if}-->> 关闭</td></tr>
+	</table>
+	<div><input type="submit" value="提交" name="savenewslink" class="tijiao_button"></div>
+	</form>
+	</div>
+ <!--{template footer}-->

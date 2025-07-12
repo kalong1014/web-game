@@ -1,0 +1,55 @@
+<!--{if $_SCONFIG['buttomad']}-->
+<div class="buttomgg">$_SCONFIG['buttomad']</div>
+<!--{/if}-->
+<div id="footer">
+  <div class="f_content">
+    <p>{$_SCONFIG['footinfos']}</p>
+    <div>{$_SCONFIG['syfootinfo']}</div>
+    <p class="f_copyright">Copyright &copy; 2013 <a href="/">{$_SCONFIG['siteurl']}</a><a href="http://{$_SCONFIG['siteurl']}">{$_SCONFIG['sitename']}</a> All rights reserved.</p>
+  </div>
+</div>
+<p id="back-to-top"><a href="#top"></a></p>
+<!--{if $_SCONFIG['globalad']}-->$_SCONFIG['globalad']<!--{/if}-->
+<script>
+window.onload=function(){
+	var isautodown="$_SCONFIG[isautodown]";
+	var iskqjingtai="$_SCONFIG[kqjingtai]";
+	var settime="$_SCONFIG[htime]";
+	var setjingtaitime="$_SCONFIG[jingtaiupdate]";
+	var updatenewstime="$_SCONFIG[newsstarttime]";
+	var updateapptime="$_SCONFIG[starttime]";
+	var updatejingtaitime="$_SCONFIG[setjttime]";
+	var nowtime=Date.parse(new Date())/1000;
+	if(settime>0 && isautodown>0){
+	if(nowtime-updatenewstime>settime*3600){
+		$.ajax({
+			url:"/index.php?ac=newsmanagedata",
+			type:'get',
+			dataType:'json',
+			success:function(json){
+			}
+		});
+	}
+	if(nowtime-updateapptime>settime*3600){
+		$.ajax({
+			url:"/index.php?ac=managedata",
+			type:'get',
+			dataType:'json',
+			success:function(json){
+			}
+		});
+	}
+	if(iskqjingtai=="1" && nowtime-updatejingtaitime>setjingtaitime*3600){
+		$.ajax({
+			url:"/index.php?ac=updatehtml",
+			type:'get',
+			dataType:'json',
+			success:function(json){
+			}
+		});
+  	  }
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!--{template header}-->
+<div id="main">
+  <div class="sitemapbox">
+  <h2><a href="index.php?ac=sitemap&op=app" $dangqian[app]>应用地图</a>&nbsp;&nbsp;<a href="index.php?ac=sitemap&op=news" $dangqian[news]>资讯地图</a></h2>
+    <ul class="sitemapcontent clearfix">
+	<!--{loop $appinfo $value}-->
+      <li><a href="{$value[url]}" title="{$value[name]}">{$value[name]}</a></li>
+	<!--{/loop}-->
+    </ul>
+    <div class="fenye">
+	<!--{$multi}-->
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

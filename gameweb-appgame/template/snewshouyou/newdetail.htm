@@ -1,0 +1,97 @@
+<!--{template header}-->
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<style>img{max-width:100%;height:auto;}iframe{max-width:100%;height:auto;}embed{max-width:100%;height:auto;}.line p{  text-align: left;}</style>
+<!--article-->
+<div class="container padding-top" style="padding-bottom: 80px">
+    <div class="line text-center padding-right padding-left">
+        <strong class="text-big">{$newsinfo[title]}</strong><br>
+        <span class="text-small"><!--{eval echo date("Y-m-d",$newsinfo[dateline])}--></span>
+        <span class="text-small"><!--{eval echo $_SGLOBAL[newscate][$newsinfo[categoryid]][categoryname]}--></span>
+        <span class="text-small">{$newsinfo[viewnum]} 次关注</span>
+        <hr>
+        		<!--{if $_SCONFIG[newsbtlink]}-->
+		 <!--{if $_SCONFIG[newstoplink]}-->
+		 <p>{$_SCONFIG[newsbtlink]}</p>
+		 <!--{/if}-->
+		 <!--{/if}-->
+        {$newsinfo[content]}
+        </br>
+        		 <!--{if $_SCONFIG[newsbtlink]}-->
+		 <!--{if $_SCONFIG[newsbuttonlink]}-->
+		 <p>{$_SCONFIG[newsbtlink]}</p>
+		 <!--{/if}-->
+		 <!--{/if}-->		
+    </div>
+</div>
+<div class="container padding-left padding-right padding-top bg-white" style="position: fixed;bottom: 0;left: 0;width: 100%;">
+
+    <div class="line">
+        <div class="xs9 xm9 xl9 xb9">
+            <a href="mobile.php?ac=appdetail&id={$newsappinfo['id']}">
+                <div class="xs3 xm3 xl3 xb3">
+                    <img src="{$newsappinfo['logo']}" class="radius-big float-left game-icon">
+                </div>
+                <div class="xs9 xm9 xl9 xb9 padding-left">
+                    <p class="gamename">{$newsappinfo[name]}</p>
+                    <div class="line padding-bottom padding-top">
+                        <span class="star bigstar{$newsappinfo[star]} text-left"></span>
+                    </div>
+                    <p class="text-left height-little margin-small-bottom text-small text-gray">{$newsappinfo[downloadcount]}下载<span>|</span>{$newsappinfo['size']}</p>
+                </div>
+            </a>
+        </div>
+        <div class="xs3 xm3 xl3 xb3">
+            <div class="float-right padding-top">
+			<!--<a href="mobile.php?ac=down&id={$newsappinfo[id]}" class="button button-small border-yellow">下载</a>-->
+			<!--{if $viewtype=="android"}-->
+			<!--{if $newsappinfo[downurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$newsappinfo[id]}')" class="button bg-yellow button-block text-center" style="color:#fff">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-block text-center" style="background-color: gray;">预告</a>
+			<!--{/if}-->
+			<!--{elseif $viewtype=="apple"}-->
+			<!--{if $newsappinfo[iosdownurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$newsappinfo[id]}')" class="button bg-yellow button-block text-center" style="color:#fff">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-block text-center" style="background-color: gray;">预告</a>
+			<!--{/if}-->
+			<!--{/if}-->
+			
+			</div>
+        </div>
+    </div>
+
+</div>
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+<div class="xz_box">
+    <p class="guanbi"><a href="javascript:void(0);" onclick="close_box('xz_box')">关闭</a></p>
+    <div class="xz_con">
+    	            
+    </div>
+</div>
+<script>
+function down_box(ids){
+	$.ajax({
+		type: 'get', 
+		url: "/mobile.php?ac=downurl&id="+ids,
+		dataType: 'json',
+		success: function(data){
+			if(data.downurl){
+				$(".xz_con").html(data.downurl);	 
+			}
+		}
+	});
+	$(".xz_box").show();
+}
+function close_box(classname){
+	$(".xz_con").html('');
+	$("."+classname).hide();	
+}
+function downurl(downurlstr){
+	window.open(downurlstr);
+}
+</script>
+</body>
+</html>

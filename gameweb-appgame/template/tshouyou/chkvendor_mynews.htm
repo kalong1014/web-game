@@ -1,0 +1,49 @@
+<!--{template header}-->
+<script type="text/javascript">
+$(document).ready(function(){
+$(".u_conshb").click(function(){
+  $(".u_conshb").addClass("cur");
+  $(".u_condshb").removeClass("cur");
+  $(".u_consh").show();
+  $(".u_condsh").hide();
+});
+$(".u_condshb").click(function(){
+  $(".u_condshb").addClass("cur");
+  $(".u_conshb").removeClass("cur");
+  $(".u_condsh").show();
+  $(".u_consh").hide();
+});
+});
+</script>
+<style type="text/css">
+.user_content_con table { text-align:center; width:100%;}
+.user_content_con th { background-color:#ebf4f9; padding:10px 5px;}
+.user_content_con td { padding:10px 5px; border-bottom:1px dotted #ddd;}
+</style>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit"><span class="f_right"><a href="/index.php?ac=chkvendor&op=uploadnews">发布资讯</a></span>资讯管理</div>
+    <div class="user_content_con">
+
+    
+      <div class="o_appgltit clearfix"><a href="index.php?ac=chkvendor&op=mynews&isverify=0" $dangqiannews[0]>待审核</a><a href="index.php?ac=chkvendor&op=mynews&isverify=1"  $dangqiannews[1]>通过审核</a><a href="index.php?ac=chkvendor&op=mynews&isverify=-1" $dangqiannews[-1]>未通过审核</a></div>
+      <div class="o_appglcon">
+	  <!--{if $newsinfo}-->
+        <ul class="o_newscon">
+		<!--{loop $newsinfo $value}-->
+          <li><span class="o_newscon_gn"><!--{if $value[isverify]!=1}--><a href="index.php?ac=chkvendor&op=mynews&caozuo=newsedit&newid={$value[newid]}" class="o_newscon_xg">修改</a><a href="index.php?ac=chkvendor&op=mynews&caozuo=delnews&newid={$value[newid]}" class="o_newscon_sc">删除</a><!--{/if}--></span><span class="o_newscon_time">[<!--{eval echo date("m-d",$value[dateline])}-->]<!--{if $value[type]==1}--><img style="vertical-align:middle;" src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{elseif $value[type]==2 }--><img style="vertical-align:middle;" src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{elseif $value[type]==3}--><img style="vertical-align:middle;" src="/template/$_SCONFIG[template]/images/tu_wp.jpg" /><!--{/if}--></span><!--{if $value[isverify]==1}--><a href="$value[newurl]"><!--{/if}-->{$value[title]}<!--{if $value[isverify]==1}--></a><!--{/if}--></li>
+        <!--{/loop}-->
+	    </ul>
+		<div class="fenye">{$multi}</div>
+		<!--{else}-->
+		<div class="o_appglcon_ts">还没有相关资讯信息!</div>
+		<!--{/if}-->
+      </div>     
+    </div>
+
+  </div>
+</div>
+
+
+<!--{template footer}-->

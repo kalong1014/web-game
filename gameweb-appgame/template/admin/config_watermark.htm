@@ -1,0 +1,15 @@
+ <!--{template header}-->
+	<div class="bdrcontent">
+		<h2 class="con_title">水印信息配置</h2> 
+	<form method="post" action="admincp.php?ac=config&op=watermark" enctype="multipart/form-data">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr><td>水印方式</td><td><select name="watermark[type]"><option value="2" <!--{if $markinfos[type]=="2"}-->selected="selected"<!--{/if}--> >文字水印</option><option value="1" <!--{if $markinfos[type]=="1"}-->selected="selected"<!--{/if}-->>图片水印</option></select></td></tr>
+	<tr><td>水印文字</td><td><input type="text" class="con_input" value="$markinfos[marktext]" name="watermark[marktext]"></td></tr>
+	<tr><td>文字大小</td><td><input type="text" class="con_input" value="$markinfos[marksize]" name="watermark[marksize]"></td></tr>
+	<tr><td>水印图片</td><td><input type="file" class="con_input" name="markpic"> <!--{if $markinfos[markpic]}--><img src="$markinfos[markpic]"> <a href="admincp.php?ac=config&op=delmarkpic">删除</a><!--{/if}--></td></tr>
+	<tr><td>水印位置</td><td><select name="watermark[waterpos]"><option value="1" <!--{if $markinfos[waterpos]=="1"}-->selected="selected"<!--{/if}--> >1</option><option value="2" <!--{if $markinfos[waterpos]=="2"}-->selected="selected"<!--{/if}--> >2</option><option value="3" <!--{if $markinfos[waterpos]=="3"}-->selected="selected"<!--{/if}--> >3</option><option value="4" <!--{if $markinfos[waterpos]=="4"}-->selected="selected"<!--{/if}--> >4</option><option value="5" <!--{if $markinfos[waterpos]=="5"}-->selected="selected"<!--{/if}--> >5</option><option value="6" <!--{if $markinfos[waterpos]=="6"}-->selected="selected"<!--{/if}-->>6</option><option value="7" <!--{if $markinfos[waterpos]=="7"}-->selected="selected"<!--{/if}--> >7</option><option value="8" <!--{if $markinfos[waterpos]=="8"}-->selected="selected"<!--{/if}--> >8</option><option value="9" <!--{if $markinfos[waterpos]=="9"}-->selected="selected"<!--{/if}--> >9</option></select> <img src="/image/waterpos.png" style="size:200px"></td></tr>
+	</table>
+	<div><input type="submit" value="提交" name="markinfo" class="tijiao_button"></div>
+	</form>
+	</div>
+ <!--{template footer}-->

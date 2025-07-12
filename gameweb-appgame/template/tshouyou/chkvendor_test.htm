@@ -1,0 +1,75 @@
+<!--{template header}-->
+<script>
+function changename(){
+	var appid=$('#gamename').find("option:selected").attr("appid");
+	if(appid=="0"){
+		window.location.href="index.php?ac=chkvendor&op=mygames";
+	}
+	$('#appid').val(appid);
+}
+function setplatname(platname){
+	$('#yypt').val(platname);
+	$('#uplatname').html('');
+}
+function getplatname(){
+	$.ajax({
+		url:"/index.php?ac=chkvendor&op=test&getplatname=1",
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var snames="历史记录：";
+			var infos=json.platname;
+			for(var i=0;i<infos.length;i++){
+				samesinfo=infos[i];
+				snames=snames+"<a href=\"javascript:setplatname('"+samesinfo.useplatform+"');\">"+samesinfo.useplatform+"</span>"+" ";
+			}
+			$('#uplatname').html(snames);
+		}
+	});
+}
+</script>
+<div id="main">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit"><span class="f_right"><a href="/index.php?ac=chkvendor&op=managekcb">开测表管理</a></span>添加开测表</div>
+    <div class="o_appcon">
+      <form action="index.php?ac=chkvendor&op=test" enctype="multipart/form-data" method="post">
+        <ul class="o_rencon libaocon">
+		  <li> <label class="mn_infobox">运营平台：</label><input type="text" id="yypt" class="text-input" value="{$kcinfo[useplatform]}" name="kcgame[useplatform]" onclick="getplatname()"/></li>
+           <div id="uplatname"></div>
+          <li><label class="mn_infobox">游戏名称：</label><select name="kcgame[gamename]" id="gamename" onchange="javascript:changename();">
+		  <option value="">选择游戏</option>
+		  <!--{loop $games $key $value}-->
+		  <option value="$value[gamename]" appid="$value[appid]" <!--{if $value[gamename]==$kcinfo[gamename]}-->selected="selected"<!--{/if}-->>$value[gamename]</option>
+			<!--{/loop}-->
+			<option value="0" appid="0">+添加游戏</option>
+		  </select>
+            <span class="input_ts">先到旗下游戏管理中添加您的平台运营游戏。 <a href="index.php?ac=chkvendor&op=mygames" target="_blank">添加游戏</a></span></li>
+		  <li><label class="mn_infobox">系统选择：</label><input type="checkbox" name="kcgame[isandroid]" value="1" <!--{if !$kcinfo}-->checked="checked"<!--{/if}--><!--{if $kcinfo[isandroid]=="1"}-->checked="checked"<!--{/if}-->> 安卓 <input type="checkbox" name="kcgame[isios]" value="1" <!--{if $kcinfo[isios]=="1"}-->checked="checked"<!--{/if}-->> 苹果</li>
+		  <li><label class="mn_infobox">服务器名：</label><input type="text" class="text-input" name="kcgame[addressnum]" <!--{if $kcgame[addressnum]}-->value="{$kcgame[addressnum]}"<!--{else}-->value="测试服"<!--{/if}-->></li>
+		  <li><label class="mn_infobox">开测时间：</label><input type="text" name="kcgame[starttime]" id="starttime" <!--{if $kcinfo[starttime]}-->value="<!--{eval echo date('Y-m-d',$kcinfo[starttime])}-->"<!--{/if}--> size="10" class="text-input"/ onclick="WdatePicker({el:'starttime'})"><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/tshouyou/js/datepicker/skin/datePicker.gif" /> <select id="hour" name="hour">
+<option value="" selected="selected">请选择</option><!--{loop $hours $val}--><option value="{$val}"  <!--{if $kcinfo[starttime]}--><!--{if date('H',$kcinfo[starttime])==$val}--> selected="selected"<!--{/if}--><!--{/if}-->>$val</option><!--{/loop}--></select> 点</li>
+          <li><label class="mn_infobox">官网地址：</label><input type="text" class="text-input" value="{$kcinfo[gameurl]}" name="kcgame[gameurl]" /></li>
+		  <li>
+            <label class="mn_infobox">测试状态：</label>
+            <select name="kcgame[testtype]">
+                <option value="0">选择状态</option>
+				<!--{loop $ttypeinfo $val}-->
+				
+				<option value="$val[bianhao]" <!--{if $kcinfo[testtype]==$val[bianhao]}-->selected="selected"<!--{/if}-->>$val[name]</option>
+			
+				<!--{/loop}-->
+            </select>
+        </ul>
+        <div class="tougao_tijiao">
+		  <input type="hidden" name="kcgame[appid]" value="{$kcinfo[appid]}" id="appid">
+		  <!--{if $kcinfo}-->
+		  <input type="hidden" name="kcid" value="{$kcinfo[id]}">
+		  <!--{/if}-->
+          <input type="submit" name="kcsubmit" value="提交" id="subtn">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

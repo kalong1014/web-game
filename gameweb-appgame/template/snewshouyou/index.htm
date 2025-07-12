@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+   <meta name="keywords" content="{$_SCONFIG['keyword']}">
+    <meta name="description" content="{$_SCONFIG['description']}">
+    <title>{$_SCONFIG[title]}</title>
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/pintuer.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/style.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/swiper.3.1.2.min.css">
+	<style type="text/css">
+		.btn{background:orange;text-align:center;border-radius:3px;color:#fff;height:25px;line-height:25px}
+		.btn1{background:#ff00cc}
+		.border-fenge{width:100%;background:#e9e9e9;}
+		.waptg img{width:100%;padding-left:10px;padding-right:10px;}
+		.xf_con img{width:100%;}
+		.xf_box{display:none;position:fixed; border:2px solid #ddd; background-color:#fff; padding:10px; width:80%; top:25%; left:10%; z-index:9999; text-align:center;}
+		.xf_box .xz_con { text-align:center;}
+	</style>
+</head>
+<body>
+        <!--nav-->
+        <div class=" text-center nav-color elementwidth text-big padding-left padding-right" style="height: 40px">
+            <div class="line">
+                <div class="xl2 xs2 xm2 xb2 padding-small-top text-left">
+                    <a href="/mobile.php"><img src="/template/$_SCONFIG[template]/images/s2.png" width="25" style="margin-top:5px"></a>
+                </div>
+                <div class="xl8 xs8 xm8 xb8 padding-small-top">
+                    <a href="/mobile.php"><img src="{$_SCONFIG[mlogo]}" style="margin-top:-5px; max-height:36px"></a>
+                </div>
+                <div class="xl2 xs2 xm2 xb2 padding-small-top text-right">
+                    <a href="javascript:void(0)" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+                </div>
+            </div>
+        </div>
+        <div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+            <div class="text-center elementwidth text-big padding-left padding-right bg-yellow" style="height: 40px">
+                <form method="get" action="/mobile.php" class="form-inline" name="form">
+                    <input type="hidden" value="search" name="ac">
+                    <div class="line">
+                        <div class="xl2 xs2 xm2 xb2 margin-small-top text-left">
+                            <span class="icon-angle-left text-large text-white" id="close"></span>
+                        </div>
+                        <div class="xl8 xs8 xm8 xb8 margin-small-top">
+						    
+                            <div class="field field-icon-right">
+								<span class="icon close"></span>
+								<input type="text" class="input" id="username" value="{$keyword}" style="padding:0 10px !important" name="keyword" placeholder="精品应用、海量搜索" size="30" />
+							</div>
+                        </div>
+                        <div class="xl2 xs2 xm2 xb2 margin-small-top text-right">
+                            <a href="javascript:form.submit();" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+         <!--{template search_box}-->
+        </div>
+        <!--banner-->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+   				
+				<!--{if $appads}-->
+				<!--{loop $appads[list] $key $value}-->
+                <div class="swiper-slide"><a href="{$value[url]}"><img src="{$value[wapadpic]}" class="img-responsive" style="max-height:15.7rem"></a></div>
+			    <!--{/loop}-->
+				<!--{/if}-->
+				<!--{if $_SCONFIG[waplbad]}-->
+				{$_SCONFIG[waplbad]}
+				<!--{/if}-->
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class=" line border-gray padding-top padding-bottom text-center">
+            <a href="mobile.php?ac=tags"><div class=" xl3 xs3 xm3 xb3" ><img src="/template/$_SCONFIG[template]/images/hot_rank.png"  style="width: 45px"><p>分类</p></div></a>
+            <a href="mobile.php?ac=news"><div class=" xl3 xs3 xm3 xb3" ><img src="/template/$_SCONFIG[template]/images/new_info.png"  style="width: 45px"><p>资讯</p></div></a>
+            <a href="mobile.php?ac=server"><div class=" xl3 xs3 xm3 xb3" ><img src="/template/$_SCONFIG[template]/images/game_open.png"  style="width: 45px"><p>开服</p></div></a>
+            <a href="mobile.php?ac=test"><div class=" xl3 xs3 xm3 xb3" ><img src="/template/$_SCONFIG[template]/images/game_check.png"  style="width: 45px"><p>开测</p></div></a>
+        </div>
+        <div class="border-fenge" style="height:18px;"></div>
+		<div class="container padding-top padding-left padding-right">
+		    <h3 class="clearfix text-yellow" style="margin-top:10px;margin-bottom:15px;padding:0 5px;"><span style="float:left">头条资讯</span><a class="icon icon-angle-right text-yellow" href="mobile.php?ac=news" style="float:right"></a></h3>
+            <div class="line" style="margin:0 -5px;">
+				<!--{loop $adnewslist $newkey $value}-->
+				<!--{if $newkey=="0"}-->
+                <div class="xs6 xm6 xl6 xb6" style="padding:0 5px;position:relative;overflow:hidden">
+				   <a href="{$value['newsurl']}"><img src="{$value[adpic]}" width="100%" height="auto"></a>
+				   <div style="width:100%;padding-right:10px;position:absolute;bottom:0;">
+					   <div style="width:100%;height:18px;background:rgba(0,0,0,0.5);padding:2px 5px;color:#fff">{$value[title]}</div>
+				   </div>
+				</div>
+				<!--{/if}-->
+				<!--{if $newkey=="1"}-->
+				<div class="xs6 xm6 xl6 xb6" style="padding:0 5px;position:relative;overflow:hidden">
+				   <a href="{$value['newsurl']}"><img src="{$value[adpic]}" width="100%" height="auto"></a>
+				   <div style="width:100%;padding-right:10px;position:absolute;bottom:0;">
+					   <div style="width:100%;height:18px;background:rgba(0,0,0,0.5);padding:2px 5px;color:#fff">{$value[title]}</div>
+				   </div>
+				</div>
+				<!--{/if}-->
+				<!--{/loop}-->
+            </div>
+			<!--{loop $newslist $nkey $value}-->
+			<div class="line" style="margin:20px 0">
+                <div class="xs3 xm3 xl3 xb3 btn">
+				   {$_SGLOBAL[newscate][$value[categoryid]][categoryname]}
+				</div>
+				<div class="xs7 xm7 xl7 xb7 padding-left" style="height: 18px;overflow: hidden;padding-top: 2px;">
+				  <a href="{$value[newsurl]}">{$value[title]}</a>
+				</div>
+				<div class="xs2 xm2 xl2 xb2">
+				  <!--{eval echo date('m-d',$value[dateline])}-->
+				</div>
+            </div>
+			<!--{/loop}-->
+		</div>
+		<div class="border-fenge" style="height:18px;"></div>
+		<!--精品推荐-->
+        <div class="container padding-top padding-left padding-right">
+		   <h3 class="clearfix text-yellow" style="margin-top:10px;margin-bottom:15px;padding:0 5px;"><span style="float:left">精品推荐</span><a href="mobile.php?ac=games&order=isrecommend" class="icon icon-angle-right text-yellow" style="float:right"></a></h3>
+		   <!--{eval $apps=getapplists(4,0,-1,-1,0,"isrecommend",5)}-->
+		   <!--{loop $apps[app][list] $key $value}-->
+            <div class="line">
+                <div class="xs9 xm9 xl9 xb9">
+                    <a href="mobile.php?ac=appdetail&id={$value['id']}">
+                        <div  style="float:left">
+                            <img src="{$value['logo']}" class="radius-big float-left game-icon">
+                        </div>
+                        <div class="padding-left"  style="float:left">
+                            <p class="gamename">{$value[name]}</p>
+                            <div class="line padding-bottom padding-top">
+                                <span class="star bigstar{$value[star]} text-left"></span>
+                            </div>
+                            <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{if $value['downloadcount']>9999}--><!--{eval echo number_format($value['downloadcount']/10000,1)."万"}--><!--{else}-->{$value['downloadcount']}<!--{/if}-->下载<span>|</span>{$value['size']}</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="xs3 xm3 xl3 xb3">
+                    <div class="float-right padding-top">
+					<!--{if $viewtype=="android"}-->
+					<!--{if $value[downurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{elseif $viewtype=="apple"}-->
+					<!--{if $value[iosdownurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{/if}-->
+					</div>
+                </div>
+            </div>
+			<!--{if $key<4}-->
+            <hr class="bg-line">
+			<!--{/if}-->
+           <!--{/loop}-->
+        </div>
+		<!--广告-->
+		<!--{if $_SCONFIG[wapjptjad]}-->
+		<div class="waptg" style="margin-top:10px">{$_SCONFIG[wapjptjad]}</div>
+		<!--{/if}-->
+		<!--最新上线-->
+		<div class="border-fenge" style="height:18px;"></div>
+        <div class="container padding-top padding-left padding-right">
+		   <h3 class="clearfix text-yellow" style="margin-top:10px;margin-bottom:15px;padding:0 5px;"><span style="float:left">人气排行</span><a href="mobile.php?ac=games&order=viewnum" class="icon icon-angle-right text-yellow" style="float:right"></a></h3>
+		   <!--{eval $apps=getapplists(4,0,-1,-1,0,"viewnum",5)}-->
+		   <!--{loop $apps[app][list] $key $value}-->
+            <div class="line">
+                <div class="xs9 xm9 xl9 xb9">
+                    <a href="mobile.php?ac=appdetail&id={$value['id']}">
+                        <div  style="float:left">
+                            <img src="{$value['logo']}" class="radius-big float-left game-icon">
+                        </div>
+                        <div class="padding-left"  style="float:left">
+                            <p class="gamename">{$value[name]}</p>
+                            <div class="line padding-bottom padding-top">
+                                <span class="star bigstar{$value[star]} text-left"></span>
+                            </div>
+                            <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{if $value['downloadcount']>9999}--><!--{eval echo number_format($value['downloadcount']/10000,1)."万"}--><!--{else}-->{$value['downloadcount']}<!--{/if}-->下载<span>|</span>{$value['size']}</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="xs3 xm3 xl3 xb3">
+                    <div class="float-right padding-top">
+					<!--{if $viewtype=="android"}-->
+					<!--{if $value[downurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{elseif $viewtype=="apple"}-->
+					<!--{if $value[iosdownurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{/if}-->
+					</div>
+                </div>
+            </div>
+			<!--{if $key<4}-->
+            <hr class="bg-line">
+			<!--{/if}-->
+           <!--{/loop}-->
+        </div>
+		<!--广告-->
+		<!--{if $_SCONFIG[waprqphad]}-->
+		<div class="waptg" style="margin-top:10px">{$_SCONFIG[waprqphad]}</div>
+		<!--{/if}-->
+		<!--热门推荐-->
+		<div class="border-fenge" style="height:18px;"></div>
+        <div class="container padding-top padding-left padding-right">
+		   <h3 class="clearfix text-yellow" style="margin-top:10px;margin-bottom:15px;padding:0 5px;"><span style="float:left">热门下载</span><a href="mobile.php?ac=games&order=downloadcount" class="icon icon-angle-right text-yellow" style="float:right"></a></h3>
+		   <!--{eval $apps=getapplists(4,0,-1,-1,0,"downloadcount",5)}-->
+		   <!--{loop $apps[app][list] $key $value}-->
+            <div class="line">
+                <div class="xs9 xm9 xl9 xb9">
+                    <a href="mobile.php?ac=appdetail&id={$value['id']}">
+                        <div  style="float:left">
+                            <img src="{$value['logo']}" class="radius-big float-left game-icon">
+                        </div>
+                        <div class="padding-left"  style="float:left">
+                            <p class="gamename">{$value[name]}</p>
+                            <div class="line padding-bottom padding-top">
+                                <span class="star bigstar{$value[star]} text-left"></span>
+                            </div>
+                            <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{if $value['downloadcount']>9999}--><!--{eval echo number_format($value['downloadcount']/10000,1)."万"}--><!--{else}-->{$value['downloadcount']}<!--{/if}-->下载<span>|</span>{$value['size']}</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="xs3 xm3 xl3 xb3">
+                    <div class="float-right padding-top">
+					<!--{if $viewtype=="android"}-->
+					<!--{if $value[downurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{elseif $viewtype=="apple"}-->
+					<!--{if $value[iosdownurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{/if}-->
+					</div>
+                </div>
+            </div>
+           <!--{if $key<4}-->
+            <hr class="bg-line">
+			<!--{/if}-->
+           <!--{/loop}-->
+        </div>
+		<!--热门排行-->
+		<!--广告-->
+		<!--{if $_SCONFIG[waprmxzad]}-->
+		<div class="waptg" style="margin-top:10px">{$_SCONFIG[waprmxzad]}</div>
+		<!--{/if}-->
+		
+		<div class="border-fenge" style="height:18px;"></div>
+        <div class="container padding-top padding-left padding-right">
+		   <h3 class="clearfix text-yellow" style="margin-top:10px;margin-bottom:15px;padding:0 5px;"><span style="float:left">最新上线</span><a href="/mobile.php?ac=games" class="icon icon-angle-right text-yellow" style="float:right"></a></h3>
+		   <!--{eval $apps=getapplists(4,0,-1,-1,0,"dateline",5)}-->
+		   <!--{loop $apps[app][list] $key $value}-->
+            <div class="line">
+                <div class="xs9 xm9 xl9 xb9">
+                    <a href="mobile.php?ac=appdetail&id={$value['id']}">
+                        <div  style="float:left">
+                            <img src="{$value['logo']}" class="radius-big float-left game-icon">
+                        </div>
+                        <div class="padding-left"  style="float:left">
+                            <p class="gamename">{$value[name]}</p>
+                            <div class="line padding-bottom padding-top">
+                                <span class="star bigstar{$value[star]} text-left"></span>
+                            </div>
+                            <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{if $value['downloadcount']>9999}--><!--{eval echo number_format($value['downloadcount']/10000,1)."万"}--><!--{else}-->{$value['downloadcount']}<!--{/if}-->下载<span>|</span>{$value['size']}</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="xs3 xm3 xl3 xb3">
+                    <div class="float-right padding-top">
+					<!--{if $viewtype=="android"}-->
+					<!--{if $value[downurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{elseif $viewtype=="apple"}-->
+					<!--{if $value[iosdownurl]}-->
+					<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+					<!--{else}-->
+					<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+					<!--{/if}-->
+					<!--{/if}-->
+					</div>
+                </div>
+            </div>
+            <!--{if $key<4}-->
+            <hr class="bg-line">
+			<!--{/if}-->
+           <!--{/loop}-->
+        </div>
+		<!--广告-->
+		<!--{if $_SCONFIG[wapzxsxad]}-->
+		<div class="waptg" style="margin-top:10px">{$_SCONFIG[wapzxsxad]}</div>
+		<!--{/if}-->
+        <div class="container padding-top padding-left padding-right">
+		   <h3 class="clearfix text-sub" style="margin-top:10px;margin-bottom:15px;padding:0 5px;"><span style="float:left">友情链接</span></h3>
+            <div class="line">
+               {$_SCONFIG[mlink]}
+            </div>
+			<div class="line text-gray" style="margin-top:5px">
+            {$_SCONFIG[wapsyfootinfo]}
+            </div>
+        </div>
+        <div class="line" style="height:75px; color:#cccccc;"></div>
+        <!--footer-->
+        <!--{template nav_buttom}-->
+		<!--{if $_SCONFIG[wapxfad]}-->
+	    <div class="xf_box">
+			<p class="guanbi" style="text-align: right;"><a href="javascript:void(0);" onClick="close_xfbox('xf_box')">关闭</a></p>
+			<div class="xf_con">
+			{$_SCONFIG[wapxfad]}
+			</div>
+	    </div>
+	<!--{/if}-->
+<script src="/template/$_SCONFIG[template]/js/swiper.3.1.2.min.js"></script>
+<script>
+    var height= $(window).height();
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+</script>
+<script>
+	var setxf=getCookie('setxf');
+	if(setxf){
+		//alert('不显示');
+	}else{
+		var setxftime=parseInt($_SCONFIG[xftime]);
+		var hxfad='$_SCONFIG[wapxfad]';
+		var t= new Date();
+		var t_s=t.getTime();
+		var nt=new Date();
+		nt.setTime(t_s+setxftime*60*1000);
+		if(hxfad){
+			document.cookie="setxf=yxs;expires="+nt.toGMTString();
+			$('.xf_box').show();
+		}
+	}
+    var height= $(window).height();
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+	function getCookie(objName){
+		var arrStr = document.cookie.split("; ");
+		for(var i = 0;i < arrStr.length;i ++){
+		var temp = arrStr[i].split("=");
+		if(temp[0] == objName) return unescape(temp[1]);
+		} 
+	}
+	function close_xfbox(classname){
+		$("."+classname).hide();	
+	}
+</script>
+<script type="text/javascript">
+    //banner
+    var swiper = new Swiper('.swiper-container', {
+		autoplay: 2000,
+        loop:true,
+        pagination: '.swiper-pagination',
+        paginationClickable: true
+    });
+</script>
+
+</body>
+</html>

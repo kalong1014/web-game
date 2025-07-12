@@ -1,0 +1,339 @@
+<!--{template header}-->
+<script language="javascript" type="text/javascript" src="/template/admin/js/datepicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/template/admin/js/dedeajax2.js"></script>
+<script type="text/javascript" src="/template/admin/js/main.js"></script>
+<script type="text/javascript" src="/template/admin/js/album.js"></script>
+<script type="text/javascript" src="/template/admin/js/handlers.js"></script>
+<script type="text/javascript" src="/admin/swfupload/swfupload.js"></script>
+<link href="/admin/swfupload/css/swfupload.css" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var yxlm="—"+"{$yxlm}";
+var applm="—"+"{$applm}";
+window.onload = function ()
+{
+			swfu = new SWFUpload(
+			{
+				// Backend Settings
+				upload_url: "admincp.php?ac=swfupload",
+				post_params: {"PHPSESSID2": "<?php echo session_id(); ?>", "dopost" : "", "type" : "android"},
+
+				// File Upload Settings
+				file_size_limit : "2 MB",	// 2MB
+				file_types : "*.jpg; *.gif; *.png",
+				file_types_description : "选择 JPEG/GIF/PNG 格式图片",
+				file_upload_limit : "0",
+
+				file_queue_error_handler : fileQueueError,
+				file_dialog_complete_handler : fileDialogComplete,
+				upload_progress_handler : uploadProgress,
+				upload_error_handler : uploadError,
+				upload_success_handler : uploadSuccess,
+				upload_complete_handler : uploadComplete,
+
+				button_image_url : "/template/admin/images/SmallSpyGlassWithTransperancy_17x18.png",
+				button_placeholder_id : "spanButtonPlaceholder",
+				button_width: 250,
+				button_height: 24,
+				button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 2 MB，支持多选)</span></span>',
+				button_text_style : '.button { font-family: Helvetica, Arial, sans-serif; font-size: 12pt; } .buttonSmall { font-size: 10pt; }',
+				button_text_top_padding: 0,
+				button_text_left_padding: 18,
+				button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+				button_cursor: SWFUpload.CURSOR.HAND,
+				
+				// Flash Settings
+				flash_url : "/admin/swfupload/swfupload.swf",
+
+				custom_settings : {
+					upload_target : "divFileProgressContainer"
+				},
+				
+				// Debug Settings
+				debug: false
+			});
+			$('#apptype').change(function(){
+				if($('#apptype').val()==1){
+					$('#lanmu').html(yxlm);
+				}else if($('#apptype').val()==2){
+					$('#lanmu').html(applm);
+				}
+			});
+			
+};
+function adddown(){
+	downs=$(".down:last");
+	var key=downs.attr("key");
+	if(key>0){
+		key=parseInt(key)+1;
+	}else{
+		key=1;
+	}
+	var htmls='<dl key="'+key+'" class="down" id="add'+key+'"><dt class="td_tit">下载地址:</dt><dd><input class="con_input" type="text" name="downurl['+key+']"/></dd></dl><dl id="name'+key+'"><dt class="td_tit" >下载名称:<dt><dd><input class="con_input" type="text" name="downname['+key+']"/><a href="javascript:delefile('+key+');"> 删除</a></dd></dl>';
+	$(".downurls").append(htmls);
+}
+function iosadddown(){
+	downs=$(".iosdown:last");
+	var key=downs.attr("key");
+	if(key>0){
+		key=parseInt(key)+1;
+	}else{
+		key=1;
+	}
+	var htmls='<dl key="'+key+'" class="iosdown" id="iosadd'+key+'"><dt class="td_tit">下载地址:</dt><dd><input class="con_input" type="text" name="iosdownurl['+key+']"/></dd></dl><dl id="iosname'+key+'"><dt class="td_tit" >下载名称:<dt><dd><input class="con_input" type="text" name="iosdownname['+key+']"/><a href="javascript:iosdelefile('+key+');"> 删除</a></dd></dl>';
+	$(".iosdownurls").append(htmls);
+}
+function delefile(key){
+ var ids=key;
+ $("#add"+ids).remove();
+ $("#name"+ids).remove();
+}
+function iosdelefile(key){
+ var ids=key;
+ $("#iosadd"+ids).remove();
+ $("#iosname"+ids).remove();
+}
+
+function delefile2(key){
+ var ida=key;
+ $("#add"+ida).remove();
+ $("#name"+ida).remove();
+}
+function iosdelefile2(key){
+ var iosida=key;
+ $("#iosadd"+iosida).remove();
+ $("#iosname"+iosida).remove();
+}
+function uplogofile(){
+	var uplogo="<input type=\"file\" name=\"logo\" value=\"\"/>";
+	$("#uploadlogo").html(uplogo);
+}
+function uplogourl(){
+	var upurl="<input type=\"text\" name=\"logourl\" value=\"\" class=\"con_input\">";
+	$("#uploadlogo").html(upurl);
+}
+function addjietuurl(){
+	jietu=$(".upjt:last");
+	var key=jietu.attr("key");
+	if(key==null){
+		key=1;
+	}else{
+		key=parseInt(key)+1;
+	}
+	var jthtm='<dl key="'+key+'" class="upjt" id="jietu_'+key+'"><dt class="td_tit">图片地址：</dt><dd><input class="con_input" type="text" name="addimgurl['+key+']"><a href="javascript:deletejietuurl('+key+')"> 删除</dd></dl>';
+	$(".jietuurls").append(jthtm);
+}
+function deletejietuurl(key){
+	var ida=key;
+ 	$("#jietu_"+ida).remove();
+}
+function checkupinfo(){
+	var islogo="$syinfo[logo]";
+	var checked = [];
+	var name=$('#chkname').val();
+	var logo=$('#logosc').val();
+	var chksum=$('#chksum').val();
+	var chksummary=$('#chksummary').val();
+	if(name==""){
+		alert("名称不能为空");
+		return false;
+	}
+	if(logo=="" && islogo==""){
+		alert("还没有选择要提交的LOGO");
+		return false;
+	}
+	if(chksum==""){
+		alert("简介不能为空");
+		return false;
+	}
+	if(chksummary==""){
+		alert("内容不能为空");
+		return false;
+	}
+	$('input:checkbox:checked').each(function() {
+           checked.push($('.chktag').val());
+    });
+	if(checked==""){
+		alert("还没有选择标签");
+	 	return false;
+	}
+}
+</script>
+<script type="text/javascript"src="{$_SCONFIG[installdir]}/template/admin/js/showall.js"></script>
+<style type="text/css">
+.subjectlist { padding:5px 0;}
+.subjectlist li{     
+	float: left;
+	height: 18px;
+    line-height: 18px;
+    margin-bottom: 0;
+    padding: 8px 10px 2px;
+    text-align: left;
+    width: 146px;}
+.subjectlist li.subjectbox {}
+.subjectlist li span {margin-left:10px;}
+.close{
+float:right;margin-right:5px;
+}
+.shuoming{
+	float:left; margin-left:5px;
+}
+#guide{
+width:300px; height:200px;background: none repeat scroll 0 0 white;
+    border: 2px solid #99D5F3;display:none; position:absolute; z-index:999; margin-top:100px;left:50%; margin-left:-200px;
+}
+#uploadlogo input { width:212px; height:32px; margin-right:3px;}
+#uploadlogo input.con_input { width:200px; height:30px;}
+</style>
+
+	<form method="post" id="batchform" action="admincp.php?ac=syapp" enctype="multipart/form-data" onsubmit="return checkupinfo()">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="ac" value="syapp" />
+    <input type="hidden" name="op" value="save" />
+	<div class="bdrcontent">
+        <h2 class="con_title">应用修改/添加</h2>
+		<table cellspacing="0" cellpadding="0" class="formtable"> 
+		<tr>
+        <td class="td_tit">应用名称:</td><td><input class="con_input" type="text" id="chkname" name="syinfo[name]" value="{$syinfo[name]}"/> <span style="color:#FF0000">*</span>  锁定不更新 <input type="checkbox" name="syinfo[isupdate]" value="1" <!--{if $syinfo[isupdate]=="1"}-->checked="checked"<!--{else}--><!--{/if}-->>  (注:锁定应用不被系统自动更新替换，用于站长有推广收益的应用。)</td>
+		</tr>
+        <tr>
+        <td class="td_tit"><a href="javascript:uplogofile()">应用Logo</a> || <a href="javascript:uplogourl()">Logo URL</a>:</td><td><span id="uploadlogo"><input type="file" id="logosc" name="logo" value=""/></span><!--{if $syinfo[logo]}--><img src="{$syinfo[logo]}" width="80px"/><!--{/if}--></td>
+		</tr>
+		<tr>
+          <td class="td_tit">详细页形象图(1000x260):</td><td><input type="file" id="dlogosc" name="dlogo" value=""/><!--{if $syinfo[dlogo]}--><img src="{$syinfo[dlogo]}" width="100px"/><a href="admincp.php?ac=syapp&op=deldlogo&id=$syinfo[appid]">  删除</a><!--{/if}--></td>
+        </tr>
+        <tr>
+          <td class="td_tit">下载次数:</td><td><input class="con_input" type="text" name="syinfo[downloadcount]" value="{$syinfo[downloadcount]}"/></td>
+        </tr>
+		 <tr>
+          <td class="td_tit">大小:</td><td><input class="con_input" type="text" name="syinfo[size]" value="{$syinfo[size]}"/></td>
+        </tr>
+        <tr>
+          <td class="td_tit">更新时间:</td><td><input class="con_input" type="text" name="starttime" id="starttime" value="{$syinfo['updatetime']}" onclick="WdatePicker({el:'starttime'})" /><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/tshouyou/js/datepicker/skin/datePicker.gif" /></td>
+        </tr>
+        <tr>
+          <td class="td_tit">语言:</td><td><input class="con_input" type="text" name="syinfo[language]" <!--{if $syinfo[language]}-->value="{$syinfo[language]}"<!--{else}-->value="中文,英文"<!--{/if}-->/></td>
+        </tr>
+          <tr>
+          <td class="td_tit">版本号:</td><td><input class="con_input" type="text" name="syinfo[version]" <!--{if $syinfo[version]}-->value="{$syinfo[version]}"<!--{else}-->value=""<!--{/if}-->/></td>
+        </tr>
+            <tr>
+          <td class="td_tit">版本编号:</td><td><input class="con_input" type="text" name="syinfo[versionCode]" <!--{if $syinfo[versionCode]}-->value="{$syinfo[versionCode]}"<!--{else}-->value=""<!--{/if}-->/></td>
+        </tr>
+        <tr>
+        <input type="hidden" name="syinfo[type]" value="4"/>
+        <td class="td_tit">添加标签:</td><td><!--{loop $taglist $key $value}--><input id="bq_{$value[id]}" type="checkbox" class="chktag" value="$value[id]" name="tag[{$value[id]}]" <!--{if $syinfo[tags][{$value[id]}]}-->checked="checked"<!--{/if}-->> <label for="bq_{$value[id]}">{$value[tagname]}</label> <!--{/loop}--></td>
+		</tr>
+        <tr>
+          <td class="td_tit">是否审核:</td><td><input type="radio" name="syinfo[isverify]" value="0" <!--{if $syinfo['id']}--><!--{if !$syinfo['isverify']}-->checked="checked"<!--{/if}--><!--{/if}-->/> 否 <input type="radio" name="syinfo[isverify]" value="1" <!--{if $syinfo['id']}--><!--{if $syinfo['isverify']}-->checked="checked"<!--{/if}--><!--{else}-->checked="checked"<!--{/if}-->/> 是</td>
+		</tr>
+		 <tr>
+          <td class="td_tit">应用包名:</td><td><input class="con_input" type="text" name="sydata[sourceurl]" value="{$syinfo[sourceurl]}"/></td>
+		</tr>
+		 <tr>
+        <td class="td_tit">应用简介:</td><td><textarea style="height:40px;" id="chksum" class="textarea2" name="syinfo[briefsummary]">{$syinfo[briefsummary]}</textarea></td>
+		</tr>
+        <tr>
+          <td class="td_tit">内容:</td><td><textarea style="height:120px;" id="chksummary" class="textarea2" name="sydata[summary]">{$syinfo[summary]}</textarea></td>
+		</tr>
+        <tr>
+          <td class="td_tit">开发者:</td><td><input class="con_input" type="text" name="sydata[developers]" value="{$syinfo[developers]}"/></td>
+		</tr>
+        <tr>
+         <td class="td_tit">运营状态:</td><td><select name="sydata[yystate]"><option value="2" <!--{if $syinfo[yystate]=="2"}-->selected="selected"<!--{/if}-->>公测</option><option value="3" <!--{if $syinfo[yystate]=="3"}-->selected="selected"<!--{/if}-->>内测</option><option value="4" <!--{if $syinfo[yystate]=="4"}-->selected="selected"<!--{/if}-->>封测</option><option value="5" <!--{if $syinfo[yystate]=="5"}-->selected="selected"<!--{/if}-->>预告</option></select></td>
+		</tr>
+	</table>
+     <h3>增加应用下载地址和下载名称 - <a href="http://bbs.yyjia.com/thread-1301-1-1.html" target="_blank" style="font-weight:normal;">点此查看操作教程</a></h3>
+    <div class="xiazaiinfobox clearfix">
+      <dl class="clearfix"><dt class="td_tit">安卓：</dt><dd><a href="javascript:void(0);" onclick="adddown()" class="submit sub6zf">添加</a></dd></dl>
+        <div class="downurl">
+        	<div class="downurls">
+        <!--{if $downurl}-->
+        	<!--{loop $downurl $ky $v}-->
+            	<dl key="{$ky}" class="down" id="add{$ky}">
+                    <dt class="td_tit">下载地址:</dt><dd><input class="con_input" type="text" name="downurl[{$ky}]" value="{$v[url]}"/></dd>
+                </dl>
+                <dl id="name{$ky}">
+                    <dt class="td_tit">下载名称:</dt><dd><input class="con_input" type="text" name="downname[{$ky}]" value="{$v[name]}"/> <a href="javascript:delefile2($ky);">删除</a></dd>
+                 </dl>
+            <!--{/loop}-->
+        <!--{else}-->
+        <!--{/if}-->
+          </div>
+        </div>
+     </div>
+	  <div class="xiazaiinfobox clearfix">
+      <dl class="clearfix"><dt class="td_tit">IOS：</dt><dd><a href="javascript:void(0);" onclick="iosadddown()" class="submit sub6zf">添加</a></dd></dl>
+        <div class="iosdownurl">
+        	<div class="iosdownurls">
+        <!--{if $iosdownurl}-->
+        	<!--{loop $iosdownurl $ky $v}-->
+            	<dl key="{$ky}" class="iosdown" id="iosadd{$ky}">
+                    <dt class="td_tit">下载地址:</dt><dd><input class="con_input" type="text" name="iosdownurl[{$ky}]" value="{$v[url]}"/></dd>
+                </dl>
+                <dl id="iosname{$ky}">
+                    <dt class="td_tit">下载名称:</dt><dd><input class="con_input" type="text" name="iosdownname[{$ky}]" value="{$v[name]}"/> <a href="javascript:iosdelefile2($ky);">删除</a></dd>
+                 </dl>
+            <!--{/loop}-->
+        <!--{else}-->
+        <!--{/if}-->
+          </div>
+        </div>
+     </div>
+     <h3>上传截图</h3>
+     <div class="clearfix">
+         <div class="tu_upload"><dl><dt class="td_tit">上传本地截图:</dt><dd><span id="spanButtonPlaceholder"></span></dd></dl></div>
+            <div id="divFileProgressContainer"></div>
+            <div id="thumbnails">
+            <!--{loop $imglist $k $v}-->
+              <div id="albold{$k}" class="albCt albEdit">
+                <input type="hidden" value="{$v}" name="dimgurl[$k]">
+                <img width="120" src="admincp.php?ac=swfupload&dopost=ddimg&img={$v}"><a href="javascript:delAlbPicOld('{$v}', {$k})">[删除]</a>
+                <div style="margin-top:10px">更换：<input type="file" style="width:190px" size="18" name="imgfile[$k]"></div>
+              </div>
+            <!--{/loop}-->
+          </div>
+     </div>
+     <div class="scjturl"><dl class="clearfix"><dt class="td_tit">调用远程截图(URL):</dt><dd><a href="javascript:void(0);" onclick="addjietuurl()" class="submit sub6zf">添加</a></dd></dl>
+	 <div class="jietuurls"></div>
+     </div>
+    <div class="yy_xuantian_b"><a href="javascript:void(0)" class="zhankai_b">+ 展开选填项</a><a href="javascript:void(0)" class="zhankai_b2">- 收起选填项</a></div>
+    <table cellspacing="0" cellpadding="0" class="formtable yy_xuantian">
+      <tr>
+        <td class="td_tit">应用评分:</td><td><input class="con_input" type="text" name="syinfo[score]" value="{$syinfo[score]}"/></td>
+        <td class="td_tit">总点击:</td><td><input class="con_input" type="text" name="syinfo[viewnum]" value="{$syinfo[viewnum]}"/></td>
+	  </tr>
+      <tr>
+        <td class="td_tit">周点击:</td><td><input class="con_input" type="text" name="syinfo[weeknum]" value="{$syinfo[weeknum]}"/></td>
+        <td class="td_tit">日点击:</td><td><input class="con_input" type="text" name="syinfo[daynum]" value="{$syinfo[daynum]}"/></td>
+	  </tr>
+      <tr>
+        <td class="td_tit">首页广告图:(320*480)</td><td class="lunboadtu" colspan="3"><input type="file" name="adpictureurl"/><!--{if $syinfo[adpictureurl]}--><img src="{$syinfo[adpictureurl]}"/><!--{/if}--> <a href="admincp.php?ac=syapp&op=adpictureurl&id=$syinfo[id]"> 删除</a><select name="syinfo[orderadpic]"><option value="0">0</option><option value="1" <!--{if $syinfo[orderadpic]=="1"}-->selected="selected"<!--{/if}-->>1</option><option value="2" <!--{if $syinfo[orderadpic]=="2"}-->selected="selected"<!--{/if}-->>2</option><option value="3" <!--{if $syinfo[orderadpic]=="3"}-->selected="selected"<!--{/if}-->>3</option><option value="4" <!--{if $syinfo[orderadpic]=="4"}-->selected="selected"<!--{/if}-->>4</option><option value="5" <!--{if $syinfo[orderadpic]=="5"}-->selected="selected"<!--{/if}-->>5</option><option value="6" <!--{if $syinfo[orderadpic]=="6"}-->selected="selected"<!--{/if}-->>6</option></select>  (注：如无广告图片，无需设置，最大值为左上第二大值为左下，以此类推。0为后面按时间补上。)</td>
+	  </tr>
+	 <tr>
+       <td class="td_tit">wap/APP广告图:(500*250)</td><td class="lunboadtu" colspan="3"><input type="file" name="wapadpic"/><!--{if $syinfo[wapadpic]}--><img src="{$syinfo[wapadpic]}"/><a href="admincp.php?ac=syapp&op=delwapad&id=$syinfo[id]"> 删除</a><!--{/if}--></td>
+	  </tr>
+	 <tr class="td_tit">
+	 	 <td class="td_tit" colspan="4"><strong>SEO设置全局变量： %appname%=应用名称; %sitename%=站点名称; %tagname%=游戏标签;</strong></td>
+	 </tr> 
+    <tr>
+        <td class="td_tit">seo标题:</td><td colspan="3"><textarea style="height:32px;" name="sydata[seotitle]">{$syinfo[seotitle]}</textarea></td>
+	</tr>
+    <tr>
+        <td class="td_tit">seo关键词:</td><td colspan="3"><textarea style="height:32px;" name="sydata[seokeyword]">{$syinfo[seokeyword]}</textarea></td>
+    </tr>
+    <tr>
+        <td class="td_tit">seo描述:</td><td colspan="3"><textarea style="height:70px;" name="sydata[seodescription]">{$syinfo[seodescription]}</textarea></td>
+    <tr>
+    <tr>
+        <td class="td_tit">版本更新信息:</td><td colspan="3"><textarea class="textarea2" name="sydata[updateinfo]">{$syinfo[updateinfo]}</textarea></td>
+	</tr>
+        <td class="td_tit">付费信息:</td><td colspan="3"><textarea class="textarea2" name="sydata[priceinfo]">{$syinfo[priceinfo]}</textarea></td>
+	</tr>
+	</table>
+	  <div class="footactions">
+ 		<input type="hidden" name="appid" value="{$syinfo[id]}" >
+        <input type="submit" name="recomsubmit" value="提交"  class="tijiao_button">
+      </div>
+	</div>
+	</form>
+<!--{template footer}-->

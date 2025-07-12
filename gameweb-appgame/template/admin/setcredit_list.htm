@@ -1,0 +1,39 @@
+ <!--{template header}-->
+    <h2 class="con_title">获取$_SCONFIG[creditname]配置</h2>
+	<div class="bdrcontent">
+	<form method="post" action="admincp.php">
+	<input type="hidden" name="ac" value="setcredit" />
+	<input type="hidden" name="op" value="savecreditname" />
+	<div class="sousuobox" style="line-height:46px;"> 把 $_SCONFIG[creditname] 重命名为 <input class="sousuobox_input1" type="text" value="$_SCONFIG[creditname]" name="creditname"> <input class="submit sub2zf" type="submit" value="保存" name="savecreditname"></div>
+	</form>
+	<div class="bdrcontent text_center">
+	<form method="post" action="admincp.php">
+	<input type="hidden" name="ac" value="setcredit" />
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <th width="60">选择</th>
+        <th>操作</th>
+		<th width="100">奖励周期</th>
+		<th width="100">奖励次数</th>    
+		<th width="100">奖励方式</th>
+		<th width="100">获取$_SCONFIG[creditname]</th> 
+		<th width="100">获取经验</th>         
+        <th width="70">操作</th>
+        </tr>
+		<!--{loop $setcreditinfo $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" class="appbox" id="{$value[id]}" value="{$value[id]}" <!--{if $value[$value[id]]}-->checked="checked"<!--{/if}-->></td>
+		<td class="text_left">$_SCONFIG[operate][$value[type]]</td>
+		<td><!--{if $value[cycle]=="1"}-->一次性<!--{elseif $value[cycle]=="2"}-->每天<!--{elseif $value[cycle]=="3"}-->无限周期<!--{/if}--></td>
+		<td>{$value[getnum]}</td>
+		<td><!--{if $value[reward]=="1"}-->加$_SCONFIG[creditname]<!--{else}-->减$_SCONFIG[creditname]<!--{/if}--></td> 
+		<td>{$value[credit]}</td>
+		<td>{$value[experience]}</td>
+		<td><a href="admincp.php?ac=setcredit&op=edit&id=$value[id]">编辑</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		</form>
+	</div>
+	</div>
+ <!--{template footer}-->

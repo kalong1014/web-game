@@ -1,0 +1,47 @@
+/* CSS Document */
+body, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ul, ol, li, fieldset, button, input, textarea, th, td { margin:0; padding:0;}
+body { font:12px/1.6 "微软雅黑", Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; color:#333; text-align:center; background:#fff;}
+ul, ol, li { list-style:none;}
+a { text-decoration:none; color:#333;}
+a:hover { text-decoration:none;}
+fieldset, img { border:none;}
+button, input, select, textarea { font-size:100%;}
+table { border-collapse:collapse; border-spacing:0; width:100%; text-align:center; font-size:14px;}
+th { background:#f7fdff url(../images/xx.png) repeat 0 0; padding:5px; height:30px; line-height:30px;}
+td { padding:10px 0; border-bottom:1px dotted #ddd; height:24px; line-height:24px;}
+td img { vertical-align:middle;}
+h1, h2, h3 { font-size:16px; font-family:"微软雅黑"; font-weight:normal;}
+em { font-style:normal;}
+/*= Common style =*/
+.clearfix{zoom:1;}
+.clearfix:after{content:".";display:block;clear:both;height:0;overflow:hidden;visibility:hidden;}
+
+/*---header---*/
+.logregnav { height:58px; line-height:58px; border-bottom:1px solid #1b9cff; background-color:#00b4ff; color:#fff; text-align:left;}
+.logregnav span { padding-left:10px; font-size:18px; background:url(../images/fanhui_fg.png) no-repeat left center;}
+.logregnav a { float:left; width:34px; height:58px; line-height:58px; background:url(../images/fanhui.png) no-repeat center center;}
+.logregnav a em { display:none;}
+
+/*---main---*/
+
+.layout { padding:5px 5px 0 5px; text-align:left; clear:both;}
+
+/*--登录注册--*/
+.log ul li { margin-bottom:5px;}
+.form_li { padding-left:83px; position:relative; line-height:50px; height:50px;}
+.form_tit { position:absolute; left:0; width:80px; text-align:center; background-color:#eefbff; border:1px solid #1b9cff; border-radius:4px 0 0 4px; color:#1b9cff; font-size:14px;}
+.form_con { width:100%; position:relative;}
+.form_con .textinput { height:50px; width:100%; background-color:#fff; border:1px solid #1b9cff; border-radius:0 4px 4px 0; margin-left:-2px; color:#71a1e5;}
+.yzmtu { position:absolute; top:2px; right:5px; height:32px; line-height:32px;}
+.yzmtu #img_seccode { width:100px; border:1px solid #b0cef9; padding:2px; float:left; margin-right:3px;}
+.yzmtu a img { width:18px; margin-top:12px;}
+
+.tijiao { width:100%; height:60px; line-height:60px; text-align:center; background-color:#00b4ff; border:1px solid #1b9cff; font-family:"微软雅黑"; font-size:24px; color:#fff; border-radius:4px;}
+
+.zhmm { margin-bottom:15px; text-align:center;}
+.zhmm a { font-size:14px; color:#f60; background:url(../images/lmore.png) no-repeat right center; padding-right:12px;}
+.yzmcon_li { padding-right:135px; background-color:#fff; border:1px solid #1b9cff; border-radius:4px;}
+.yzmcon_tit { left:-1px; top:-1px;}
+.yzmcon input { width:100%; height:50px; background:none; border:none;}
+
+.form_ts { display:none;}

@@ -1,0 +1,29 @@
+ <!--{template header}-->
+<h2 class="con_title">联盟推荐189手游平台</h2>
+<div class="lianmeng">
+  <p class="lianmeng_text">让189手游联盟助您一臂之力，选择合适的联盟服务商，来帮您更好的经营网站。</p>
+  <ul class="lianmeng_list">
+   <!--{if $unioninfo[list]}-->
+   <!--{loop $unioninfo[list] $key $value}-->
+    <li>
+      <div class="lianmeng_tu"><img src="{$value[logo]}"><p class="lianmeng_xt"><!--{if $value[isapple]=="1"}--><span class="lianmeng_xt_ios"><em>苹果</em></span><!--{/if}--><!--{if $value[isandroid]=="1"}--><span class="lianmeng_xt_an"><em>安卓</em></span><!--{/if}--></p></div>
+      <div class="lianmeng_info">
+        <h2><span class="lm_tit">{$value[name]}</span><span class="lm_star"><em style="width:{$value[score]}%;"></em></span></h2>
+        <p><em style="font-weight:bold; color:#333;">联盟简介：</em>{$value[summary]}</p>
+        <p><span><em style="font-weight:bold; color:#333;">结算标准：</em>{$value[payinfo]}</span><span><em style="font-weight:bold; color:#333;">结算周期：</em>{$value[paytime]}</span><span><em style="font-weight:bold; color:#333;">申请条件：</em>{$value[condition]}</span><span><em style="font-weight:bold; color:#333;">税费：</em>{$value[taxes]}</span></p>
+        <p><em style="font-weight:bold; color:#333;">共有产品：</em>{$value[productnum]}</p>
+        <p><span><em style="font-weight:bold; color:#333;">联系方式：</em>{$value[tell]}</span><span><em style="font-weight:bold; color:#333;">联系人：</em>{$value[contact]}</span></p>
+      </div>
+      <div class="lianmeng_b">
+        <p><a href="{$value[address]}" class="lm_sqjl" target="_blank">申请加入</a></p>
+        <!--<p><a href="#" class="lm_jb">举报</a></p>-->
+      </div>
+    </li>
+	<!--{/loop}-->
+	<!--{else}-->
+	<div>暂无联盟相关信息。</div>
+	<!--{/if}-->
+  </ul>
+  <div class="fenye"><!--{eval echo $multi}--></div>
+</div>
+<!--{template footer}-->

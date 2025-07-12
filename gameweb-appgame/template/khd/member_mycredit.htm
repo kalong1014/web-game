@@ -1,0 +1,29 @@
+<!--{template header}-->
+<div class="line padding-left padding-right padding-top text-big">
+    <div class="xs4 xl4 xm4">
+        <span>总积分：<span class="text-sub">{$userinfo[count_credit]}</span></span>
+    </div>
+    <div class="xs4 xl4 xm4">
+        <span>经验值：<span class="text-sub">{$userinfo[count_experience]}</span></span>
+    </div>
+    <div class="xs4 xl4 xm4">
+        <span>用户组：<span class="text-sub">{$groupname}</span></span>
+    </div>
+</div>
+<div class="container padding-top padding-left padding-right" id="tab1">
+    <ul class="list-unstyle height text-gray">
+	    <!--{loop $creditdata $key $value}-->
+        <li>
+            <span class="float-left" style="padding-bottom:10px; padding-right:10px">{$_SCONFIG[operate][$value[type]]} <!--{if $value[czreward]=="1"}-->获得<!--{elseif $value[czreward]=="2"}-->使用<!--{/if}--> {$value[credit]} {$_SCONFIG[creditname]}</span>
+            <span class="float-right"><!--{eval echo date('Y-m-d',$value[dateline])}--></span>
+            <hr class="bg-line">
+        </li>
+       <!--{/loop}-->
+    </ul>
+</div>
+
+<script src="/static/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/static/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/static/template/$_SCONFIG[template]/js/search.js"></script>
+</body>
+</html>

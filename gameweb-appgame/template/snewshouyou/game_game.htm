@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="keywords" content="{$_SCONFIG['keyword']}">
+    <meta name="description" content="{$_SCONFIG['description']}">
+    <title>{$_SCONFIG[title]}</title>
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/pintuer.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/style.css">
+</head>
+<body>
+<!--nav-->
+<div class="container text-center nav-color elementwidth text-big  padding-left padding-right" style="height: 40px;z-index: 10;top: 0px;" id="nav">
+    <div class="line">
+        <div  class="xl3 xs3 xm3 xb3">
+            <div class="text-white <!--{if $cateid!="0"}--> float-left <!--{/if}--> " id="view-all">{$dqcatename}<span class="icon-angle-down text-large"></span></div>
+        </div>
+		<!--{if $cateid=="0"}-->
+        <div class="xl7 xs7 xm7 xb7" style="margin-top: 5px;">
+            <div class="button-group button-group-small choose bg radius">
+                <a href="mobile.php?ac=game&cateid=$cateid&orderby=downloadcount" class="button nav-font <!--{if $orderby!='downloadcount'}-->nav-color text-white <!--{/if}-->"  id="month">热门</a>
+                <a href="mobile.php?ac=game&cateid=$cateid&orderby=isrecommend" class="button nav-font <!--{if $orderby!='isrecommend'}-->nav-color text-white <!--{/if}-->" id="week">推荐</a>
+                <a href="mobile.php?ac=game&cateid=$cateid&orderby=dateline" class="button nav-font <!--{if $orderby!='dateline'}-->nav-color text-white <!--{/if}-->" id="day">最新</a>
+            </div>
+        </div>
+		<!--{/if}-->
+        <div class="xl2 xs2 xm2 xb2 padding-small-top">
+            <div class="text-white" id="search"><span class="icon-search text-white" style="font-size: 20px"></span></div>
+        </div>
+    </div>
+</div>
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <div class="text-center elementwidth text-big padding-left padding-right bg-yellow" style="height: 40px">
+        <form method="get" action="/mobile.php" class="form-inline">
+            <input type="hidden" value="search" name="ac">
+            <div class="line">
+                <div class="xl2 xs2 xm2 xb2 margin-small-top">
+                    <span class="icon-angle-left text-large text-white" id="close"></span>
+                </div>
+                <div class="xl8 xs8 xm8 xb8 margin-small-top">
+                    <input type="text" class="input" value="{$keyword}" name="keyword" placeholder="精品应用、海量搜索"  style="height: 30px">
+                </div>
+                <div class="xl2 xs2 xm2 xb2 margin-small-top">
+                    <button type="submit" class="button button-small bg"><span class="icon-search text-yellow"></span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--{template search_box}-->
+</div>
+<div class="white-mask hidden padding-left padding-right" id="mask" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:9;display:block;overflow-x:hidden;overflow-y:auto;">
+        <table class="table">
+            <!--{loop $gamecates $key $value}-->
+			<!--{if $key%2=="0"}--><tr><!--{/if}-->
+                <td><a href="mobile.php?ac=game&cateid={$value[categoryid]}&orderby=$orderby"><img class="radius-big" src="{$value[logo]}" style="height: 30px;width: 30px"></a></td><td <!--{if $key%2=="0"}-->style="border-right: 1px solid #eeeeee;"<!--{/if}-->><a href="mobile.php?ac=game&cateid={$value[categoryid]}&orderby=$orderby"><p class="text-big">{$value[categoryname]}</p></a></td>
+			<!--{if $key%2=="1"}--></tr><!--{/if}-->
+            <!--{/loop}-->
+        </table>
+</div>
+
+<div class="tabs">
+<!--tab1-->
+<div class="container padding-top padding-left padding-right" id="tab1">
+	 <!--{eval $apps=getapplists(4,0,-1,-1,0,$op,20,1,"",0,$tagid])}-->  
+	 <!--{if $apps[app][list]}-->
+	 <!--{loop $apps[app][list] $key $value}-->
+    <div class="line">
+        <div class="xs9 xm9 xl9 xb9">
+            <a href="mobile.php?ac=detail&id={$value['id']}">
+                <div class="xs3 xm3 xl3 xb3">
+					<!--{if $orderby=="downloadcount" && $key<3}-->
+                    <img src="/template/$_SCONFIG[template]/images/<!--{eval echo $key+1}-->.png" style="position: absolute">
+					<!--{/if}-->
+                    <img src="{$value[logo]}" class="radius-big float-left game-icon">
+                </div>
+                <div class="xs9 xm9 xl9 xb9 padding-left">
+                    <p class="gamename">{$value[name]}</p>
+                    <div class="line padding-bottom padding-top">
+                        <span class="star bigstar{$value[star]} text-left"></span>
+                    </div>
+                    <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{if $value['downloadcount']>9999}--><!--{eval echo number_format($value['downloadcount']/10000,1)."万"}--><!--{else}-->{$value['downloadcount']}<!--{/if}-->下载<span>|</span>{$value[size]}</p>
+                </div>
+            </a>
+        </div>
+        <div class="xs3 xm3 xl3 xb3">
+            <div class="float-right padding-top"><a href="<!--{if $value['type']==2}-->android.php?ac=down&id={$value['id']}<!--{elseif $value['type']==1}-->apple.php?ac=down&id={$value['id']}<!--{elseif $value['type']==3}-->wphone.php?ac=down&id={$value['id']}<!--{/if}-->" class="button button-small border-yellow">下载</a></div>
+        </div>
+    </div>
+    <hr class="bg-line">
+   	<!--{/loop}-->
+	<!--{else}-->
+	<div>暂无相关数据</div>
+	<!--{/if}-->
+</div>
+</div>
+<div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+<input type="hidden" value="2" id="page_num" loading='no'>
+<div class="line" style="height: 75px"></div>
+
+<!--footer-->
+<!--{template nav_buttom}-->
+<script>
+    $('.icon-times').click(function(){
+        $(this).parent().addClass('hidden')
+    });
+</script>
+<script>
+    var height= $(window).height()+100;
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+</script>
+<script>
+    $('document').ready(function () {
+        var height = $('#nav').height();
+        $('.white-mask').css({'top': height});
+        var height= $(window).height()+100;
+        $('#mask').height(height);
+    });
+    $('#view-all').click(function () {
+        if($('#mask').hasClass('show')){
+            $('#nav').css('position','static');
+            $('#mask').removeClass('show');
+            $('#mask').addClass('hidden');
+            $('#view-all span').removeClass('icon-angle-up');
+            $('#view-all span').addClass('icon-angle-down');
+        }else if($('#mask').hasClass('hidden')){
+            $('#nav').css('position','fixed');
+            $('#mask').removeClass('hidden');
+            $('#mask').addClass('show');
+            $('#view-all span').removeClass('icon-angle-down');
+            $('#view-all span').addClass('icon-angle-up');
+        }
+    });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	$(window).scroll(function(){
+	  if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+	  	var isload=$('#page_num').attr('loading');
+		if(isload=="no"){
+			$('#page_num').attr("loading","yes");
+			var page_num=$('#page_num').val();
+			var addlisthtml="";
+			var cateid="$cateid";
+			var orderby="$orderby";
+			$.ajax({
+				type:"GET",
+				url:'/mobile.php?ac=game&cateid='+cateid+'&orderby='+orderby+'&reqPageNum='+page_num,
+				dataType:'json',
+				beforeSend:function(){
+				  $('.ajax_loading').show() //显示加载时候的提示
+				},
+				success:function(data){
+					 var addapplist=data.moreFineList.list;
+					 if(addapplist){
+						 $.each(addapplist, function(i,val){     
+							 addlisthtml+='<div class="line"><div class="xs9 xm9 xl9 xb9"><a href="'+val.url+'"><div class="xs3 xm3 xl3 xb3"><img src="'+val.logo+'" class="radius-big float-left game-icon"></div><div class="xs9 xm9 xl9 xb9 padding-left"><p class="gamename">'+val.name+'</p><div class="line padding-bottom padding-top"><span class="star bigstar'+val.star+' text-left" ></span></div><p class="text-left height-little margin-small-bottom text-small text-gray">'+val.downloadcount+'下载<span>|</span>'+val.size+'</p></div></a></div><div class="xs3 xm3 xl3 xb3"><div class="float-right padding-top"><a href="'+val.downurl+'" class="button button-small border-yellow">下载</a></div></div></div><hr class="bg-line">';
+						 });
+						 $('#tab1').append(addlisthtml);
+						 var npage_num = parseInt(page_num) + 1;
+						 $('#page_num').val(npage_num);
+						 $('#page_num').attr("loading","no");
+					 }else{
+						$('#page_num').attr("loading","yes");
+					 }
+					 $('.ajax_loading').hide() //请求成功,隐藏加载提示
+				}
+			})
+		}
+	  }
+	})
+  })
+</script>
+</body>
+</html>

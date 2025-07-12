@@ -1,0 +1,18 @@
+<!--{template header}-->
+<div id="main">
+  <ul class="c_mainnav cbox">
+    <li><a href="index.php?ac=contact&op=address" $dangqian[address]>联系我们</a></li>
+	<li><a href="index.php?ac=contact&op=agreement" $dangqian[agreement]>用户协议</a></li>
+    <li><a href="index.php?ac=contact&op=comment" $dangqian[comment]>提交应用</a></li>
+    <li><a href="index.php?ac=contact&op=upload" $dangqian[upload]>新闻投递</a></li>
+    <li><a href="index.php?ac=contact&op=copyright" $dangqian[copyright]>版权声明</a></li>
+	
+  </ul>
+  <div class="c_conbox cbox">
+    <h2 class="h2tit"><!--{if $_GET[op]=="copyright"}-->版权声明<!--{elseif $_GET[op]=="agreement"}-->用户协议<!--{elseif $_GET[op]=="comment"}-->提交应用<!--{elseif $_GET[op]=="upload"}-->新闻投递<!--{else}-->联系我们<!--{/if}--></h2>
+    <div class="c_content">
+    <!--{eval echo $content}-->
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

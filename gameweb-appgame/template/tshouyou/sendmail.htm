@@ -1,0 +1,18 @@
+<table cellspacing="0" cellpadding="20">
+	<tr><td>
+	<table width="500" cellspacing="0" cellpadding="1">
+		<tr><td bgcolor="#FF8E00" align="left" style="font-family:'lucida grande',tahoma,'bitstream vera sans',helvetica,sans-serif;line-height:150%;color:#FFF;font-size:24px;font-weight:bold;padding:4px">&nbsp; $_SCONFIG[sitename]</th></tr>
+		<tr><td bgcolor="#FF8E00">
+			<table width="100%" cellspacing="0" bgcolor="#FFFFFF" cellpadding="20">
+				<tr><td style="font-family:'lucida grande',tahoma,'bitstream vera sans',helvetica,sans-serif;line-height:150%;color:#000;font-size:14px;">
+					亲爱的用户：<br>您好！
+					<br>您在<!--{eval echo date('Y-m-d H:i')}--> 提交了邮箱找回密码请求，请点击下面的链接修改密码。
+					<br><!--{eval echo $message}-->
+					<br>(如果您无法点击此链接，请将它复制到浏览器地址栏后访问)为了保证您帐号的安全，该链接有效期为24小时，并且点击一次后失效！
+					<br>$_SCONFIG[sitename]
+					<br><!--{eval echo date('Y-m-d H:i')}-->
+					<br>此邮件为系统自动发出的邮件，请勿直接回复。
+				</td></tr></table>
+		</td></tr></table>
+	</td></tr>
+</table>

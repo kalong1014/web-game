@@ -1,0 +1,25 @@
+<!--{template header}-->
+
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit"><a href=""></a>你可能喜欢的应用</h2>
+    <div class="user_content_con">
+      <ul class="user_papp clearfix">
+	    <!--{loop $loveappinfo $value}-->
+        <li>
+          <div class="dangge_app">
+            <a href="{$value[url]}" class="app_icon" target="_blank"><i class="app_img_none"></i><img alt="{$value[name]}" src="{$value[logo]}"></a>
+            <div class="app_name"><a href="{$value[url]}" target="_blank">{$value[name]}</a></div>
+            <span class="star bigstar<!--{if $value[star]<6 && $value[star]!=0}--><!--{eval echo $value[star]*10}--><!--{elseif $value[star]==0}-->30<!--{else}-->{$value[star]}<!--{/if}-->"></span>
+            <span class="category">标签 : <!--{eval echo implode(",",$taginfos[$value[id]])}--></span>
+          </div>
+        </li>
+		<!--{/loop}-->
+      </ul>
+	  <div class="fenye">{$multi}</div>
+    </div>
+  </div>
+</div>
+
+<!--{template footer}-->

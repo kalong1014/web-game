@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="keywords" content="{$_SCONFIG['keyword']}">
+    <meta name="description" content="{$_SCONFIG['description']}">
+    <title>{$_SCONFIG[title]}</title>
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/pintuer.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/style.css">
+    <script src="/template/{$_SCONFIG['template']}/js/phonegap.js"></script>
+</head>
+<body style="padding-bottom:50px;">
+<!--nav-->
+<div class="text-center nav-color elementwidth text-big padding-left padding-right" style="height: 40px">
+    <div class="line text-sub">
+        <div class="xl2 xs2 xm2 xb2 text-left">
+            <a href="/$SCRIPT_NAME"><img src="/template/$_SCONFIG[template]/images/s2.png" width="25" style="margin-top:5px"></a>
+        </div>
+        <div class="xl8 xs8 xm8 xb8" style="height: 20px;overflow:hidden;margin-top: 8px">
+            <span class="write text-big"><!--{eval echo $title}--></span>
+        </div>
+        <div class="xl2 xs2 xm2 xb2 padding-small-top text-right">
+            <a href="javascript:void(0)" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px;"></a>
+        </div>
+    </div>
+</div>
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <div class="text-center elementwidth text-big padding-left padding-right bg-yellow" style="height: 40px">
+        <form method="get" action="/$SCRIPT_NAME" class="form-inline" name="form">
+            <input type="hidden" value="search" name="ac">
+            <div class="line">
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-left">
+                    <span class="icon-angle-left text-large text-white" id="close"></span>
+                </div>
+                <div class="xl8 xs8 xm8 xb8 margin-small-top">
+                    <input type="text" class="input" value="{$keyword}" name="keyword" placeholder="精品应用、海量搜索"  style="height: 30px;padding:0 10px">
+                </div>
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-right">
+				<a href="javascript:form.submit();"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+			</div>
+            </div>
+        </form>
+    </div>
+   <!--{template search_box}-->
+</div>

@@ -1,0 +1,80 @@
+<!--{template header}-->
+ <script type="text/javascript">
+function selectAll(checkbox) {
+	if(typeof($("#check").attr('checked'))=="undefined")		
+       $('.tagbox').attr('checked', false);
+	else
+	   $('.tagbox').attr('checked',true);			
+    }
+</script>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title">标签列表</h2>
+	<div class="sousuobox" style="height:auto; padding:10px 0 10px 8px;">
+      <form action="admincp.php" method="get">
+	  <input type="hidden" name="ac" value="managetag">
+        <div style="margin-bottom:10px;">
+    	  标签名称：<input class="sousuobox_input1" type="text" value="" name="tagname">
+		 <select name="orderby">
+		 <option value="">不限</option>
+		 <option value="dateline">时间</option>
+		 <option value="viewnum">点击</option>
+		 </select>
+		 <input type="submit" class="sub2zf" value="搜索" name="searchsubmit">
+        </div>
+		
+	  </form>
+	  <form action="admincp.php?ac=managetag&op=add" method="post">
+        <div>
+    	  标签名称：<input class="sousuobox_input1" type="text" value="" name="tag[tagname]">
+		  别名：<input class="sousuobox_input1" style="width:60px;" type="text" value="" name="tag[engname]">
+		  总点击：<input class="sousuobox_input1" style="width:60px;" type="text" value="" name="tag[viewnum]">
+		  <input type="submit" class="sub2zf" value="添加" name="addsubmit">
+        </div>
+	  </form>
+    </div>
+    <div class="bdrcontent text_center">
+      <form action="admincp.php?ac=managetag&op=caozuo" method="post">
+      <table>
+      <tbody>
+        <tr>
+			<th width="60">选择</th>
+            <th>标签名称</th>
+			<th width="100">标签别名</th>
+			<th width="100">添加时间</th>
+            <th width="100">总点击</th>
+			<th width="100">推荐</th>
+            <th width="100">操作</th>
+        </tr>
+        <!--{loop $taginfo $key $value}-->
+        <tr>
+			<td><input type="checkbox" value="{$value[id]}" class="tagbox" name="ids[]"/></td>
+			<td class="text_left"><input type="text" value="{$value[tagname]}" name="altertag[<!--{eval echo $value[id]}-->][tagname]" class="sousuobox_input1"/></td>
+            <td><input type="text" value="{$value[engname]}" name="altertag[<!--{eval echo $value[id]}-->][engname]" class="sousuobox_input1"/></td>
+            <td><!--{eval echo date('y-m-d',$value[dateline])}--></td>
+			<td><input type="text" value="{$value[viewnum]}" name="altertag[<!--{eval echo $value[id]}-->][viewnum]" class="sousuobox_input1"/></td>
+			<td><!--{if $value["isrecommend"]=="0"}--><a href="admincp.php?ac=managetag&op=norecommend&tagid=$value[id]">否</a><!--{else}--><a href="admincp.php?ac=managetag&op=isrecommend&tagid=$value[id]">是</a><!--{/if}-->
+</td>
+			
+			<td><a href="admincp.php?ac=managetag&op=tagdel&tagid=$value[id]" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a></td>
+          </tr>
+        <!--{/loop}-->
+      </tbody>
+      </table>
+	   <div class="fenye">{$multi}</div>
+	   <div class="footactions">
+	  		
+	  		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)">全选
+	  		<input type="submit" name="alternum" value="保存修改"  class="submit sub6zf">
+     		<!--<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)">全选
+		    <input type="hidden" name="mpurl" value="$mpurl">
+	    	<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">
+            <input type="submit" name="recomsubmit" value="推荐"  class="submit sub2zf">
+            <input type="submit" name="qxrecomsubmit" value="取消推荐"  class="submit sub4zf">
+	    	<input type="submit" name="verifysubmit" value="审核"  class="submit sub2zf">-->	
+		
+        </div>
+	  </form>
+    </div>
+  </div>
+<!--{template footer}-->

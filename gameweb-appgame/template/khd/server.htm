@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="keywords" content="{$_SCONFIG['keyword']}">
+    <meta name="description" content="{$_SCONFIG['description']}">
+    <title>{$_SCONFIG[title]}</title>
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/pintuer.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/style.css">
+	<script src="/template/{$_SCONFIG['template']}/js/phonegap.js"></script>
+</head>
+<body>
+<!--nav-->
+<div class=" text-center nav-color elementwidth text-big padding-left padding-right" style="height: 40px;z-index: 10;top: 0px;" id="nav">
+    <div class="line">
+        <div class="xl2 xs2 xm2 xb2 text-left padding-small-top">
+            <a class="icon-angle-left text-large ellipsis text-white" href="Javascript:history.go(-1);void(0);"></a>
+        </div>
+		 <div class="xl8 xs8 xm8 xb8" style="margin-top: 5px;">
+            <div class="button-group button-group-small choose bg radius border-cheng">
+                <a href="{$SCRIPT_NAME}?ac=server" class="button nav-font <!--{if $ac!='server'}-->nav-color text-white <!--{/if}-->"  id="month">游戏开服</a>
+                <a href="{$SCRIPT_NAME}?ac=test" class="button nav-font <!--{if $ac!='test'}-->nav-color text-white <!--{/if}-->" id="week">游戏开测</a>
+            </div>
+        </div>
+        <div class="xl2 xs2 xm2 xb2 padding-small-top text-right">
+            <a href="javascript:void(0)" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+        </div>
+    </div>
+</div>
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <div class="text-center elementwidth text-big padding-left padding-right bg-yellow" style="height: 40px">
+        <form method="get" action="/{$SCRIPT_NAME}" class="form-inline" name="form">
+            <input type="hidden" value="search" name="ac">
+            <div class="line">
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-left">
+                    <span class="icon-angle-left text-large text-white" id="close"></span>
+                </div>
+                <div class="xl8 xs8 xm8 xb8 margin-small-top">
+                    <input type="text" class="input" value="{$keyword}" name="keyword" placeholder="精品应用、海量搜索"  style="height: 30px;padding:0 10px">
+                </div>
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-right">
+                    <a href="javascript:form.submit();" id="icon-search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px" class="icon-search"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--{template search_box}-->
+</div>
+<div class="white-mask hidden padding-left padding-right" id="mask" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:9;display:block;overflow-x:hidden;overflow-y:auto;">
+        <table class="table">
+		    <!--{eval $i="0"}-->
+            <!--{loop $taginfos[id] $key $value}-->
+			<!--{if $i%2=="0"}--><tr><!--{/if}-->
+                <td><a href="{$SCRIPT_NAME}?ac=games&tagid={$value[id]}&order=$orderby"><img class="radius-big" src="{$value[logo]}" style="height: 30px;width: 30px"></a></td><td <!--{if $i%2=="0"}--> style="border-right: 1px solid #eeeeee;" <!--{/if}-->><a href="{$SCRIPT_NAME}?ac=games&tagid={$value[id]}&order=$orderby"><p class="text-big">{$value[tagname]}</p></a></td>
+			<!--{if $i%2=="1"}--></tr><!--{/if}-->
+			<!--{eval $i++}-->
+            <!--{/loop}-->
+        </table>
+</div>
+
+<div class="tabs">
+<!--tab1-->
+<div class="container padding-top padding-left padding-right" id="tab1">
+	 <!--{eval $serverinfo=getopengames(0,0,10,0)}-->
+	 <!--{if $serverinfo[list]}-->
+     <!--{loop $serverinfo[list] $key $value}--> 
+    <div class="line">
+        <div class="xs9 xm9 xl9 xb9">
+            <a href="{$SCRIPT_NAME}?ac=appdetail&id={$value['id']}">
+                <div   style="float:left">
+                    <img src="{$value[logo]}" class="radius-big float-left game-icon">
+                </div>
+                <div class="padding-left"   style="float:left">
+                    <p class="gamename">{$value[name]}</p>
+                    <p>{$value[addressnum]}</p>
+                    <p class="text-left height-little margin-small-bottom text-small text-gray"><!--{eval echo date('Y-m-d H:i',$value[starttime])}--></p>
+                </div>
+            </a>
+        </div>
+        <div class="xs3 xm3 xl3 xb3">
+            <div class="float-right padding-top"><a href="javascript:;" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a></div>
+        </div>
+    </div>
+    <hr class="bg-line">
+   	<!--{/loop}-->
+	<!--{else}-->
+	<div>暂无相关数据</div>
+	<!--{/if}-->
+</div>
+</div>
+<div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+<input type="hidden" value="2" id="page_num" loading='no'>
+<div class="line" style="height: 75px"></div>
+
+<!--footer-->
+<!--{template nav_buttom}-->
+<script>
+    $('.icon-times').click(function(){
+        $(this).parent().addClass('hidden')
+    });
+</script>
+<script>
+    var height= $(window).height()+100;
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+</script>
+<script>
+    $('document').ready(function () {
+        var height= $(window).height()+100;
+        $('#mask').height(height);
+    });
+    $('#view-all').click(function () {
+        if($('#mask').hasClass('show')){
+            $('#nav').css('position','static');
+            $('#mask').removeClass('show');
+            $('#mask').addClass('hidden');
+            $('#view-all span').removeClass('icon-angle-up');
+            $('#view-all span').addClass('icon-angle-down');
+        }else if($('#mask').hasClass('hidden')){
+            $('#nav').css('position','fixed');
+            $('#mask').removeClass('hidden');
+            $('#mask').addClass('show');
+            $('#view-all span').removeClass('icon-angle-down');
+            $('#view-all span').addClass('icon-angle-up');
+        }
+    });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	$(window).scroll(function(){
+	  if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+	  	var isload=$('#page_num').attr('loading');
+		if(isload=="no"){
+			$('#page_num').attr("loading","yes");
+			var page_num=$('#page_num').val();
+			var addlisthtml="";
+			var tagid="$tagid";
+			var orderby="$orderby";
+			$.ajax({
+				type:"GET",
+				url:'/$SCRIPT_NAME?ac=server&reqPageNum='+page_num,
+				dataType:'json',
+				beforeSend:function(){
+				  $('.ajax_loading').show() //显示加载时候的提示
+				},
+				success:function(data){
+					 var addserverlist=data.moreFineList.list.list;
+					 if(addserverlist){
+						 $.each(addserverlist, function(i,val){     
+						 	var dqdate = new Date(val.starttime*1000);
+							var m=parseInt(dqdate.getMonth())+1;
+							var d=dqdate.getDate();
+							var h=dqdate.getHours();
+							if(h<10){
+								h='0'+h;
+							}
+							var f=dqdate.getMinutes();
+							if(f<10){
+								f='0'+f;
+							}
+							 addlisthtml+='<div class="line"><div class="xs9 xm9 xl9 xb9"><a href="'+val.msyurl+'"><div class="float:left"><img src="'+val.logo+'" class="radius-big float-left game-icon"></div><div class="padding-left" style="float:left"><p class="gamename">'+val.gamename+'</p><p>'+val.addressnum+'</p><p class="text-left height-little margin-small-bottom text-small text-gray">'+dqdate.getFullYear()+'-'+m+'-'+d+' '+h+':'+f+'</p></div></a></div><div class="xs3 xm3 xl3 xb3"><div class="float-right padding-top"><a href="javascript:;" onClick="down_box('+val.id+')" class="button button-small border-yellow">下载</a></div></div></div><hr class="bg-line">';
+						 });
+						 $('#tab1').append(addlisthtml);
+						 var npage_num = parseInt(page_num) + 1;
+						 $('#page_num').val(npage_num);
+						 $('#page_num').attr("loading","no");
+					 }else{
+						$('#page_num').attr("loading","yes");
+					 }
+					 $('.ajax_loading').hide() //请求成功,隐藏加载提示
+				}
+			})
+		}
+	  }
+	})
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!--{template header}-->
+<script type="text/javascript">
+function checkEmail(num) {
+	var email = $('#email_'+num).val();
+	res = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	var re = new RegExp(res);
+	if (email.match(re) == null) {
+		$('#checkemail_'+num).html('  邮箱填写有误');
+		$('#email_'+num).val('');
+	}else{
+		$('#checkemail_'+num).html('');
+	}
+}
+function checkqq(num){
+	var qq = $('#userqq_'+num).val();
+	var isqq = RegExp(/^[1-9][0-9]{4,12}$/).test(qq);
+	if (isqq) {
+		$('#checkqq_'+num).html('');
+	} else {
+		$('#checkqq_'+num).html('  QQ号码有误');
+		$('#userqq_'+num).val('');
+	}
+}
+function checktell(num){
+	var tell = $('#mobile_'+num).val();
+	var istell = RegExp(/^(0|86|17951)?(13[0-9]|15[012356789]|18[0-9]|14[57])[0-9]{8}$/).test(tell); 
+	if (istell) {
+		$('#checkmobile_'+num).html('');
+	} else {
+		$('#checkmobile_'+num).html('	请填写正确的手机号码');
+		$('#mobile_'+num).val('');
+	}
+}
+</script>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit">认证信息</h2>
+	 <div class="user_content_con">
+     <div class="o_appcon o_renzheng">
+	 <!--{if $devinfo}-->
+	 <!--{if $devinfo[isverify]==1}-->
+	  <!--{if $devinfo[devetype]==1}-->
+	   <div class="o_tishi">您已经通过个人认证。 <!--{if $devinfo[message]}-->站长留言：{$devinfo[message]}<!--{/if}--></div>
+	   <ul class="o_rencon">
+          <li><label class="mn_infobox">真实姓名：</label>{$devinfo[devname]}</li>
+	      <li><label class="mn_infobox">开发者名称：</label>{$devinfo[platform]}</li>
+          <li><label class="mn_infobox">手机：</label>{$devinfo[phone]}</li>
+          <li><label class="mn_infobox">Email：</label>{$devinfo[email]}</li>
+          <li><label class="mn_infobox">QQ：</label>{$devinfo[QQ]}</li>
+		  <li><label class="mn_infobox">身份证图片：</label><!--{if $devinfo[sfzpic]}--><img style="width:500px; vertical-align:top;" src="{$devinfo[sfzpic]}" /><!--{else}-->没有上传相关图片<!--{/if}--></li>
+        </ul>
+	  <!--{elseif $devinfo[devetype]==2}-->
+	    <div class="o_tishi">您已经通过企业认证。 <!--{if $devinfo[message]}-->站长留言：{$devinfo[message]}<!--{/if}--></div>
+	    <ul class="o_rencon">
+          <li><label class="mn_infobox">公司/团队全称：</label>{$devinfo[devname]}</li>
+		  <li><label class="mn_infobox">简称：</label>{$devinfo[platform]}</li>
+          <li><label class="mn_infobox">网址：</label>{$devinfo[companyurl]}</li>
+          <li><label class="mn_infobox">座机：</label>{$devinfo[tell]}</li>
+          <li><label class="mn_infobox">联系人：</label>{$devinfo[contactname]}</li>
+		  <li><label class="mn_infobox">联系人QQ：</label>{$devinfo[QQ]}</li>
+		  <li><label class="mn_infobox">Email：</label>{$devinfo[email]}</li>
+		  <li><label class="mn_infobox">营业执照图片：</label><!--{if $devinfo[yyzzpic]}--><img style="width:500px; vertical-align:top;" src="{$devinfo[yyzzpic]}" /><!--{else}-->没有上传相关图片<!--{/if}--></li>
+        </ul>
+	  <!--{/if}-->
+	  <!--{elseif $devinfo[isverify]==0}-->
+	  <!--{if $devinfo[devetype]==1}-->
+	   <div class="o_tishi">您已经提交身份认证，工作人员会在3个工作日内进行审核。审核通过后， 即可获得更多权限。有任何问题欢迎 点击 <a href="index.php?ac=contact&op=address">联系我们</a>  <!--{if $devinfo[message]}-->站长留言：{$devinfo[message]}<!--{/if}--></div>
+	   <form method="post" action="index.php?ac=chkvendor&op=chkvendor" enctype="multipart/form-data" onsubmit="return grchksubinfo()">
+	   <input type="hidden" name="chkinfo[devetype]" value="1">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">真实姓名：</label><input type="text" name="chkinfo[devname]" class="text-input" value="{$devinfo[devname]}"> （仅认证不对外显示）</li>
+          <li><label class="mn_infobox">开发者名称：</label><input type="text" name="chkinfo[platform]" value="{$devinfo[platform]}" class="text-input"> （对外显示）</li>
+          <li><label class="mn_infobox">手机：</label><input type="text" name="chkinfo[phone]" class="text-input" value="{$devinfo[phone]}" id="mobile_1" onblur="checktell(1)"><span id="checkmobile_1"></span></li>
+          <li><label class="mn_infobox">Email：</label><input type="text" name="chkinfo[email]" class="text-input" value="{$devinfo[email]}" id="email_1" onblur="checkEmail(1)"><span id="checkemail_1"></span></li>
+          <li><label class="mn_infobox">QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input" value="{$devinfo[QQ]}" id="userqq_1" onblur="checkqq(1)"><span id="checkqq_1"></span></li>
+		  <li><label class="mn_infobox">身份证审核：</label><input type="file" name="sfzpic" class="text-input" /><!--{if $devinfo[sfzpic]}--><img style="width:500px; vertical-align:top;" src="{$devinfo[sfzpic]}" /><!--{else}-->没有上传相关图片<!--{/if}--></li>
+		</ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorgrsubmit" value="更新认证" /></div>
+      </form>
+	  <!--{elseif $devinfo[devetype]==2}-->
+	    <div class="o_tishi">您已经提交身份认证，工作人员会在3个工作日内进行审核。审核通过后， 即可获得更多权限。有任何问题欢迎 点击 <a href="index.php?ac=contact&op=address">联系我们</a> <!--{if $devinfo[message]}-->站长留言：{$devinfo[message]}<!--{/if}--></div>
+	    <form method="post" action="index.php?ac=chkvendor&op=chkvendor" enctype="multipart/form-data" onsubmit="return qychksubinfo()">
+	   <input type="hidden" name="chkinfo[devetype]" value="2">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">公司/团队名称：</label><input type="text" name="chkinfo[devname]" class="text-input" value="{$devinfo[devname]}" id="qydevname"></li>
+          <li><label class="mn_infobox">简称(4~6汉字)：</label><input type="text" name="chkinfo[platform]" value="$devinfo[platform]" class="text-input" id="qyplatform"></li>
+          <li><label class="mn_infobox">网址：</label><input type="text" name="chkinfo[companyurl]" class="text-input" value="{$devinfo[companyurl]}"></li>
+          <li><label class="mn_infobox">座机：</label><input type="text" name="chkinfo[tell]" class="text-input" value="{$devinfo[tell]}"></li>
+          <li><label class="mn_infobox">Email：</label><input type="text" name="chkinfo[email]" class="text-input" value="{$devinfo[email]}" id="email_2" onblur="checkEmail(2)"><span id="checkemail_2"></span></li>
+		  <li><label class="mn_infobox">联系人：</label><input type="text" name="chkinfo[contactname]" class="text-input" value="{$devinfo[contactname]}" id="qycontactname"></li>
+          <li><label class="mn_infobox">联系人手机：</label><input type="text" name="chkinfo[phone]" class="text-input" value="{$devinfo[phone]}" id="mobile_2" onblur="checktell(2)" class="mobile_2"><span id="checkmobile_2"></span></li>
+          <li><label class="mn_infobox">联系人QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input" value="{$devinfo[QQ]}" id="userqq_2" onblur="checkqq(2)" class="userqq_2"><span id="checkqq_2"></span></li>
+		  <li><label class="mn_infobox">营业执照审核：</label><input type="file" name="yyzzpic" class="text-input" id="qypic" /><!--{if $devinfo[yyzzpic]}--><img style="width:500px; vertical-align:top;" src="{$devinfo[yyzzpic]}" /><!--{else}-->没有上传相关图片<!--{/if}--></li>
+		</ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorqysubmit" value="更新认证" /></div>
+      </form>
+	  <!--{/if}-->
+	  <!--{elseif $devinfo[isverify]==2}-->
+	  	<!--{if $devinfo[devetype]==1}-->
+	   <div class="o_tishi">您已经被拒绝个人认证。 <!--{if $devinfo[message]}-->站长留言：{$devinfo[message]}<!--{/if}--></div>
+	   <form method="post" action="index.php?ac=chkvendor&op=chkvendor" enctype="multipart/form-data" onsubmit="return grchksubinfo()">
+	   <input type="hidden" name="chkinfo[devetype]" value="1">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">真实姓名：</label><input type="text" name="chkinfo[devname]" class="text-input" value="{$devinfo[devname]}"> （仅认证不对外显示）</li>
+          <li><label class="mn_infobox">开发者名称：</label><input type="text" name="chkinfo[platform]" value="{$devinfo[platform]}" class="text-input"> （对外显示）</li>
+          <li><label class="mn_infobox">手机：</label><input type="text" name="chkinfo[phone]" class="text-input" value="{$devinfo[phone]}" id="mobile_3" onblur="checktell(3)"><span id="checkmobile_3"></span></li>
+          <li><label class="mn_infobox">Email：</label><input type="text" name="chkinfo[email]" class="text-input" value="{$devinfo[email]}" id="email_3" onblur="checkEmail(3)"><span id="checkemail_3"></span></li>
+          <li><label class="mn_infobox">QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input" value="{$devinfo[QQ]}" id="userqq_3" onblur="checkqq(3)"><span id="checkqq_3"></span></li>
+		  <li><label class="mn_infobox">身份证审核：</label><input type="file" name="sfzpic" class="text-input" /><!--{if $devinfo[sfzpic]}--><img style="width:500px; vertical-align:top;" src="{$devinfo[sfzpic]}" /><!--{else}-->没有上传相关图片<!--{/if}--></li>
+		</ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorgrsubmit" value="更新认证" /></div>
+      </form>
+	  <!--{elseif $devinfo[devetype]==2}-->
+	    <div class="o_tishi">您已经被拒绝企业认证。 <!--{if $devinfo[message]}-->站长留言：{$devinfo[message]}<!--{/if}--></div>
+	   <form method="post" action="index.php?ac=chkvendor&op=chkvendor" enctype="multipart/form-data" onsubmit="return qychksubinfo()">
+	   <input type="hidden" name="chkinfo[devetype]" value="2">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">公司/团队名称：</label><input type="text" name="chkinfo[devname]" class="text-input" value="{$devinfo[devname]}"></li>
+          <li><label class="mn_infobox">简称(4~6汉字)：</label><input type="text" name="chkinfo[platform]" value="{$devinfo[platform]}" class="text-input"></li>
+          <li><label class="mn_infobox">网址：</label><input type="text" name="chkinfo[companyurl]" class="text-input" value="{$devinfo[companyurl]}"></li>
+          <li><label class="mn_infobox">座机：</label><input type="text" name="chkinfo[tell]" class="text-input" value="{$devinfo[tell]}"></li>
+          <li><label class="mn_infobox">Email：</label><input type="text" name="chkinfo[email]" class="text-input" value="{$devinfo[email]}" id="email_4" onblur="checkEmail(4)"><span id="checkemail_4"></span></li>
+		  <li><label class="mn_infobox">联系人：</label><input type="text" name="chkinfo[contactname]" class="text-input" value="{$devinfo[contactname]}"></li>
+          <li><label class="mn_infobox">联系人手机：</label><input type="text" name="chkinfo[phone]" class="text-input" value="{$devinfo[phone]}" id="mobile_4" onblur="checktell(4)"><span id="checkmobile_4"></span></li>
+          <li><label class="mn_infobox">联系人QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input" value="{$devinfo[QQ]}" id="userqq_4" onblur="checkqq(4)"><span id="checkqq_4"></span></li>
+		  <li><label class="mn_infobox">营业执照审核：</label><input type="file" name="yyzzpic" class="text-input" /></li>
+		</ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorqysubmit" value="更新认证" /></div>
+      </form>
+	  <!--{/if}-->
+	  <!--{/if}-->
+	  <!--{else}-->
+      <h3>个人认证<span>适用于个体人员或者小团体，无需营业执照</span></h3>
+      <form method="post" action="index.php?ac=chkvendor&op=chkvendor" enctype="multipart/form-data" onsubmit="return grchksubinfo()">
+	  <input type="hidden" name="chkinfo[devetype]" value="1">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">真实姓名：</label><input type="text" name="chkinfo[devname]" class="text-input"  value=""> （仅认证不对外显示）</li>
+          <li><label class="mn_infobox">开发者名称：</label><input type="text" name="chkinfo[platform]" value="" class="text-input"> （对外显示）</li>
+          <li><label class="mn_infobox">手机：</label><input type="text" name="chkinfo[phone]" class="text-input"  value="" id="mobile_5" onblur="checktell(5)"><span id="checkmobile_5"></span></li>
+          <li><label class="mn_infobox">Email：</label><input type="text" name="chkinfo[email]" class="text-input"  value="" id="email_5" onblur="checkEmail(5)"><span id="checkemail_5"></span></li>
+          <li><label class="mn_infobox">QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input"  value="" id="userqq_5" onblur="checkqq(5)"><span id="checkqq_5"></span></li>
+		  <li><label class="mn_infobox">身份证审核：</label><input type="file" name="sfzpic" class="text-input" /></li>
+		</ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorgrsubmit" value="提交认证" /></div>
+      </form>
+      <h3>企业认证<span>适用于有营业执照的公司，真实的公司信息可得到更高级的合作模式</span></h3>
+      <form method="post" action="index.php?ac=chkvendor&op=chkvendor" enctype="multipart/form-data" onsubmit="return qychksubinfo()">
+	   <input type="hidden" name="chkinfo[devetype]" value="2">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">公司/团队名称：</label><input type="text" name="chkinfo[devname]" class="text-input" value=""></li>
+          <li><label class="mn_infobox">简称(4~6汉字)：</label><input type="text" name="chkinfo[platform]" value="" class="text-input"></li>
+          <li><label class="mn_infobox">网址：</label><input type="text" name="chkinfo[companyurl]" class="text-input" value=""></li>
+          <li><label class="mn_infobox">座机：</label><input type="text" name="chkinfo[tell]" class="text-input"  value=""></li>
+            <li><label class="mn_infobox">Email：</label><input type="text" name="chkinfo[email]" class="text-input" value="" id="email_6" onblur="checkEmail(6)"><span id="checkemail_6"></span></li>
+		  <li><label class="mn_infobox">联系人：</label><input type="text" name="chkinfo[contactname]" class="text-input"  value=""></li>
+          <li><label class="mn_infobox">联系人手机：</label><input type="text" name="chkinfo[phone]" class="text-input"  value="" id="mobile_6" onblur="checktell(6)"><span id="checkmobile_6"></span></li>
+          <li><label class="mn_infobox">联系人QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input"  value="" id="userqq_6" onblur="checkqq(6)"><span id="checkqq_6"></span></li>
+		  <li><label class="mn_infobox">营业执照审核：</label><input type="file" name="yyzzpic" class="text-input" /></li>
+		</ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorqysubmit" value="提交认证" /></div>
+      </form>
+	  <!--{/if}-->
+  
+    </div>
+  </div>
+</div>
+</div>
+<!--{template footer}-->

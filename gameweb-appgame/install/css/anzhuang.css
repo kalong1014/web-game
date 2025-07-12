@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+* { padding:0; margin:0;}
+body { min-width:1000px; font:12px/1.6 Verdana, Geneva, sans-serif, "宋体"; color:#000; text-align:center;  background:#004b96 url(../images/az_body_bg.gif) 0 0 repeat-x;}
+li { list-style: none;}
+a { text-decoration: none; color: #666;}
+a:hover { text-decoration:underline;}
+em { font-weight:bolder; font-style:normal;}
+img { border:none;}
+h2 { font-size:14px;}
+.azbox { margin:0 auto; width:580px; text-align:left; padding-bottom:20px;}
+.logo { padding-top:20px; margin-bottom:3px;}
+.azcontent { background-color:#FFF; border:2px solid #003c6c; padding:20px 20px 40px 20px;}
+.azcontent h2 { margin:10px 0;}
+.azcontent ul li { margin-bottom:6px; height:24px; line-height:24px;}
+.azcontent ul li label { display:block; float:left; text-align:right; width:110px;}
+.azcontent ul li input { background-color:#eff7ff; border:1px solid #93c3f3; height:22px; line-height:22px; padding:0 5px; width:200px; color:#555; float:left; margin-right:6px;}
+.aztijiao { padding-left:170px; padding-top:10px;}
+.aztjbt { background:url(../images/az_button.gif) 0 0 no-repeat; border:none; width:81px; height:37px;}
+.azcg { background:url(../images/ok.gif) left center no-repeat; height:65px; line-height:65px; padding-left:55px; margin-top:20px; font-size:14px;}
+.azcg_bu { margin-bottom:10px;}
+.azcg_bu a { background: url(../images/button_bg.gif) no-repeat scroll -49px 0 transparent; border: medium none; color: #FFFFFF !important; display:inline-block; height: 22px; line-height: 22px; margin: 0 2px; text-align: center; vertical-align: middle; width: 69px;}
+.az_fh { background: url(../images/button_bg.gif) no-repeat scroll -118px 0 transparent; border: medium none; color: #FFFFFF !important; display:inline-block; height: 22px; line-height: 22px; margin: 0 2px; text-align: center; vertical-align: middle; width:90px;}
+.submitbutton { background: url(../images/button_bg.gif) no-repeat scroll -49px 0 transparent; border: medium none; color: #FFFFFF !important; display:inline-block; height: 22px; line-height: 22px; margin: 0 2px; text-align: center; vertical-align: middle; width: 69px;}
+
+

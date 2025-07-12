@@ -1,0 +1,62 @@
+<!--{template header}-->
+    <div class="container padding-left padding-right padding-top">
+
+        <!--{loop $commentlist $ckey $cval}-->
+        <div class="line padding-right padding-left">
+            <div class="line">
+                <span class="float-left"><!--{if $cval[username]}-->{$cval[username]}<!--{else}-->游客<!--{/if}--></span>
+                <span class="float-right"><!--{eval echo date('m-d',$cval[dateline])}--></span>
+            </div>
+            <div class="line padding-top">
+                <span class="float-left text-small text-gray">{$cval[message]}</span>
+            </div>
+        </div>
+        <hr>
+        <!--{/loop}-->
+        <div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+		<input type="hidden" value="2" id="page_num" loading='no'>
+    </div>
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	$(window).scroll(function(){
+	  if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+	  	var isload=$('#page_num').attr('loading');
+		if(isload=="no"){
+			$('#page_num').attr("loading","yes");
+			var page_num=$('#page_num').val();
+			var appid="$appid";
+			var addlisthtml="";
+			$.ajax({
+				type:"GET",
+				url:'/mobile.php?ac=comment&appid='+appid+'&reqPageNum='+page_num,
+				dataType:'json',
+				beforeSend:function(){
+				  $('.ajax_loading').show() //显示加载时候的提示
+				},
+				success:function(data){
+					 var addapplist=data.list;
+					 if(addapplist){
+						 $.each(addapplist, function(i,val){     
+							 addlisthtml+='<div class="line padding-right padding-left"><div class="line"><span class="float-left">'+val.username+'</span><span class="float-right">'+val.dateline+'</span></div><div class="line padding-top"><span class="float-left text-small text-gray">'+val.message+'</span></div></div><hr>';
+						 });
+						 $('.container').append(addlisthtml);
+						 var npage_num = parseInt(page_num) + 1;
+						 $('#page_num').val(npage_num);
+						 $('#page_num').attr("loading","no");
+					 }else{
+						$('#page_num').attr("loading","yes");
+					 }
+					 $('.ajax_loading').hide() //请求成功,隐藏加载提示
+				}
+			})
+		}
+	  }
+	})
+  })
+
+</script>
+</body>
+</html>

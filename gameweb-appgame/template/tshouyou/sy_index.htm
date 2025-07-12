@@ -1,0 +1,207 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <ul class="tuad clearfix">
+	<!--{loop $appads $key $value}-->
+	<li class="tu<!--{eval echo ++$key}-->"><a href="{$value[url]}" target="_blank"><img src="{$value[adpictureurl]}"><span class="tuad_tit"><em>{$value[name]}</em></span></a></li>
+	<!--{/loop}-->
+  </ul>
+  <!--{if $_SCONFIG[symiddlead]}-->
+  <div class="m_ad_box">{$_SCONFIG[symiddlead]}</div>
+  <!--{/if}-->
+  <div class="itoptui">
+    <div class="itoptui_tit">精品推荐</div>
+    <ul class="clearfix">
+	<!--{eval $syrecom=getapplists(4,0,-1,-1,0,isrecommend,8)}-->
+    	<!--{loop $syrecom[app][list] $key $value}-->    
+		<li>
+          <a href="{$value[url]}" class="app_90" target="_blank">
+            <i class="app_img_90"></i>
+            <img src="{$value[logo]}">
+          </a>
+          <p class="app_tit_90"><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+        </li>
+        <!--{/loop}-->
+    </ul>
+  </div>
+  <div class="box">
+    <div class="inews">
+      <div class="itit"><a href="index.php?ac=news" target="_blank" class="more">更多</a>新闻资讯</div>
+      <div class="inewscon">
+	  	<!--{eval $tjnews=getnewslist(4,-1,-1,1,"isrecommend",3,0,0)}-->
+		<!--{loop $tjnews[list] $newkey $value}-->
+        <!--{if $newkey=="0"}--><h2><a href="{$value[newsurl]}" target="_blank" title="{$value[title]}">{$value[title]}</a></h2><!--{/if}--><!--{/loop}-->
+		<p class="inewscon_tui"><!--{loop $tjnews[list] $newkey1 $value}--><!--{if $newkey1>0}--><a href="{$value[newsurl]}" target="_blank">{$value[title]}</a><!--{/if}--><!--{/loop}--></p>
+	    <ul>
+		<!--{eval $zxnews=getnewslist(4,-1,-1,1,"dateline",6,0,0)}-->
+		<!--{loop $zxnews[list] $newkey $value}-->
+          <li><span class="time"><!--{eval echo date('m-d',$value[dateline])}--></span><a href="{$value[newsurl]}" target="_blank">{$value[title]}</a></li>
+        <!--{/loop}-->
+		</ul>
+        <div class="inewscon_tu clearfix">
+          <!--{eval $synewsad=getnewsad(4,-1,-1,2)}-->
+		  <!--{loop $synewsad[list] $key $value}-->
+		  <a href="{$value[newsurl]}" target="_blank">
+            <img src="{$value[adpic]}">
+            <p>{$value[title]}</p>
+          </a>
+		  <!--{/loop}-->
+        </div>
+      </div>
+    </div>
+    <div class="ilibao">
+      <div class="itit"><a href="index.php?ac=packs" class="more" target="_blank">更多</a>疯抢礼包</div>
+      <ul class="ilibaocon clearfix">
+       <!--{eval $packs=getpackinfo(0,0,1,10,0)}-->
+	    <!--{loop $packs[list] $key $value}-->
+		<li>
+          <a href="{$value[url]}" class="app_72" target="_blank">
+            <i class="app_img_72"></i>
+            <img src="{$packs[$value[appid]][logo]}">
+          </a>
+          <div class="libao_text">
+            <p class="tit"><a href="{$value[url]}" target="_blank">{$packs[$value[appid]][name]}</a></p>
+            <p class="text">{$value[packname]}</p>
+            <a class="btn" href="{$value[pdetailurl]}" target="_blank">抢礼包</a>
+          </div>
+        </li>
+		<!--{/loop}-->
+      </ul>
+    </div>
+  </div>
+  <div class="box">
+    <div class="iremen">
+      <div class="itit"><a href="index.php?ac=games&op=downloadcount" class="more" target="_blank">更多</a>热门手游</div>
+      <ul class="iremencon">
+        <!--{eval $sydowm=getapplists(4,0,-1,-1,0,"downloadcount",18)}-->
+    	<!--{loop $sydowm[app][list] $key $value}-->
+		<li>
+          <a href="{$value[url]}" class="app_90" target="_blank">
+            <i class="app_img_90"></i>
+            <img src="{$value[logo]}">
+          </a>
+          <p class="app_tit_90"><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+          <div class="iremen_dwon"><a href="{$value[url]}" target="_blank" target="_blank" rel="nofollow" >立即下载</a></div>
+        </li>
+       <!--{/loop}-->
+      </ul>
+    </div>
+    <div class="ipaihang">
+      <div class="itit"><a href="index.php?ac=recommend" class="more" target="_blank">更多</a>排行榜</div>
+      <ul class="ipaihangcon">
+     <!--{eval $sypaihang=getapplists(4,0,-1,-1,0,"viewnum",10)}-->
+    	<!--{loop $sypaihang[app][list] $key $value}-->
+	    <li>
+          <div class="ph_mun"><em <!--{if $key=="0"}-->class="first"<!--{elseif $key=="1"}-->class="second"<!--{elseif $key=="2"}-->class="third"<!--{/if}-->><!--{eval echo ++$key}--></em></div>
+          <div class="ph_app">
+            <a href="{$value[url]}" class="app_36" target="_blank">
+                <i class="app_img_36"></i>
+                <img src="{$value[logo]}">
+            </a>
+            <p><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+          </div>
+          <div class="ph_down">{$value[viewnum]}</div>
+        </li>
+      <!--{/loop}-->
+      </ul>
+    </div>
+  </div>
+  <div class="box">
+    <div class="ikaice">
+      <div class="itit"><a href="index.php?ac=test" class="more" target="_blank">更多</a>新游开测</div>
+      <div class="ikaicecon">
+         <!--{eval $testinfo=gettestgames(1,0,8,0)}-->
+		 <!--{if $testinfo[list]}-->
+		  <table>
+            <tbody>
+              <tr>
+                <th width="60">时间</th>
+                <th>手机网游</th>
+                <th width="90">状态</th>
+                <th width="80">领取礼包</th>
+                <th width="120">游戏下载</th>
+              </tr>
+			  <!--{loop $testinfo[list] $key $value}-->
+              <tr>
+                <td><!--{if $value[starttime]<$dayEnd && $value[starttime]>$dayBegin}-->今天<!--{else}--><!--{eval echo date('m-d',$value[starttime])}--><!--{/if}--></td>
+                <td><a href="$value[url]" target="_blank">{$value[name]}</a></td>
+                <td>$ttypeinfo[$value[testtype]][name]</td>
+                <td><a href="{$value[packurl]}" class="ilqlibao" target="_blank"><span>领取礼包</span></a></td>
+                <td><a <!--{if $value[appledw]}-->href="$value[appledw]" class="k_ios_d" target="_blank"<!--{else}--> class="k_ios_d_wu" <!--{/if}--> rel="nofollow" ><span>苹果下载</span></a><a <!--{if $value[andrdw]}-->href="$value[andrdw]" class="k_an_d" target="_blank"<!--{else}--> class="k_an_d_wu" <!--{/if}--> rel="nofollow" ><span>安卓下载</span></a></td>
+              </tr>
+             <!--{/loop}-->
+            </tbody>
+          </table>
+		  <!--{else}-->
+		  <div>还没有相关的推荐开测信息。</div>
+		  <!--{/if}-->
+      </div>
+    </div>
+    <div class="ikaifu">
+      <div class="itit"><a href="index.php?ac=server" class="more" target="_blank">更多</a>游戏开服</div>
+      <div class="ikaifucon">
+          <!--{eval $serverinfo=getopengames(1,0,8,0)}-->
+		  <!--{if $serverinfo[list]}-->
+		  <table>
+            <tbody>
+              <tr>
+                <th width="60">时间</th>
+                <th>手机网游</th>
+                <th width="90">服务区名</th>
+                <th width="80">领取礼包</th>
+                <th width="120">游戏下载</th>
+              </tr>
+			  <!--{loop $serverinfo[list] $key $value}-->
+              <tr>
+                <td><!--{if $value[starttime]<$dayEnd && $value[starttime]>$dayBegin}-->今天<!--{else}--><!--{eval echo date('m-d',$value[starttime])}--><!--{/if}--></td>
+                <td><a href="{$value[url]}" target="_blank">{$value[name]}</a></td>
+                <td>{$value[addressnum]}</td>
+                <td><a href="{$value[packurl]}" target="_blank" class="ilqlibao"><span>领取礼包</span></a></td>
+                <td><a <!--{if $value[appledw]}-->href="$value[appledw]" class="k_ios_d" target="_blank"<!--{else}--> class="k_ios_d_wu" <!--{/if}--> rel="nofollow" ><span>苹果下载</span></a><a <!--{if $value[andrdw]}-->href="$value[andrdw]" class="k_an_d" target="_blank"<!--{else}--> class="k_an_d_wu" <!--{/if}--> rel="nofollow" ><span>安卓下载</span></a></td>
+              </tr>
+              <!--{/loop}-->
+            </tbody>
+          </table>
+		  <!--{else}-->
+		  <div>还没有相关的推荐开服信息。</div>
+		  <!--{/if}-->
+      </div>
+    </div>
+  </div>
+  <!--{if $_SCONFIG[symiddlead2]}-->
+  <div class="m_ad_box">{$_SCONFIG[symiddlead2]}</div>
+  <!--{/if}-->
+  <div class="ifenlei">
+    <div class="itit"><a href="index.php?ac=games" class="more" target="_blank">更多</a>手游热门分类</div>
+    <div class="ifenleicon clearfix">
+	  <!--{eval $tagsinfo=get_tags("isrecommend",6)}-->
+	  <!--{eval $i=1;}-->
+	  <!--{loop $tagsinfo[id] $key $val}-->
+      <div <!--{if $i%2==1}-->class="ifenleibox"<!--{else}-->class="ifenleibox oushu"<!--{/if}-->>
+        <div class="ifenlei_tit"><a href="{$val[tagurl]}" class="more" target="_blank">+ 更多</a><span>{$val[tagname]}</span></div>
+        <ul>
+		<!--{eval $tagapps=getapplists(4,0,-1,-1,0,"downloadcount",4,0,"",0,$val[id])}-->
+		<!--{loop $tagapps[app][list] $value}-->
+		  <li>
+              <a href="{$value[url]}" class="app_90">
+                <i class="app_img_90"></i>
+                <img src="{$value[logo]}">
+              </a>
+              <p class="app_tit_90"><a href="{$value[url]}">{$value[name]}</a></p>
+              <p class="app_star_90"><span class="star bigstar<!--{eval echo chkstar($value['star'])}-->"></span></p>
+              <div class="iremen_dwon"><a href="{$value[url]}" rel="nofollow">立即下载</a></div>
+          </li>
+         <!--{/loop}-->
+        </ul>
+      </div>
+	  <!--{eval $i++;}-->
+	  <!--{/loop}-->
+    </div>
+  </div>
+    <div class="flink">
+    <div class="itit">友情链接</div>
+    <div class="flink_con">
+      <!--{$_SCONFIG['flink']}-->
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

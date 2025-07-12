@@ -1,0 +1,54 @@
+<!--{template header}-->
+  <div class="line_black " style="margin-top: -5px;" ></div>
+	<!--body-->
+	<div class="container padding-top padding-left padding-right" id="tab1">    
+	    <div class="line">
+	        <div class="xs10 xm10 xl10 xb10">
+	            <a href="javascript:void(0);">
+	                <div class="xs3 xm3 xl3 xb3">
+	                    <img src="{$sappinfo['logo']}" class="radius-big float-left game-icon">
+	                </div>
+	                <div class="xs9 xm9 xl9 xb9">
+	                    <p class="gamename margin-small-top text-big height-little chenges margin-left">{$sappinfo[name]}</p>
+	                        <div class="line margin-small-left margin-big-top">
+                                <span class="star bigstar{$sappinfo[star]} text-left " style="margin-left: 5px;"></span>
+                            </div>
+	                    <p class="chenges text-little margin-left margin-top">{$sappinfo[downloadcount]}下载|{$tags}</p>
+	                </div>
+	            </a>
+	        </div>
+	        <div class="xs2 xm2 xl2 xb2">
+	            <div class="float-right padding-top"><a href="{$SCRIPT_NAME}?ac=down&id=$sappinfo[id]" class="button button-small border-yellow">下载</a></div>
+	        </div>
+	    </div>
+	    <div class="lines"></div>
+		 <!--{loop $spacks $skey $sval}-->
+	    <div class="line">
+	        <div class="xs10 xm10 xl10 xb10">
+	            <a href="{$SCRIPT_NAME}?ac=packdetail&packid={$sval['packid']}">
+	                <div class="xs12 xm12 xl12 xb12">
+	                    <p class="gamename margin-top text-big height-little">{$sval[packname]}</p>
+	                    <p class="text-little height-little">有效期至：<!--{eval echo date('Y-m-d',$sval[starttime])}--></p>
+	                    <div class="xs3 xm3 xl3 xb3">
+		                    <p class=" text-little height-little">剩余数量：<span>{$spacknum[$sval[packid]][num]}</span></p>
+		                    
+		                </div>
+		                <div class="xs9 xm9 xl9 xb9">
+		                    <div class="progress progress-small float-left border_grayy " style="width:50%;margin-top: 6px;">
+							    <div class="progress-bar bg-yellow bg-white" style="width:{$spacknum[$sval[packid]][per]}%;"></div>
+							     
+							</div>
+	                    </div>
+	                </div>
+	            </a>
+	        </div>
+	        <div class="xs2 xm2 xl2 xb2">
+	            <div class="float-right padding-top margin-top"><a href="{$SCRIPT_NAME}?ac=packdetail&packid={$sval['packid']}" class="button button-small border-yellow">查看</a></div>
+	    
+	        </div>
+	    </div>
+	    <div class="lines"></div>
+	    <!--{/loop}-->
+   	</div>
+</body>
+</html>

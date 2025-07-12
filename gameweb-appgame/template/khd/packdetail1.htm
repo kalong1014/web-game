@@ -1,0 +1,117 @@
+<!--{template header}-->
+<script language="javascript">
+function getcard(packid){
+	$.ajax({
+		type: "get",
+		dataType: 'json',
+		url: "/{$SCRIPT_NAME}?ac=packdetail&packid="+packid+"&card=1",
+		beforeSend: function (XMLHttpRequest) {
+		  // $('#cardnum').html("loading....");
+		},
+		success: function(json){
+			var card=json;
+			if(card.error){
+				alert(card.error);
+			}else if(card.islogin){
+				alert(card.islogin);
+				window.location.href="/$SCRIPT_NAME?ac=login";
+			}else {
+				var lbnum='<div class="ljlq_b_hao"><input id="cardnum" style="max-width:110px" onclick="this.select()" value="'+card.card+'"/></span></div>';
+				$('.lb_ljlq').html(lbnum);
+				$('#residue').html(card.num);
+			}
+		   
+		}
+	});
+}
+
+
+</script>
+<!--game-->
+<div class=" text-center elementwidth text-big padding-left padding-right">
+    <div class="line">
+        <div class="media media-x padding-big-top">
+            <a href="javascript:void(0);" class="float-left">
+                <img src="{$syappinfo[logo]}" class="radius-big game-icon">
+            </a>
+			<!--{if $cardcount}-->
+
+			 <div class="float-right padding-top lb_ljlq"><a href="javascript:getcard('$packinfo[packid]');" class="button button-small border-yellow lb_ljlq_b">领取</a><span id="cardnum"></span></div>
+			
+			<!--{else}-->
+			<div class="float-right padding-top lb_ljlq"><a href="javascript:void(0);" class="button button-small border-yellow lb_ljlq_b_wu">被抢完了</a></div>
+			<!--{/if}-->
+            <div class="media-body">
+                <strong style="text-align:left !important;font-size:14px;">{$packinfo[packname]}</strong>
+                <p style="font-size:12px;"><span>{$packinfo[addressnum]} <span>条件:{$packinfo['usecredit']}{$_SCONFIG[creditname]}</span></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container padding-big-top padding-right padding-left">
+    <div class="container   margin-big-bottom">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png" class="images1">
+                <span class="text-big">礼包说明</span>
+            </div>
+        </div>
+        <hr>
+        <div class="line padding-right padding-left">
+            <div>
+			    <p class="text-indent text-left text-small text-gray">有效期：<!--{eval echo date('Y-m-d',$packinfo[dateline])}--> 剩余:<span id='residue'>{$cardcount}</span> 个</p>
+                <p class="text-indent text-left text-small text-gray">
+                   {$packinfo[packcontent]}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container margin-big-bottom">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png" class="images1">
+                <span class="text-big">使用说明</span>
+            </div>
+        </div>
+        <hr>
+        <div class="line padding-right padding-left">
+            <div>
+                <p class="text-indent text-left text-small text-gray">
+                    {$packinfo[packuse]}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container  margin-big-bottom">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png" class="images1">
+                <span class="text-big">游戏说明</span>
+            </div>
+        </div>
+        <hr>
+        <div class="line padding-right padding-left">
+            <div>
+                <p class="text-indent text-left text-small text-gray">
+                   <!--{eval echo nl2br($syappinfo['summary'])}-->
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+
+<script>
+$(document).ready(function(){
+	var card="$mycard";
+	if(card)
+    {
+	 var lbnum='<div class="ljlq_b_hao"><input id="cardnum" style="max-width:110px" onclick="this.select()" value="'+card+'"/></span></div>';
+				$('.lb_ljlq').html(lbnum);
+				$('#residue').html(card.num);
+	}
+	
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!--{template header}-->
+<script>
+function changename(){
+	var appid=$('#gamename').find("option:selected").attr("appid");
+	if(appid=="0"){
+		window.location.href="index.php?ac=chkvendor&op=mygames";
+	}
+	$('#appid').val(appid);
+}
+function closeadd(){
+	$('#gamename').val('');
+	$('#adddownurl').hide();
+}
+function tijiao(){
+	var andrdownurl=$('#andrdown').val();
+	var appledownurl=$('#appledown').val();
+	var gname=$('#gamename').val();
+	$.ajax({
+		url:"/index.php?ac=chkvendor&op=adddownurl&andrdw="+andrdownurl+"&appledw="+appledownurl+'&gname='+gname,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var a=json.andw;
+			var i=json.idw;
+			if(a||i){
+				alert("成功添加下载地址");	
+			}
+			$('#adddownurl').hide();
+		}
+	});
+	
+}
+
+function setplatname(platname){
+	$('#yypt').val(platname);
+	$('#uplatname').html('');
+}
+function getplatname(){
+	$.ajax({
+		url:"/index.php?ac=chkvendor&op=open&getplatname=1",
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var snames="历史记录：";
+			var infos=json.platname;
+			for(var i=0;i<infos.length;i++){
+				samesinfo=infos[i];
+				snames=snames+"<a href=\"javascript:setplatname('"+samesinfo.useplatform+"');\">"+samesinfo.useplatform+"</span>"+" ";
+			}
+			$('#uplatname').html(snames);
+		}
+	});
+}
+</script>
+<div id="main">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit"><span class="f_right"><a href="/index.php?ac=chkvendor&op=managekfb">开服表管理</a></span>添加开服表</div>
+    <div class="o_appcon">
+      <form action="index.php?ac=chkvendor&op=open" method="post">
+        <ul class="o_rencon libaocon">
+          <li> <label class="mn_infobox">运营平台：</label><input type="text" id="yypt" class="text-input" value="{$kfinfo[useplatform]}" name="kfinfo[useplatform]" onclick="getplatname()"/> （前台显示为运营商，如：百度手游、九游平台）</li>
+           <div id="uplatname"></div>
+		  <li>
+            <label class="mn_infobox">游戏名称：</label>
+            <select name="kfinfo[gamename]" id="gamename" onchange='javascript:changename();'>
+			<option value="">选择游戏</option>
+			<!--{loop $games $key $value}-->
+			<option value="$value[gamename]" appid="$value[appid]" <!--{if $value['gamename']==$kfinfo[gamename]}-->selected="selected"<!--{/if}-->>$value[gamename]</option>
+			<!--{/loop}-->
+			<option value="0" appid="0">+添加游戏</option>
+			</select>
+            <span class="input_ts">先到旗下游戏管理中添加您的平台运营游戏。 <a href="index.php?ac=chkvendor&op=mygames" target="_blank">添加游戏</a></span>
+          </li>
+          <li><label class="mn_infobox">系统选择：</label><input type="checkbox" name="kfinfo[isandroid]" value="1" <!--{if !$kfinfo}-->checked="checked"<!--{/if}--><!--{if $kfinfo[isandroid]=="1"}-->checked="checked"<!--{/if}-->> 安卓 <input type="checkbox" name="kfinfo[isios]" value="1" <!--{if $kfinfo[isios]=="1"}-->checked="checked" <!--{/if}-->> 苹果</li>
+		  <li><label class="mn_infobox">服务器名：</label><input type="text" class="text-input" name="kfinfo[addressnum]" <!--{if $kfinfo[addressnum]}-->value="{$kfinfo[addressnum]}"<!--{else}-->value="双线1区"<!--{/if}-->></li>
+		  <li><label class="mn_infobox">开服时间：</label><input type="text" name="kfinfo[starttime]" id="starttime" <!--{if $kfinfo[starttime]}-->value="<!--{eval echo date('Y-m-d',$kfinfo[starttime])}-->"<!--{else}-->value=""<!--{/if}--> size="10" class="text-input"/ onclick="WdatePicker({el:'starttime'})" ><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/tshouyou/js/datepicker/skin/datePicker.gif" /> <select id="hour" name="hour">
+<option value="">请选择</option>
+<!--{loop $hours $key $val}-->
+<option value="$val" <!--{if $hour==$val}-->selected="selected"<!--{/if}-->>$val</option>
+<!--{/loop}-->
+</select> 点</li>
+          <li><label class="mn_infobox">官网地址：</label><input type="text" name="kfinfo[gameurl]" class="text-input" value="{$kfinfo[gameurl]}"></li>
+         <!-- <li><label class="mn_infobox">礼包ID：</label><input type="text" class="text-input"> <input type="file" value="添加礼包"></li>-->
+         <!-- <li><p class="input_ts">附上游戏激活码或礼包，可以提高游戏开测的关注度。效果更好。</p><p class="input_ts">礼包添加完成后，在礼包管理页可查看ID。则此处填写其中的ID数“0853”即可</p></li>-->
+        </ul>
+        <div class="tougao_tijiao">
+		<input type="hidden" name="kfinfo[appid]" value="{$kfinfo[appid]}" id="appid">
+		<!--{if $kfinfo}--><input type="hidden" value="{$kfinfo[id]}" name="kfid"><!--{/if}-->
+          <input type="submit" name="kfinfosubmit" value="提交" id="subtn">
+        </div>
+      </form>
+        <div id="adddownurl">
+        <div class="adddownurl_gb" onclick="closeadd();">x</div>
+        <p>安卓下载地址：<input type="text" id="andrdown" value=""></p>
+        <p>苹果下载地址：<input type="text" id="appledown" value=""></p>
+        <p class="adddownurl_tj"><input type="button" value="添加" onclick="tijiao();"></p>
+        </div>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

@@ -1,0 +1,266 @@
+<!--{template header}-->
+<style>
+table { width:100%;}
+.mainarea { padding:20px;}
+.mainarea td { padding:10px 0;}
+.footactions { padding-left:310px;}
+.mainarea textarea { width:100%; height:100px;}
+.mainarea input.con_input { height:20px; line-height:30px; width:200px; padding:5px; border-radius:2px;border:1px solid #ddd;background-color:#fff;}
+.mainarea input.con_input:focus { border-color:rgba(82,168,236,0.8);outline:0;outline:thin dotted \9;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);}
+.mainarea input.tijiao_button { width:120px; height:46px; border:1px solid #00498d; background-color:#005caa; color:#fff; font-size:16px; font-family:"微软雅黑";border-radius:2px;}
+.zhankai_b2 { display:none;}
+.yy_xuantian { display:none;}
+.yy_xuantian_b { text-align:center; padding:5px 0; margin:10px 0; background-color:#f8f8f8;}
+.xiazaiinfobox { margin-bottom:10px;}
+.tianjia { margin:10px 0;}
+.tianjia a { display:inline-block; margin-left:5px; border:1px solid #ddd; border-radius:2px; padding:3px 10px;}
+.tu_upload { padding:10px 0;}
+.tu_upload dl { clear:both;}
+.tu_upload dt { float:left; width:80px;}
+.downurl dl { clear:both; margin-bottom:15px;}
+.downurl dt.td_tit { float:left; line-height:40px; width:80px;}
+.downurl dd input { margin-right:5px;}
+.swfupload { border:1px solid #ddd; border-radius:2px;}
+.albCt { float:left; margin:0 20px 20px 0;}
+.progressWrapper { border:1px solid #ffeadb; background-color:#fff6e9; padding:3px 5px; margin-bottom:10px;}
+</style>
+<script type="text/javascript"src="/template/admin/js/dedeajax2.js"></script>
+<script type="text/javascript" src="/template/admin/js/main.js"></script>
+<script type="text/javascript" src="/template/admin/js/album.js"></script>
+<script type="text/javascript"src="/template/admin/js/handlers.js"></script>
+<script type="text/javascript" src="/admin/swfupload/swfupload.js"></script>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit">上传应用</h2>
+    <div class="mainarea">
+	<script language="javascript">
+var iosyxlm="—"+"{$iosyxlm}";
+var andryxlm="—"+"{$andryxlm}";
+var iosapplm="—"+"{$iosapplm}";
+var andrapplm="—"+"{$andrapplm}";
+var wpyxlm="—"+"{$wpyxlm}";
+var wpapplm="—"+"{$wpapplm}";
+
+$(function(){	
+	$('#apptype').change(function(){
+			    var types=$('input:radio[name="appinfo[type]"]:checked').val();
+				if($('#apptype').val()==1){
+					if(types==1){
+							$('#lanmu').html(iosyxlm);
+						}else if(types==2){
+							$('#lanmu').html(andryxlm);
+						}else{
+							$('#lanmu').html(wpyxlm);
+						}
+				}else if($('#apptype').val()==2){
+				//alert($('#types').val());
+						if(types==1){
+							$('#lanmu').html(iosapplm);
+						}else if(types==2){
+							$('#lanmu').html(andrapplm);
+						}else{
+							$('#lanmu').html(wpapplm);
+						}
+				}
+			});
+			
+			swfu = new SWFUpload(
+			{	
+				// Backend Settings
+				upload_url: "admincp.php?ac=swfupload",
+				post_params: {"PHPSESSID2": "<?php echo session_id(); ?>", "dopost" : "", "type" : "android"},
+
+				// File Upload Settings
+				file_size_limit : "2 MB",	// 2MB
+				file_types : "*.jpg; *.gif; *.png",
+				file_types_description : "选择 JPEG/GIF/PNG 格式图片",
+				file_upload_limit : "0",
+
+				file_queue_error_handler : fileQueueError,
+				file_dialog_complete_handler : fileDialogComplete,
+				upload_progress_handler : uploadProgress,
+				upload_error_handler : uploadError,
+				upload_success_handler : uploadSuccess,
+				upload_complete_handler : uploadComplete,
+
+				button_image_url : "/template/admin/images/SmallSpyGlassWithTransperancy_17x18.png",
+				button_placeholder_id : "spanButtonPlaceholder",
+				button_width: 250,
+				button_height: 24,
+				button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 2 MB，支持多选)</span></span>',
+				button_text_style : '.button { font-family: Helvetica, Arial, sans-serif; font-size: 12pt; } .buttonSmall { font-size: 10pt; }',
+				button_text_top_padding: 0,
+				button_text_left_padding: 18,
+				button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+				button_cursor: SWFUpload.CURSOR.HAND,
+				
+				// Flash Settings
+				flash_url : "/admin/swfupload/swfupload.swf",
+
+				custom_settings : {
+					upload_target : "divFileProgressContainer"
+				},
+				
+				// Debug Settings
+				debug: false
+			});
+});
+function adddown(){
+	downs=$(".down:last");
+	var key=downs.attr("key");
+	key=parseInt(key)+1;
+	if(isNaN(key)){
+		key=1;
+	}
+	var htmls='<dl key="'+key+'" class="down" id="add'+key+'"><dt class="td_tit">下载地址:</dt><dd><input class="con_input" type="text" name="downurl['+key+']"/></dd></dl><dl id="name'+key+'"><dt class="td_tit" >下载名称:<dt><dd><input class="con_input" type="text" name="downname['+key+']" value="高速下载'+key+'"/><a href="javascript:delefile('+key+');">删除</a></dd></dl>';
+	$(".downurls").append(htmls);
+}
+
+function delefile(key){
+ var ids=key;
+ $("#add"+ids).remove();
+ $("#name"+ids).remove();
+}
+
+function delefile2(key){
+ var ida=key;
+ $("#add"+ida).remove();
+ $("#name"+ida).remove();
+}
+function changlx(){
+ var types=$('input:radio[name="appinfo[type]"]:checked').val();
+		if($('#apptype').val()==1){
+			if(types==1){
+				$('#lanmu').html(iosyxlm);
+			}else if(types==2){
+				$('#lanmu').html(andryxlm);
+			}else{
+				$('#lanmu').html(wpyxlm);
+			}
+		}else if($('#apptype').val()==2){
+		//alert($('#types').val());
+			if(types==1){
+					$('#lanmu').html(iosapplm);
+			}else if(types==2){
+				$('#lanmu').html(andrapplm);
+			}else{
+				$('#lanmu').html(wpapplm);
+			}
+		}
+}
+
+</script>
+<script type="text/javascript"src="{$_SCONFIG[installdir]}/template/admin/js/showall.js"></script>
+
+	<!--{if $userinfo[isapps]=="1"}-->
+	<form method="post" id="batchform" action="index.php?ac=user&op=uploadapp" enctype="multipart/form-data">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable"> 
+		<tr>
+        <td class="td_tit" width="80">应用类型:</td><td>
+		<!--{if $appinfo}-->
+		<!--{if $appinfo[type]=="1"}--><input type="radio" id="types1" name="appinfo[type]" onclick="changlx();" value="1" checked="checked">APPLE<!--{/if}-->
+		<!--{if $appinfo[type]=="2"}--><input type="radio" id="types2" name="appinfo[type]" onclick="changlx();" value="2" checked="checked">ANDROID<!--{/if}-->
+		<!--{if $appinfo[type]=="3"}--><input type="radio" id="types3" name="appinfo[type]" onclick="changlx();" value="3" checked="checked">WPHONE<!--{/if}-->
+		<!--{else}-->
+		<input type="radio" id="types1" name="appinfo[type]" onclick="changlx();" value="1" >APPLE
+		<input type="radio" id="types2" name="appinfo[type]" onclick="changlx();" value="2" checked="checked">ANDROID
+		<input type="radio" id="types3" name="appinfo[type]" onclick="changlx();" value="3" >WPHONE
+		<!--{/if}-->
+		</td>
+		</tr>
+		<tr>
+        <td class="td_tit">应用名称:</td><td><input class="con_input" type="text" name="appinfo[name]" value="{$appinfo[name]}"/></td>
+		</tr>
+		<tr>
+        <td class="td_tit">应用大小:</td><td><input class="con_input" type="text" name="appinfo[size]" value="{$appinfo[size]}"/></td>
+	    </tr>
+		<tr>
+        <td class="td_tit">语言:</td><td><input class="con_input" type="text" name="appinfo[language]" value="{$appinfo[language]}"/></td>
+	    </tr>
+        <tr>
+		</tr>
+        <td class="td_tit">版本:</td><td><input class="con_input" type="text" name="appinfo[version]" value="{$appinfo[version]}"/></td>
+	    </tr>
+        <tr>
+        <td class="td_tit">应用Logo:</td><td><input type="file" name="logo" value=""/><!--{if $appinfo[logo]}--><img src="{$appinfo[logo]}" style="height:100px; vertical-align:middle;"/><!--{else}--><!--{/if}--></td>
+		</tr>
+         <tr>
+        <td class="td_tit">应用价格:</td><td><input class="con_input" type="text" name="appinfo[price]" value="{$appinfo[price]}"/></td>
+		</tr>
+        <tr>
+        <td class="td_tit">应用栏目:</td><td><select name="appinfo[apptype]" id="apptype"><option value="1" <!--{if $appinfo[apptype]==1}-->selected="selected"<!--{elseif !$appinfo[apptype]}-->selected="selected"<!--{/if}-->>游戏</option><option value="2" <!--{if $appinfo[apptype]==2}-->selected="selected"<!--{/if}-->>软件</option></select> <span id="lanmu"> — <!--{if $dangqiancate[id]}-->
+		
+		<select name="appinfo[categoryid]"><option value="0">选择栏目</option>
+        <!--{loop $dangqiancate[id] $k $v}-->
+        	<!--{if $v[apptype]==$appinfo[apptype]}-->
+            	<option value="{$v[categoryid]}" <!--{if $v[categoryid]==$appinfo[categoryid]}-->selected="selected"<!--{/if}-->>{$v[categoryname]}</option>
+            <!--{/if}-->
+        <!--{/loop}-->
+        </select>
+        <!--{else}-->
+        <select name="appinfo[categoryid]"><option value="0">选择栏目</option>
+        <!--{loop $idcategorylist $k $v}-->
+        	<!--{if $v[apptype]==1 && $v[isandroid]==1}-->
+            	<option value="{$v[categoryid]}" <!--{if $v[categoryid]==$appinfo[categoryid]}-->selected="selected"<!--{/if}-->>{$v[categoryname]}</option>
+            <!--{/if}-->
+        <!--{/loop}-->
+        </select>
+        <!--{/if}-->
+        </span></td>
+		</tr>
+		<tr>
+        <td class="td_tit111">应用简介:</td><td><textarea class="textarea2" name="appinfo[briefsummary]" style="height:50px;">{$appinfo[briefsummary]}</textarea></td>
+		</tr>
+        <tr>
+          <td class="td_tit">应用内容:</td><td><textarea class="textarea2" name="appdata[summary]">{$appinfo[summary]}</textarea></td>
+		</tr>
+	</table>
+    <div class="xiazaiinfobox clearfix">
+      <div class="tianjia">应用下载地址:<a href="javascript:void(0);" onclick="adddown()" class="submit sub6zf">添加</a> （注：请填写应用包文件的下载地址）
+</div>
+        <div class="downurl">
+        	<div class="downurls">
+        <!--{if $downurl}-->
+        	<!--{loop $downurl $ky $v}-->
+            	<dl key="{$ky}" class="down" id="add{$ky}">
+                    <dt class="td_tit">下载地址:</dt><dd><input class="con_input" type="text" name="downurl[{$ky}]" value="{$v[url]}"/></dd>
+                </dl>
+                <dl id="name{$ky}">
+                    <dt class="td_tit">下载名称:</dt><dd><input class="con_input" type="text" name="downname[{$ky}]" value="{$v[name]}"/><a href="javascript:delefile2($ky);">删除</a>                    </dd>
+                </dl>
+            <!--{/loop}-->
+        <!--{else}-->
+        <!--{/if}-->
+          </div>
+        </div>
+         <div class="tu_upload"><dl><dt class="td_tit">上传截图:</dt><dd><span id="spanButtonPlaceholder"></span></dd></dl></div>
+        <div id="divFileProgressContainer"></div>
+        <div id="thumbnails">
+        <!--{loop $imglist $k $v}-->
+          <div id="albold{$k}" class="albCt albEdit">
+            <input type="hidden" value="{$v}" name="dimgurl[$k]">
+            <img width="120" src="admincp.php?ac=swfupload&dopost=ddimg&img={$v}"><a href="javascript:delAlbPicOld('{$v}', {$k})">[删除]</a>
+            <div style="margin-top:10px">更换：<input type="file" style="width:190px" size="18" name="imgfile[$k]"></div>
+          </div>
+        <!--{/loop}-->
+        </div>
+     </div>
+
+	  <div class="footactions">
+ 		<input type="hidden" name="appid" value="{$appinfo[id]}" >
+        <input type="submit" name="recomsubmit" value="提交"  class="tijiao_button">
+      </div>
+	</div>
+	</form>
+	<!--{else}-->
+	<div>你还没有上传的权限，请联系站长。</div>
+	<!--{/if}-->
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

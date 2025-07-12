@@ -1,0 +1,138 @@
+<!--{template header}-->
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <!--{template search_box}-->
+</div>
+<div class="white-mask hidden padding-left padding-right" id="mask" style="position:fixed;left:0;top:0px;right:0;bottom:0;background:#FFFFFF;z-index:9;display:block;overflow-x:hidden;overflow-y:auto;">
+    <table class="table">
+	    <!--{eval $i="0"}-->
+        <!--{loop $ptypeinfo $k $v}-->
+        <!--{if $i%2=="0"}--><tr><!--{/if}-->
+        <td><a href="{$SCRIPT_NAME}?ac=packs&pt={$k}"><img class="radius-big" src="{$value[logo]}" style="height: 30px;width: 30px"></a></td><td <!--{if $i%2=="0"}-->style="border-right: 1px solid #eeeeee;"<!--{/if}-->><a href="{$SCRIPT_NAME}?ac=packs&pt={$k}"><p class="text-big">{$v}</p></a></td>
+        <!--{if $i%2=="1"}--></tr><!--{/if}-->
+		<!--{eval $i++}-->
+        <!--{/loop}-->
+    </table>
+</div>
+<div class="tabs">
+    <div class="container padding-top padding-left padding-right" id="tab1">
+       <!--{eval $packinfo=getpackinfo(0,$pt,0,10,0)}-->
+        <!--{if $packinfo[list]}-->
+         <!--{loop $packinfo[list] $key $value}-->
+        <div class="line">
+            <div class="xs9 xm9 xl9 xb9">
+                <a href="{$SCRIPT_NAME}?ac=packdetail&packid={$value['packid']}">
+                    <div   style="float:left">
+                        <img src="{$packinfo[$value[appid]]['logo']}" class="radius-big float-left game-icon">
+                    </div>
+                    <div class="padding-left"   style="float:left">
+                        <p class="gamename">{$value[packname]}</p>
+                        <p><span class="change">{$value[addressnum]} <!--{if $value[usecredit]>0}--><span>条件: {$value['usecredit']}{$_SCONFIG[creditname]}</span><!--{/if}--></span></p>
+                        <p class="change">有效期:<!--{eval echo date('y-m-d',$value[dateline])}--> 剩余:{$packinfo[nums][$value['packid']]}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="">
+                <div class="float-right padding-top"><a href="{$SCRIPT_NAME}?ac=packdetail&packid={$value['packid']}" class="button button-small border-yellow">领取</a></div>
+            </div>
+        </div>
+        <hr class="bg-line">
+        <!--{/loop}-->
+        <!--{else}-->
+        <div>暂无相关数据</div>
+        <!--{/if}-->
+    </div>
+</div>
+<div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+<input type="hidden" value="2" id="page_num" loading='no'>
+<div class="line" style="height: 75px"></div>
+
+<!--footer-->
+<!--{template nav_buttom}-->
+<script>
+    var height= $(window).height()+100;
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+
+    $('#view-all').click(function () {
+        if($('#mask').hasClass('show')){
+            $('#nav').css('position','static');
+            $('#mask').removeClass('show');
+            $('#mask').addClass('hidden');
+            $('#view-all span').removeClass('icon-angle-up');
+            $('#view-all span').addClass('icon-angle-down');
+        }else if($('#mask').hasClass('hidden')){
+            $('#nav').css('position','fixed');
+            $('#mask').removeClass('hidden');
+            $('#mask').addClass('show');
+            $('#view-all span').removeClass('icon-angle-down');
+            $('#view-all span').addClass('icon-angle-up');
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(window).scroll(function(){
+            if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+                var isload=$('#page_num').attr('loading');
+                if(isload=="no"){
+                    $('#page_num').attr("loading","yes");
+                    var page_num=$('#page_num').val();
+                    var addlisthtml="";
+                    var cateid="$cateid";
+                    var orderby="$orderby";
+					var creditname="$_SCONFIG[creditname]";
+                    $.ajax({
+                        type:"GET",
+                        url:'/$SCRIPT_NAME?ac=packs&cateid='+cateid+'&orderby='+orderby+'&page='+page_num,
+                        dataType:'json',
+                        beforeSend:function(){
+                            $('.ajax_loading').show() //显示加载时候的提示
+                        },
+                        success:function(data){
+                            var addpacklist=data.moreFineList.list.list;
+							
+                            if(addpacklist){
+                                $.each(addpacklist, function(i,val){
+									var appid=val.appid;
+									var packid=val.packid;
+                                    var packinfo=data.moreFineList.list[appid];
+									var pnum=data.moreFineList.list.nums[packid];
+									var dateline=parseInt(val.dateline)*1000;
+									var dqdate = new Date(dateline);
+									var t=dqdate.getYear()-100;
+									var m=parseInt(dqdate.getMonth())+1;
+									if(val.usecredit>0){
+										var lxjf='<span class="change"> 领取条件：'+val.usecredit+creditname+'</span>';
+									}else{
+										var lxjf='';
+									}
+									
+									addlisthtml+='<div class="line"><div class="xs9 xm9 xl9 xb9"><a href="'+val.msypackurl+'"><div style="float:left"><img src="'+packinfo.logo+'" class="radius-big float-left game-icon"></div><div class="padding-left" style="float:left"><p class="gamename">'+val.packname+'</p><p class="change"><span>'+val.addressnum+lxjf+'</span></p><p class="change">有效期: '+t+'-'+m+'-'+dqdate.getDate()+' 剩余:'+pnum+'</p></div></a></div><div class=""><div class="float-right padding-top"><a href="'+val.msypackurl+'" class="button button-small border-yellow">领取</a></div></div></div><hr class="bg-line">';
+                                });
+								
+                                $('#tab1').append(addlisthtml);
+                                var npage_num = parseInt(page_num) + 1;
+                                $('#page_num').val(npage_num);
+                                $('#page_num').attr("loading","no");
+                            }else{
+                                $('#page_num').attr("loading","yes");
+                            }
+                            $('.ajax_loading').hide() //请求成功,隐藏加载提示
+                        }
+                    })
+                }
+            }
+        })
+    });
+	function getDate(tm){
+		var tt=new Date(parseInt(tm) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
+		return tt;
+	}
+</script>
+</body>
+</html>

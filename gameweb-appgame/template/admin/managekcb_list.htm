@@ -1,0 +1,150 @@
+<!--{template header}-->
+<script type="text/javascript">
+function selectAll(checkbox) {
+	if(typeof($("#check").attr('checked'))=="undefined")		
+       $('.kcbox').attr('checked', false);
+	else
+	   $('.kcbox').attr('checked',true);			
+}
+function changtesttype(testid,tval){
+	window.location.href="admincp.php?ac=managekcb&op=alerttesttype&testid="+testid+"&tval="+tval;
+}
+function selectstate(t,did){
+	if(t==1){
+		window.location.href='admincp.php?ac=managekcb&op=verify&id='+did;
+	}else if(t==2){
+		window.location.href='admincp.php?ac=managekcb&op=jzverify&id='+did;
+	}else{
+		window.location.href='admincp.php?ac=managekcb&op=noverify&id='+did;
+	}
+}
+function liuyan(id){
+	$('#liuyan_'+id).removeClass("liuyan");
+	$('#liuyan_'+id).addClass("liuyan2");
+}
+function closeliuyan(id){
+	$('#liuyan_'+id).removeClass("liuyan2");
+	$('#liuyan_'+id).addClass("liuyan");
+}
+function uploadmessage(id){
+	var message=$('#message_'+id).val();
+	$.ajax({
+		url:"/admincp.php?ac=managekcb&op=liuyan&id="+id+"&message="+message,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			if(json){
+				alert('留言成功');
+				window.location.href="admincp.php?ac=managekcb";
+			}else{
+				alert('留言失败');
+			}
+		}
+	});	
+}
+</script>
+<style>
+.dmore{display:none}
+.shpic{display:none}
+.liuyan{display:none}
+</style>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title"><span style="margin-left:10px; font-size:12px; font-weight:normal; color:#f50; float:right;">(温馨提示：手游首页展示被推荐的最新10条开测信息)</span>开测列表</h2><div class="sc_tishi clearfix"><div class="button"><a href="admincp.php?ac=managekcb&op=testtype" class="sc_tishi_b">管理状态</a></div><div class="button"><a href="admincp.php?ac=managekcb&op=addtest" class="sc_tishi_b sc_tishi_b2">添加开测表</a></div> <div class="button"><a href="index.php?ac=cj_4399test" target="_blank" class="sc_tishi_b sc_tishi_b2">采4399开测表</a></div></div>
+	<div class="sousuobox" style="height:auto; padding:10px 0 10px 8px;">
+     <form action="admincp.php">
+        游戏名称：<input type="text" value="$sgamename" name="sgamename" class="sousuobox_input1">
+		排序：<select name="orderby" class="select4z">
+			<option value="dateline" <!--{if $orderby=="dateline"}--> selected="selected" <!--{/if}--> >添加时间</option>
+        	<option value="starttime" <!--{if $orderby=="starttime"}--> selected="selected" <!--{/if}-->  >开测时间</option>
+          </select>
+		排序：<select name="orderby" class="select4z">
+			<option value="dateline" <!--{if $orderby=="dateline"}--> selected="selected" <!--{/if}--> >添加时间</option>
+        	<option value="starttime" <!--{if $orderby=="starttime"}--> selected="selected" <!--{/if}-->  >开测时间</option>
+          </select>
+        审核状态：<select name="isverify" class="select4z">
+            <option value="-1" selected="selected">不限</option>
+            <option value="1">审核</option>
+            <option value="0">待审核</option>
+			 <option value="2">拒绝</option>
+        </select>
+		开测状态：<select name="testtype" class="select4z">
+            <option value="0" selected="selected">不限</option>
+            <option value="1">封测</option>
+            <option value="2">删档内侧</option>
+			<option value="3">不删档内侧</option>
+			<option value="4">二次内侧</option>
+			<option value="5">公测</option>
+        </select>
+		<input type="submit" class="sub2zf" value="搜索" name="searchsubmit">
+        <input type="hidden" name="ac" value="managekcb"/>
+	  </form>
+    </div>
+    <div class="bdrcontent text_center">
+      <form action="admincp.php?ac=managekcb&op=caozuo" method="post">
+      <table>
+      <tbody>
+        <tr>
+         	<th width="60">选择</th>
+         	<th>游戏</th>
+			<th width="90">系统要求</th>
+			<th width="100">服务区名</th>
+			<th width="100">厂商平台</th>
+			<th width="60">地址</th>
+            <th width="120">时间</th>
+            <th width="100">状态</th>
+			<th width="40">推荐</th>
+			<th width="60">审核</th>
+            <th width="100">操作</th>
+        </tr>
+        <!--{loop $testgame $key $value}-->
+        <tr>
+            <td><input type="checkbox" value="{$value[id]}" class="kcbox" name="ids[]"/></td>
+            <td class="text_left">{$value[gamename]}</td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+			<td>{$value[addressnum]}</td>
+			<td>{$value[useplatform]}</td>
+            <td><a href="{$value[gameurl]}" target="_blank">预览</a></td>
+            <td><!--{eval echo date('Y-m-d',$value[starttime])}-->	<!--{eval echo date('H',$value[starttime])}--> 点</td>
+            <td><select name="testtypes[<!--{eval echo $value[id]}-->]" onchange="changtesttype($value[id],this.value)">
+			<option value="">选择状态</option>
+			<!--{loop $ttypeinfo $val}-->
+			<option value="$val[bianhao]" <!--{if $value[testtype]==$val[bianhao]}-->selected="selected"<!--{/if}-->>$val[name]</option>
+			<!--{/loop}-->
+			</select>
+			</td>
+			<td><!--{if $value[isrecommend]==0}--><a href="admincp.php?ac=managekcb&op=recommend&kcid={$value[id]}">否</a><!--{elseif $value[isrecommend]==1}--><a href="admincp.php?ac=managekcb&op=norecommend&kcid={$value[id]}">是</a><!--{/if}--></td>
+			<td> <select name="statevalue" onchange="selectstate(this.value,$value[id])">
+				  <option value="0" <!--{if $value[isverify]=="0"}-->selected="selected"<!--{/if}-->>未审核</option>
+				  <option value="1" <!--{if $value[isverify]=="1"}-->selected="selected"<!--{/if}-->>审核</option>
+				  <option value="2" <!--{if $value[isverify]=="2"}-->selected="selected"<!--{/if}-->>拒绝</option>
+				  </select>
+			</td>
+			<td><a class="o_appglcon_sc" href="admincp.php?ac=managekcb&op=addtest&kcid=$value[id]">编辑</a>  <a class="o_appglcon_sc" href="admincp.php?ac=managekcb&op=kcdel&kcid=$value[id]" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a>
+			<a href="javascript:liuyan('$value[id]')">留言</a>
+			<div style="position:relative">
+		  	<div id="liuyan_$value[id]" class="liuyan">
+			<div onclick="closeliuyan('$value[id]');">关闭</div>
+			<div class="liuyan_con">留言内容：$value[message]</div>
+			<input type="text" id="message_$value[id]" class="liuyan_input" name="message" value="$value[message]" /><a href="javascript:uploadmessage('$value[id]');">提交</a>
+			</div>
+		    </div>
+			</td>
+        </tr>
+        <!--{/loop}-->
+      </tbody>
+      </table>
+      <div class="footactions">
+	<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)"> 全选
+	<input type="hidden" name="mpurl" value="$mpurl">
+	<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">
+	<input type="submit" name="recomsubmit" value="推荐"  class="submit sub2zf">
+	<input type="submit" name="qxrecomsubmit" value="取消推荐"  class="submit sub4zf">
+	<input type="submit" name="verifysubmit" value="审核"  class="submit sub2zf">
+	<!--<input type="submit" name="savettype" value="保存状态修改"  class="submit sub6zf">-->
+    </div>
+         <div class="fenye">{$multi}</div>
+	  </form>
+    </div>
+  </div>
+<!--{template footer}-->

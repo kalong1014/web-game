@@ -1,0 +1,24 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <div class="paihang">
+    <div class="paihang_tit"><a href="index.php?ac=recommend&orderby=viewnum" $ordercss[viewnum]>总排行</a><a href="index.php?ac=recommend&orderby=weeknum" $ordercss[weeknum]>周排行</a><a href="index.php?ac=recommend&orderby=daynum" $ordercss[daynum]>日排行</a>热榜排行</div>
+    <ul class="paihang_con clearfix">
+     <!--{eval $recomapps=getapplists(4,0,-1,-1,0,$_GET[orderby],28,1)}-->
+	 <!--{eval $i="1"}-->
+		<!--{loop $recomapps[app][list] $key $value}--> 
+	  <li <!--{if $i%7=="0"}-->class="last"<!--{/if}-->>
+          <a href="{$value[url]}" class="app_90" target="_blank">
+            <i class="app_img_90"></i>
+            <img src="{$value[logo]}">
+          </a>
+          <p class="app_tit_90"><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+          <p class="app_star_90"><span class="star bigstar<!--{if $value[star]<6 && $value[star]!=0}--><!--{eval echo $value[star]*10}--><!--{elseif $value[star]==0}-->30<!--{elseif $value[star]>50}-->50<!--{else}-->{$value[star]}<!--{/if}-->"></span></p>
+          <div class="iremen_dwon"><a href="{$value[url]}" target="_blank">立即下载</a></div>
+      </li>
+	  <!--{eval $i++}-->
+	<!--{/loop}-->
+    </ul>
+      <div class="fenye"><!--{eval echo $recomapps[page]}--></div>
+  </div>
+</div>
+<!--{template footer}-->

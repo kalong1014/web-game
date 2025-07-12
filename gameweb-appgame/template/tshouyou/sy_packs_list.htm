@@ -1,0 +1,38 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <div class="libao_list">
+    <div class="lb_con_tit"><a class="libaotx" href="/index.php?ac=common&op=remind&appid=$syappinfo[id]"><!--{if $isgz}-->已设置消息提醒<!--{else}-->您还没有订阅过游戏提醒<!--{/if}--></a>领取礼包</div>
+    <div class="libao_app clearfix">
+      <div class="libao_app_l">
+          <a href="index.php?ac=appdetail&id=$id" class="app_120" target="_blank">
+            <i class="app_img_120"></i>
+            <img src="{$syappinfo[logo]}">
+          </a>
+      </div>
+      <div class="libao_app_m">
+        <div class="libao_app_r_tit">{$syappinfo[name]}</div>
+        <div class="libao_app_r_leixing">游戏标签：{$syappinfo[tags]}</div>
+        <div class="libao_app_r_infotit">游戏介绍：</div>
+        <div class="libao_app_r_info">{$syappinfo[briefsummary]}</div>
+      </div>
+      <div class="libao_app_r">
+        <a href="index.php?ac=appdetail&id=$id" target="_blank">下载游戏</a>
+        <a href="index.php?ac=packs" target="_blank">全部礼包</a>
+      </div>
+    </div>
+    <div class="libao_box">
+      <!--{eval $packs=getpackinfo(0,0,0,20,0,$id)}-->
+	  <div class="libao_box_tit">{$syappinfo[name]}的礼包列表（共有<!--{eval echo count($packs['list'])}-->）</div>
+      <ul class="libao_box_con clearfix">
+       <!--{loop $packs[list] $key $value}--> 
+		<li>
+          <div class="libao_ts"></div>
+          <p class="applb_tit_90"><a href="{$value['pdetailurl']}">$value[packname]</a></p>
+          <div class="libao_box_gn"><a href="{$value['pdetailurl']}" class="lingqu" target="_blank">领取</a><p>适用于<!--{if $value[isandroid]=="1"}--><span class="lqlb_xtan"></span><!--{/if}--><!--{if $value[isios]=="1"}--><span class="lqlb_xtios"></span><!--{/if}--></p></div>
+        </li>
+       <!--{/loop}-->
+      </ul>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

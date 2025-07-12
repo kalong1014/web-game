@@ -1,0 +1,250 @@
+ <!--{template header}-->
+	        <script type="text/javascript">
+	            function selectAll(checkbox) {
+				if(typeof($("#check").attr('checked'))=="undefined")		
+	                $('input[type=checkbox]').attr('checked', false);
+					else
+					 $('input[type=checkbox]').attr('checked',true);
+	            }
+	        </script>
+
+	        <script type="text/javascript">
+	            function selectcatalogAll(catalog) {
+				var ids="#"+catalog;
+				var classs="."+catalog;
+				if(typeof($(ids).attr('checked'))=="undefined")		
+	                $(classs).attr('checked', false);
+					else
+					 $(classs).attr('checked',true);
+	            }
+				function fabu(id){
+				
+				urlpath="admincp.php?ac=clientapi&op=insert&gameserverid="+id;
+				nameid="#cat"+id;
+				catvalue=$(nameid).val(); 
+				urlpath+="&catalogids="+catvalue;
+				window.location.href=urlpath;
+				}
+				
+				function jubao(id){
+				name="#jb"+id;
+				
+				if($(name).text()=="举报"){
+					$.ajax({
+					beforeSend:function(){
+					},
+					url:"admincp.php?ac=jubao&gameid="+id,
+					type:'get',
+					dataType:'json',
+					success:function(json){
+					var htmls="";
+					if(json.successinfo=="1")
+					htmls='<font style="color:red;">举报成功</font>';
+					$(name).html(htmls); 
+					}
+					});
+				}
+				}
+				
+	        </script>
+
+<style type="text/css">
+.indexcatgame{ border:1px solid #b4d7e9; margin-bottom:4px; padding:5px 10px; text-align:left;}
+</style>
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+        		<td colspan="3">
+		<select name="cid">
+        <option value="0">选择栏目</option>
+        <!--{loop $catalogs $value}-->
+        <option value="{$value['id']}" <!--{if $catalogid2==$value[id]}--> selected="selected" <!--{/if}-->>{$value['name']}</option>
+        <!--{/loop}-->
+		</select>
+
+		</td>
+		<td colspan="3">
+		<select name="perpage">
+		<option value="50" <!--{if $perpage==50}--> selected="selected" <!--{/if}-->>每页显示50个</option>
+		<option value="100" <!--{if $perpage==100}--> selected="selected" <!--{/if}-->>每页显示100个</option>
+        <option value="500" <!--{if $perpage==500}--> selected="selected" <!--{/if}-->>每页显示500个</option>
+		</select>
+
+		</td>
+        <td>关键词搜索：</td>
+       <td colspan="3">
+<input name="keyword" value="{$keyword}"/>
+		</td>
+        <td colspan="3">
+        <select name="sourcetype">
+		<option value="" >请选择采集来源</option>
+		<option value="7k7k" <!--{if $sourcetype=="7k7k"}--> selected="selected" <!--{/if}-->>7K7K小游戏</option>
+        <option value="4399" <!--{if $sourcetype=="4399"}--> selected="selected" <!--{/if}-->>4399小游戏</option>
+        <option value="2144" <!--{if $sourcetype=="2144"}--> selected="selected" <!--{/if}-->>2144小游戏</option>
+        <option value="3366" <!--{if $sourcetype=="3366"}--> selected="selected" <!--{/if}-->>3366小游戏</option>
+        <option value="3454" <!--{if $sourcetype=="3454"}--> selected="selected" <!--{/if}-->>3454小游戏</option>
+		</select>
+		</td>
+		<td>
+         <input type="hidden" name="ac" value="clientapi">
+          <input type="hidden" name="subserverid" value="{$subserverid}">
+        <input type="hidden" name="op" value="list">
+		<input type="hidden" name="do" value="search">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit sub2zf"> 
+        <a href="admincp.php?ac=clientapi&op=list&do=new&subserverid={$subserverid}" class="sub4zf">今日游戏</a>
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+	<!--{if !($_SCONFIG['siteid'] and $_SCONFIG['key'])}--> <div class="block style4">您还未设置站点ID，请先设置 <a href="admincp.php?ac=config&op=yun" class="sub2zf">设置</a></div> <!--{/if}-->
+<!--{if $catgameinfos}-->
+
+	<form method="post" id="batchform" action="admincp.php?ac=clientapi&op=insert">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent">	
+		<p>总共有满足  <!--{if $subjectinfo}-->该 <font style="color:red;">{$subjectinfo['name']}</font> 专辑的<!--{/if}--> 条件的数据 <strong>$count</strong> 个   <!--{if $subjectinfo}--><span class="guanli" style=" margin-left: 300px;"><a href="/admincp.php?ac=subject&op=list" class="sub6zf">返回专辑列表</a> <a href="/admincp.php?ac=subject&op=gamelist&id={$subjectinfo['id']}" class="sub6zf">管理专辑游戏</a></span><!--{/if}--></p>	   
+		<table cellspacing="0" cellpadding="0" class="formtable">   
+		<tr>
+        <td width="40" style="color:#0097fe;">选择</td>
+        <td width="70" style="color:#0097fe;">编号</td>
+        <td width="170" style="color:#0097fe;">应用名称</td>      
+        <td width="90" style="color:#0097fe;">添加时间</td>     
+        <td width="60" style="color:#0097fe;">来源</td>
+        <td width="100" style="color:#0097fe;">游戏资源</td>
+        <td width="130" style="color:#0097fe;">游戏插入类别</td>
+        <td width="100" style="color:#0097fe;">操作</td>    
+        </tr>
+		<!--{loop $catgameinfos $val}-->
+        <tr><td><h2>{$val['catname']}</h2></td></tr>
+        <!--{loop $val[gameinfos] $value}-->
+		<tr>
+        <td><input id="Checkbox$value[id]" type="checkbox" name="ids[]" value="$value[id]" 	<!--{if $gamelist[$value[id]]}-->checked<!--{/if}-->></td></td>
+		<td >$value[id]</td>
+        <td><a href="{$value[url]}">$value[name]</a></td>
+        <td >
+        <!--{eval echo sgmdate('Y-m-d', $value['addtime'])}-->
+        </td>   
+        <td >
+$value[sourcetype]
+        </td>
+         <td><a href="{$value['smallpic']}" target="_blank">图</a> <a href="http://www.{$value['sourcetype']}.com{$value['geturl']}" target="_blank">html</a> <a href="{$value['url']}" target="_blank">swf</a></td>  
+         
+        <td> <select name="catalogids" id="cat{$value['id']}"><option value="0">选择类别</option>
+       <!--{loop $catalog $key $valuec}-->
+       <option value="$valuec[id]">$valuec['name']</option>
+       <!--{/loop}-->
+       </select></td>
+        
+        
+        <td><a href="javascript:void(0)" onclick="fabu($value['id'])" >发布</a> <a id="jb{$value['id']}" href="javascript:void(0)" onclick="jubao($value['id'])" >举报</a></td>
+		</tr>
+		<!--{/loop}-->
+        <!--{/loop}-->
+		</table>
+	
+		
+        <div class="footactions">
+        <!--{if $count}-->
+        <input type="checkbox" id="check" name="chkall" onclick='selectAll(this)'>全选
+       <select name="catalogids"><option value="0">请选择要插入数据的类别</option>
+       <!--{loop $catalog $key $value}-->
+       <option value="$value[id]">$value['name']</option>
+       <!--{/loop}-->
+       </select>
+       <input type="hidden" name="pageurl" value="{$pageurl}"/>
+        <input type="submit" name="article" class="sub6zf" value="批量添加游戏" class="submit">
+          <!--{/if}-->
+        <!--{if $multi}-->
+		<div class="pages">$multi</div>
+            <!--{/if}-->
+		</div>
+
+	</div>
+	</form>
+<!--{else}-->
+<!--{if $indexcatgameinfos}-->
+	<form method="post" id="batchform" action="admincp.php?ac=clientapi&op=insert">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<!--{loop $indexcatgameinfos $key2 $val}-->
+<div class="indexcatgame">
+        <h2>{$val['catname']}</h2>
+		<table cellspacing="0" cellpadding="0" class="formtable">        
+		<tr>
+        <td width="35" style="color:#0097fe;">选择</td>
+        <td width="100" style="color:#0097fe;">编号</td>
+        <td width="200" style="color:#0097fe;">应用名称</td> 
+         <td width="90" style="color:#0097fe;">添加时间</td>     
+        <td width="60" style="color:#0097fe;">来源</td>
+        <td width="110" style="color:#0097fe;">游戏资源</td>
+        <td width="90" style="color:#0097fe;">游戏插入类别</td>
+         <td width="100" style="color:#0097fe;">操作</td>         
+        </tr>
+    
+        <!--{loop $val[gameinfos] $value}-->
+		<tr>
+        <td><input id="Checkbox$value[id]" class="{$val['catothername']}" type="checkbox" name="ids[]" value="$value[id]" 	<!--{if $gamelist[$value[id]]}-->checked<!--{/if}-->></td><td>$value[id]</td>
+        <td><a href="{$value[url]}">$value[name]</a></td>  
+        
+        
+         <td >
+        <!--{eval echo sgmdate('Y-m-d', $value['addtime'])}-->
+        </td>   
+        <td >
+$value[sourcetype]
+        </td>
+        
+        <td><a href="{$value['smallpic']}" target="_blank">图</a> <a href="http://www.{$value['sourcetype']}.com{$value['geturl']}" target="_blank">html</a> <a href="{$value['url']}" target="_blank">swf</a></td>  
+        
+        <td> <select name="catalogids" id="cat{$value['id']}"><option value="0">选择类别</option>
+       <!--{loop $catalog $key $valuec}-->
+       <option value="$valuec[id]">$valuec['name']</option>
+       <!--{/loop}-->
+       </select></td>
+        
+        
+        <td><a href="javascript:void(0)" onclick="fabu($value['id'])" >发布</a> <a id="jb{$value['id']}" href="javascript:void(0)" onclick="jubao($value['id'])" >举报</a></td>
+		</tr>
+		<!--{/loop}-->
+        	<tr style="margin-bottom:10px; background-color:#e3eef8;">
+            <td><input type="checkbox" id="{$val['catothername']}" class="catalog" name="chkall" onclick='selectcatalogAll("{$val[catothername]}")'></td>
+            <td>全选</td>
+            <td></td>
+            <td></td><td></td><td></td><td></td>
+        <td><a href="admincp.php?cid={$val[catid]}&perpage=50&keyword=&sourcetype=&ac=clientapi&op=list&do=search"><b>更多</b></a></td>
+		</tr>
+		</table> 
+         
+</div>
+<!--{/loop}-->
+<div style="clear:both;"></div>
+        <div class="footactions">
+        <input type="checkbox" id="check" name="chkall" onclick='selectAll(this)'>全选
+       <select name="catalogids"><option value="0">请选择要插入数据的类别</option>
+       <!--{loop $catalog $key $value}-->
+       <option value="$value[id]">$value['name']</option>
+       <!--{/loop}-->
+       </select>
+       <input type="hidden" name="pageurl" value="{$pageurl}"/>
+        <input type="submit" name="article" value="批量添加游戏" class="submit sub6zf">
+		</div> 
+        </form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>指定条件下还没有数据</p>
+	</div>
+ <!--{/if}-->   
+<!--{/if}-->
+</div>
+</div>
+<div style="clear:both;">
+</div>
+ <!--{template footer}-->
+

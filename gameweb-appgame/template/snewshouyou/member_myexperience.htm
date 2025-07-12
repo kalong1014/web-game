@@ -1,0 +1,19 @@
+<!--{template header}-->
+
+<div class="container padding-top padding-left padding-right" id="tab1">
+    <ul class="list-unstyle height">
+	    <!--{loop $groupinfos $key $value}-->
+        <li>
+            <span class="float-left" style="padding-bottom:10px; padding-right:10px">{$value[group_name]}</span>
+            <span class="float-right">{$value[lowerexperience]}~{$value[upexperience]}</span>
+            <hr class="bg-line">
+        </li>
+       <!--{/loop}-->
+    </ul>
+</div>
+
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+</body>
+</html>

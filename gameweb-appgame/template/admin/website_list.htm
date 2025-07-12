@@ -1,0 +1,99 @@
+ <!--{template header}-->
+<script type="text/javascript">
+
+function checkAlls(form, name) {
+	for(var i = 0; i < form.elements.length; i++) {
+		var e = form.elements[i];
+		if(e.name.match(name)) {
+			e.checked = form.elements['chkall1'].checked;
+		}
+	}
+}
+</script>
+<style type="text/css">
+.subjectlist li{float: left;  width :110px;padding:10px;text-align:left;}
+</style>
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php?ac=website&op=list">
+	<div class="block style4">
+		
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+		<td colspan="3">
+		<select name="perpage">
+        <option value="5">每页显示5个</option>
+		<option value="20">每页显示20个</option>
+		<option value="50">每页显示50个</option>
+		<option value="100">每页显示100个</option>
+		</select>
+		</td>
+		<td>
+		<input type="hidden" name="ac" value="website">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit">
+		 <a href="admincp.php?ac=website&op=add">添加站点</a>
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+	<form method="post" id="batchform" action="admincp.php?ac=website&op=del">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent">	
+		<p>总共有满足条件的数据 <strong>$count</strong> 个</p>	   
+		<table cellspacing="0" cellpadding="0" class="formtable">   
+		<tr>
+        <td style =" width :30px;">选择</td>
+        <td >编号</td>
+        <td style =" width :100px;">站点ID</td>
+        
+        <td style =" width :100px;">站点名称</td>
+        
+        <td style =" width :260px;">通信WKEY</td>        
+        <td>添加时间</td>     
+        <td style =" width :110px;">操作</td>
+        </tr>
+		<!--{loop $list $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" value="$value[id]" 	<!--{if $gamelist[$value[id]]}-->checked<!--{/if}-->></td></td>
+		<td >$value[id]</td>
+        <td><a href="{$value[url]}" target="_blank">$value[siteid]</a></td>
+        <td><a href="{$value[url]}" target="_blank">$value[sitename]</a></td>
+        <td>$value[wkey]</td>
+        <td >
+        {$value['dateline']}  
+        </td>   
+        <td >
+        <a href="{$value[url]}" target="_blank">浏览</a>
+        	<a href="admincp.php?ac=website&op=edit&id=$value[id]">编辑</a>
+            <a href="admincp.php?ac=website&op=del&id=$value[id]">删除</a>
+        </td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	
+		<!--{if $multi}-->
+        <div class="footactions">
+		<div class="pages">$multi</div>
+		</div>
+    <!--{/if}-->
+	</div>
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>指定条件下还没有数据</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div style="clear:both;">
+</div>
+
+ <!--{template footer}-->

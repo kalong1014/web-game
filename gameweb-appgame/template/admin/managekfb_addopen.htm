@@ -1,0 +1,100 @@
+<!--{template header}-->
+ <script language="javascript" type="text/javascript" src="/template/admin/js/datepicker/WdatePicker.js"></script>
+<script>
+$(function(){
+	 var name=$('#kfgamename').val();
+	 if(name){
+	 	searchname(name);
+	 }
+});
+function kfsearchname(name){
+	if(name==""){
+		alert("关联游戏不能为空，请重新填写...");
+		return;
+	}	
+		$.ajax({
+		url:"/admincp.php?ac=managekfb&gamename="+encodeURIComponent(name),
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var snames="";
+			var infos=json.info;
+			var sames=json.same;
+			for(var i=0;i<sames.length;i++){
+				samesinfo=sames[i];
+				snames=snames+"<a href=\"javascript:setname('"+samesinfo.name+"','"+samesinfo.id+"');\">"+samesinfo.name+"</span>"+" ";
+			}
+			$('#glgames').html(snames);
+			if(json.error=="isnull"){
+				alert("游戏名称不存在,请确认输入是否有错...");
+				$('#kfgamename').val('');
+				return;
+			}else{
+				$('#appid').val(infos.id);
+			}
+		}
+	});
+}
+function kfbchkpackinfo(){
+	var gname=$('#kfgamename').val();
+	if(gname==""){
+		alert("还没填写游戏名称");
+		return false;
+	}
+}
+function setname(gname,appid){
+	$('#kfgamename').val(gname);
+	$('#appid').val(appid);
+}
+function setplatname(platname){
+	$('#yypt').val(platname);
+	$('#uplatname').html('');
+}
+function getplatname(){
+	$.ajax({
+		url:"/admincp.php?ac=managekfb&op=addopen&getplatname=1",
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var snames="历史记录：";
+			var infos=json.platname;
+			for(var i=0;i<infos.length;i++){
+				samesinfo=infos[i];
+				snames=snames+"<a href=\"javascript:setplatname('"+samesinfo.useplatform+"');\">"+samesinfo.useplatform+"</span>"+" ";
+			}
+			$('#uplatname').html(snames);
+		}
+	});
+}
+</script>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title">添加开服表</h2><div class="sc_tishi"><span><a href="admincp.php?ac=managekfb" class="sc_tishi_b sc_tishi_b2">开服表管理</a></span></div>
+    <div class="o_appcon">
+      <form action="admincp.php?ac=managekfb&op=addopen" method="post" enctype="multipart/form-data" onsubmit="return kfbchkpackinfo()">
+        <ul class="o_rencon libaocon">
+          <li> <label class="mn_infobox">厂商平台：</label><input type="text" id="yypt" value="{$kfinfo[useplatform]}" name="kfinfo[useplatform]" class="sousuobox_input1" onclick="getplatname()" /> （前台显示为运营商，如：百度手游、九游平台）</li>
+          <div id="uplatname"></div>
+		  <li><label class="mn_infobox">游戏名称：</label><input class="sousuobox_input1" type="text" name="kfinfo[gamename]" id="kfgamename" value="$kfinfo[gamename]" onblur="kfsearchname(this.value)"><span>	你是不是在找:<span id="glgames"></span></span></li>
+          <li><label class="mn_infobox">系统选择：</label><input type="checkbox" name="kfinfo[isandroid]" value="1" <!--{if !$kfinfo}-->checked="checked"<!--{/if}--><!--{if $kfinfo[isandroid]=="1"}-->checked="checked"<!--{/if}-->> 安卓 <input type="checkbox" name="kfinfo[isios]" value="1" <!--{if $kfinfo[isios]=="1"}-->checked="checked" <!--{/if}-->> 苹果</li>
+		  <li><label class="mn_infobox">服务器名：</label><input type="text" class="text-input sousuobox_input1" name="kfinfo[addressnum]" <!--{if $kfinfo[addressnum]}-->value="{$kfinfo[addressnum]}"<!--{else}-->value="双线1区"<!--{/if}-->></li>
+		  <li><label class="mn_infobox">开服时间：</label><input type="text" class="sousuobox_input1" name="kfinfo[starttime]" id="starttime" <!--{if $kfinfo[starttime]}-->value="<!--{eval echo date('Y-m-d',$kfinfo[starttime])}-->"<!--{else}-->value=""<!--{/if}--> size="10" class="text-input" onclick="WdatePicker({el:'starttime'})"/><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/tshouyou/js/datepicker/skin/datePicker.gif" /> <select id="hour" name="hour">
+<option value="">请选择</option>
+<!--{loop $hours $key $val}-->
+<option value="$val" <!--{if $hour==$val}-->selected="selected"<!--{/if}-->>$val</option>
+<!--{/loop}-->
+</select> 点</li>
+          <li><label class="mn_infobox">官网地址：</label><input type="text" name="kfinfo[gameurl]" class="text-input sousuobox_input1" value="{$kfinfo[gameurl]}"> (请以http://开头,前台显示为进入专区，不填则默认为该游戏的专区地址。)</li>
+         <!-- <li><label class="mn_infobox">礼包ID：</label><input type="text" class="text-input"> <input type="file" value="添加礼包"></li>-->
+         <!-- <li><p class="input_ts">附上游戏激活码或礼包，可以提高游戏开测的关注度。效果更好。</p><p class="input_ts">礼包添加完成后，在礼包管理页可查看ID。则此处填写其中的ID数“0853”即可</p></li>-->
+        </ul>
+        <div class="footactions">
+		<input type="hidden" name="kfinfo[appid]" value="{$kfinfo[appid]}" id="appid">
+		<!--{if $kfinfo}--><input type="hidden" value="{$kfinfo[id]}" name="kfid"><!--{/if}-->
+          <input class="tijiao_button" type="submit" name="kfinfosubmit" value="提交" id="subtn">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

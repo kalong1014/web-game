@@ -1,0 +1,99 @@
+ <!--{template header}-->
+	<div class="bdrcontent shujutiaoyong">
+		<h2 class="con_title">调取应用信息</h2>       
+		<form method="post" action="admincp.php?ac=datainfo&op=appinfo">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+          <tr>
+            <td>数据类型：<select name="data[type]"><option value="0" >不限</option><option value="1" >苹果</option><option value="2">安卓</option><option value="3">微软</option></select>
+            栏目id：<input type="text" name="data[categoryid]" value="0" class="sousuobox_input1" style="width:30px;">
+            iPhone：<select name="data[isphone]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            iPad：<select name="data[ispad]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            应用类型：<select name="data[apptype]"><option value="0">不限</option><option value="1">游戏</option><option value="2">软件</option></select>
+            排序方式：<select name="data[orderby]"><option value="dateline">时间</option><option value="weeknum">周点击</option><option value="viewnum">总点击</option><option value="isrecommend">推荐</option><option value="updatetime">更新时间</option><option value="source">评分</option><option value="downloadcount">下载次数</option></select>
+            取出条数：<input type="text" name="data[num]" value="10" class="sousuobox_input1" style="width:30px;">
+            分页：<select name="data[ispage]"><option value="0">否</option><option value="1">是</option></select>
+            专题id：<input type="text" name="data[subjectid]" value="0" class="sousuobox_input1" style="width:30px;"></td>
+           </tr>
+           <tr>
+             <td><input class="submit sub6zf" type="submit" name="submit" value="生成"/> <input type="text" name="" value="{$_SCONFIG[getappinfo]}" class="sousuobox_input1" style="width:500px;"> <a href="admincp.php?ac=datainfo&op=preview&datalx=app&datainfo=$_SCONFIG[getappinfo]">使用说明</a></td>
+           </tr>
+		</table>		
+		</form>
+		<h2 class="con_title">调取资讯信息</h2>
+		<form method="post" action="admincp.php?ac=datainfo&op=newsinfo">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		 <tr>
+             <td>资讯类型：<select name="newsdata[type]"><option value="-1" >不限</option><option value="1" >苹果</option><option value="2">安卓</option><option value="3">微软</option></select>
+             iPhone:<select name="newsdata[isphone]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+             iPad:<select name="newsdata[ispad]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+             审核:<select name="newsdata[isverify]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+             排序方式：<select name="newsdata[orderby]"><option value="dateline">时间</option><option value="viewnum">总点击</option><option value="isrecommend">推荐</option></select>
+             取出条数：<input type="text" name="newsdata[num]" value="10" class="sousuobox_input1" style="width:30px;">
+             分页:<select name="newsdata[ispage]"><option value="0">否</option><option value="1">是</option></select></td>
+         <tr>
+		 <tr><td><input class="submit sub6zf" type="submit" name="submit" value="生成"/> <input type="text" name="" value="{$_SCONFIG[getnewsinfo]}" class="sousuobox_input1" style="width:500px;"> <a href="admincp.php?ac=datainfo&op=preview&datalx=news&datainfo=$_SCONFIG[getnewsinfo]">使用说明</a></td>
+		 </tr>
+		</table>		
+		</form>
+		<h2 class="con_title">调取栏目信息</h2>
+		<form method="post" action="admincp.php?ac=datainfo&op=cateinfo">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+            <td>资讯类型：<select name="catedata[type]"><option value="1" >应用</option><option value="2">资讯</option></select>
+            isapple:<select name="catedata[isapple]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            isandroid:<select name="catedata[isandroid]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            取出条数：<input type="text" name="catedata[num]" value="10" class="sousuobox_input1" style="width:30px;">
+            审核:<select name="catedata[isnav]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            排序方式：<select name="catedata[orderby]"><option value="dateline">时间</option><option value="displayorder">总点击</option><option value="isrecommend">推荐</option></select>
+            栏目类型:<select name="catedata[apptype]"><option value="-1">不判断</option><option value="1">游戏</option><option value="2">软件</option></select></td>
+         <tr>
+		 <tr><td><input class="submit sub6zf" type="submit" name="submit" value="生成"/> <input type="text" name="" value="{$_SCONFIG[getcateinfo]}" class="sousuobox_input1" style="width:500px;"> <a href="admincp.php?ac=datainfo&op=preview&datalx=cate&datainfo=$_SCONFIG[getcateinfo]">使用说明</a></td>
+		 </tr>
+		</table>		
+		</form>
+		<h2 class="con_title">调取专题信息</h2>
+		<form method="post" action="admincp.php?ac=datainfo&op=subinfo">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+            <td>专题数据类型：<select name="subdata[type]"><option value="1" >应用</option></select>
+            专题类别:<select name="subdata[subtype]"><option value="-1">不限</option><option value="1">安卓</option><option value="2">苹果</option><option value="3">微软</option></select>
+            iPhone:<select name="subdata[isphone]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            iPad:<select name="subdata[ispad]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            排序方式：<select name="subdata[order]"><option value="dateline">时间</option><option value="viewnum">总点击</option><option value="isrecommend">推荐</option></select>
+            取出条数：<input type="text" name="subdata[num]" value="10" class="sousuobox_input1" style="width:30px;">
+            专题类型:<select name="subdata[sublx]"><option value="-1">不判断</option><option value="1">游戏</option><option value="2">软件</option></select>
+            分页:<select name="subdata[ispage]"><option value="0">否</option><option value="1">是</option></select></td>
+		 <tr>
+		 <tr><td><input class="submit sub6zf" type="submit" name="submit" value="生成"/> <input type="text" name="" value="{$_SCONFIG[getsubinfo]}" class="sousuobox_input1" style="width:500px;"> <a href="admincp.php?ac=datainfo&op=preview&datalx=sub&datainfo=$_SCONFIG[getsubinfo]">使用说明</a></td>
+		 </tr>
+		</table>		
+		</form>
+		<h2 class="con_title">调取应用广告信息</h2>
+		<form method="post" action="admincp.php?ac=datainfo&op=appadinfo">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+            <tr>
+            <td>广告类别:<select name="appaddata[type]"><option value="1">安卓</option><option value="2">苹果</option><option value="3">微软</option></select>
+            iPhone:<select name="appaddata[isphone]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            iPad:<select name="appaddata[ispad]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            取出条数：<input type="text" name="appaddata[num]" value="10" class="sousuobox_input1" style="width:30px;"></td>
+             <tr>
+             <tr><td><input class="submit sub6zf" type="submit" name="submit" value="生成"/> <input type="text" name="" value="{$_SCONFIG[getappadinfo]}" class="sousuobox_input1" style="width:500px;"> <a href="admincp.php?ac=datainfo&op=preview&datalx=appad&datainfo=$_SCONFIG[getappadinfo]">使用说明</a></td>
+             </tr>
+		</table>		
+		</form>
+		<h2 class="con_title">调取资讯广告信息</h2>
+		<form method="post" action="admincp.php?ac=datainfo&op=newsadinfo">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+            <tr>
+            <td>广告类别:<select name="newsaddata[type]"><option value="-1">不限</option><option value="1">安卓</option><option value="2">苹果</option><option value="3">微软</option></select>
+            iPhone:<select name="newsaddata[isphone]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            iPad:<select name="newsaddata[ispad]"><option value="-1">不限</option><option value="0">否</option><option value="1">是</option></select>
+            取出条数：<input type="text" name="newsaddata[num]" value="10" class="sousuobox_input1" style="width:30px;"></td>
+             <tr>
+             <tr><td><input class="submit sub6zf" type="submit" name="submit" value="生成"/> <input type="text" name="" value="{$_SCONFIG[getnewsadinfo]}" class="sousuobox_input1" style="width:500px;"> <a href="admincp.php?ac=datainfo&op=preview&datalx=newsad&datainfo=$_SCONFIG[getnewsadinfo]">使用说明</a></td>
+             </tr>
+		</table>		
+		</form>
+		
+		</div>
+<!--{template footer}-->

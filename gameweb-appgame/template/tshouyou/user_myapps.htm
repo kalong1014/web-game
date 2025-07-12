@@ -1,0 +1,58 @@
+<!--{template header}-->
+<script type="text/javascript">
+$(document).ready(function(){
+$(".u_conab").click(function(){
+  $(".u_conab").addClass("cur");
+  $(".u_conpb").removeClass("cur");
+  $(".user_aapp").show();
+  $(".user_papp").hide();
+});
+$(".u_conpb").click(function(){
+  $(".u_conpb").addClass("cur");
+  $(".u_conab").removeClass("cur");
+  $(".user_papp").show();
+  $(".user_aapp").hide();
+});
+});
+</script>
+<style type="text/css">
+.user_content_con table { text-align:center; width:100%;}
+.user_content_con th { background-color:#ebf4f9; padding:10px 5px;}
+.user_content_con td { padding:10px 5px; border-bottom:1px dotted #ddd;}
+.user_content_con .dangge_app { text-align:left; height:80px;}
+</style>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit">应用管理</h2>
+   <div class="user_content_con">
+
+
+      <div class="o_appgltit clearfix"><a href="index.php?ac=user&op=myapps&isverify=0" $dangqianapp[0]>待审核</a><a href="index.php?ac=user&op=myapps&isverify=1" $dangqianapp[1]>通过审核</a><a href="index.php?ac=user&op=myapps&isverify=-1" $dangqianapp[-1]>未通过审核</a></div>
+      <div class="o_appglcon">
+	 	 <!--{if $appinfo}-->	
+              <table width="100%" cellpadding="0" cellspacing="0">
+             <tr><th>应用名称</th><th>类型</th><th>版本</th><th>上传时间</th><th>logo</th><th>操作</th></tr> 
+              <!--{loop $appinfo $value}-->
+              <tr>
+              <td>{$value[name]}</td>
+              <td><!--{if $value[type]=="2"}-->ANDROID<!--{elseif $value[type]=="1"}-->IOS<!--{else}-->WP<!--{/if}--></td>
+              <td>{$value[version]}</td>
+              <td><!--{eval echo date('Y-m-d',$value[dateline])}--></td>
+              <td><!--{if $value[logo]}--><img height='30px' src="{$value[logo]}" /><!--{else}-->无<!--{/if}--></td>
+              <td><!--{if $value[isverify]=="0"}--><a href="index.php?ac=user&op=myapps&lx=$value[type]&caozuo=appedit&id=$value[id]">编辑</a>  <a href="index.php?ac=user&op=myapps&caozuo=delapp&lx=$value[type]&id=$value[id]">删除</a><!--{elseif $value[isverify]=="1"}--><a href="index.php?ac=user&op=myapps&lx=$value[type]&caozuo=appedit&id=$value[id]">升级</a><!--{/if}--></td>
+              </tr>
+              <!--{/loop}-->	  
+              </table>
+              <div class="fenye"><!--{eval echo $multi}--></div>
+		<!--{else}-->
+			<div class="o_appglcon_ts">还没有相关应用信息!</div>
+		<!--{/if}-->		  
+      </div>
+
+  </div>
+</div>
+</div>
+
+
+<!--{template footer}-->

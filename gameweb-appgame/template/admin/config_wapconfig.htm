@@ -1,0 +1,48 @@
+ <!--{template header}-->
+    <h2 class="con_title">手机端配置站点信息</h2>
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+        <form method="post" enctype="multipart/form-data"  action="admincp.php?ac=config&op=wapconfig" >
+        <tr>			
+			 <td class="td_tit">二维码扫描下载方式:</td>
+			 <td><input type="radio" name="config[ewmdown]"  value="1" <!--{if $_SCONFIG[ewmdown]=="1"}-->checked="checked"<!--{elseif !$_SCONFIG[ewmdown]}-->checked="checked"<!--{/if}-->/>直接下载应用<input type="radio" name="config[ewmdown]"  value="2" <!--{if $_SCONFIG[ewmdown]=="2"}-->checked="checked"<!--{/if}-->/>跳转至手机端该应用的内容页</td>
+		  </tr>	
+          <tr>			
+			<td class="td_tit">WAP端模板配置:</td>
+			<td>
+             <input type="text" class="con_input" name="config[mtemplate]" value="$_SCONFIG[mtemplate]"> (注:模板文件夹名称以 "s" 开头。(如 saaa,sbbb))
+			</td>	   
+          <tr>
+              <td class="td_tit">WAP端logo(164*76):</td>
+              <td>
+              <input id="sitelogo" type="file" name="mlogo" value=""/>
+              <input type="submit"  name="blogbutton" value="上传"/><!--{if $_SCONFIG['mlogo']}--><img class="sitelogoimg" src="{$_SCONFIG['mlogo']}"/><!--{/if}--></td>
+		  </tr>
+        </form>
+        <form method="post" enctype="multipart/form-data"  action="admincp.php?ac=config&op=wapconfig" >       
+		 <tr>			
+			<td class="td_tit">WAP底部信息下半部分:</td>
+			<td><textarea name="config[wapsyfootinfo]">{$_SCONFIG['wapsyfootinfo']}</textarea><br></td>
+		 </tr>
+		 <tr>
+		  	 	<td class="td_tit">APP下载地址：</td>
+		   		<td><input type="text" name="config[mdownurl]" class="con_input" value="{$_SCONFIG['mdownurl']}"></td>
+		   </tr>
+		</tr> 
+		   	</table>
+			<h2 class="con_title">WAP版二级域名配置</h2>
+			<p class="tishi_con">温馨提示：用独立二级域名建立wap手机网站需先域名解析，例：将wap.****.com解析到和你的www.****.com相同的IP地址,并设置mobile.php为默认主页。若无请留空。
+</p>
+			<table>
+		  <tr>			
+			 <td class="td_tit">手机url:</td>
+			 <td><input class="con_input" type="text" name="config[sydomain]"  value="{$_SCONFIG['sydomain']}"/> url前须添加"http://"</td>
+		  </tr>
+		  
+		</table>
+	    </div>
+        <input type="hidden" value="{$_SCONFIG['sitename']}" name="sitename2"/>
+        <input type="hidden" value="{$_SCONFIG['siteurl']}" name="siteurl2"/>
+	  <div class="footactions"><input type="submit" id="blogbutton" name="blogbutton" class="tijiao_button" value="确认提交"/></div>
+    </form>
+ <!--{template footer}-->

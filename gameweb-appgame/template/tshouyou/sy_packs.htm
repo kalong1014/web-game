@@ -1,0 +1,52 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <div class="libao">
+    <div class="lb_btit">
+      <ul class="lb_nav">
+        <li><a href="index.php?ac=packs" $ptcss[0]>全部</a></li>
+		<!--{loop $ptypeinfo $key $val}-->
+		<li><a href="index.php?ac=packs&pt=$key" $ptcss[$key]>$val</a></li>
+        <!--{/loop}-->
+      </ul>
+      <p>礼包放号</p>
+    </div>
+    <div class="lb_tit">全部</div>
+    <div class="lb_con">
+     <!--{eval $packinfo=getpackinfo(0,$pt,0,10,1)}-->
+	 <!--{if $packinfo[list]}-->
+	  <table>
+        <tbody>
+          <tr>
+            <th class="text_left">礼包名称</th>
+            <th width="100">类型</th>
+            <th width="100">游戏名称</th>
+            <th width="100">开始时间</th>
+            <th width="100">适用系统</th>
+            <th width="100">适用区服</th>
+            <th width="100">运营商</th>
+            <th width="100">进入专区</th>
+            <th width="100">领取礼包</th>
+          </tr>
+		  <!--{loop $packinfo[list] $key $value}-->
+          <tr>
+            <td class="text_left"><a href="{$value[pdetailurl]}" target="_blank">$value[packname]</a></td>
+            <td>$ptypeinfo[$value[packtype]]</td>
+            <td><a href="$value[url]" target="_blank">$packinfo[$value[appid]][name]</a></td>
+            <td><!--{eval echo date('y-m-d H',$value[starttime])}--></td>
+            <td><!--{if $value[isios]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_ios.jpg"><!--{/if}--> <!--{if $value[isandroid]=="1"}--><img src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/images/tu_an.jpg"><!--{/if}--></td>
+            <td>$value[addressnum]</td>
+            <td>$value[useplatform]</td>
+            <td><a href="{$value[packurl]}" class="k_jrzq" target="_blank">进入专区</a></td>
+            <td><a href="{$value[pdetailurl]}" class="k_lqlb" target="_blank">领取礼包</a></td>
+          </tr>
+         <!--{/loop}-->
+        </tbody>
+      </table>
+	  <div class="fenye">{$packinfo[page]}</div>
+	  <!--{else}-->
+	  <div>没有相关礼包信息...</div>
+	  <!--{/if}-->
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

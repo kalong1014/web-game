@@ -1,0 +1,33 @@
+<!DOCTYPE html>  
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> 
+<meta content="email=no,telephone=no" name="format-detection"/>
+<title>{$_SCONFIG['shouyou_title']}</title>
+<style type="text/css">
+* { margin:0; padding:0;}
+#main { margin:80px auto 0 auto; height:160px; color:#ec6517; font-size:14px;}
+#main a { color:#ec6517; text-decoration:none;}
+#show_message { padding:0 50px;}
+h1 { font-size:14px; margin-bottom:10px;}
+.notice { margin-bottom:10px;}
+</style>
+</head>
+
+<body>
+<div id="main">
+<div id="show_message" class="showmess_$_SC['siteid']">
+	<div class="title titles_$_SC['siteid']"><h1>信息提示</h1></div>
+	<div class="wrap" id="wrapid_$_SC['siteid']">
+		<div class="notice" id="notice_$_SC['siteid']">$message</div>
+		<div class="goto" id="goto_$_SC['siteid']"><!--{if $url_forward}--><a href="$url_forward">页面跳转中...</a>
+		<!--{else}--><a href="javascript:history.go(-1);">返回上一页</a><br /><a href="/">返回首页</a>
+		<!--{/if}-->
+		</div>
+	</div>
+</div>
+
+</div>
+</body>
+</html>

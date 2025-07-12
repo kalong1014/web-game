@@ -1,0 +1,47 @@
+<!--{template header}-->
+<style type="text/css">
+.user_content_con table { text-align:center; width:100%;}
+.user_content_con th { background-color:#ebf4f9; padding:10px 5px;}
+.user_content_con td { padding:10px 5px; border-bottom:1px dotted #ddd; font-size:14px;}
+.user_content_con .dangge_app { text-align:left; height:80px;}
+</style>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit"><a href="index.php?ac=user&op=jubao&caozuo=delalljubao">删除全部举报</a>我的举报</h2>
+    <div class="user_content_con">
+	<!--{if $jubaoinfo}-->
+    <table>
+      <tbody>
+        <tr>
+          <th width="220">举报的应用</th>
+          <th>举报内容</th>
+          <th width="80">时间</th>
+		  <th width="60">修复状态</th>
+          <th width="50">操作</th>
+        </tr>
+	   <!--{loop $jubaoinfo $value}-->
+        <tr>
+          <td><div class="dangge_app">
+            <a href="$value['app']['url']" class="app_icon" target="_blank"><i class="app_img_none"></i><img alt="{$value[app][name]}" src="$value[app][logo]"></a>
+            <div class="app_name"><a href="$value['app']['url']">{$value[app][name]}</a></div>
+            <span class="star bigstar<!--{if $value[app][star]<6 && $value[app][star]!=0}--><!--{eval echo $value[app][star]*10}--><!--{elseif $value[app][star]=="0"}-->30<!--{else}-->{$value[app][star]}<!--{/if}-->"></span>
+            <span class="category">标签：$value[tags]</span>
+          </div></td>
+          <td><!--{if $value[errors]}--><p>{$value[errors]}</p><!--{/if}--><!--{if $value[message]}--><p>{$value[message]}</p><!--{/if}--></td>
+          <td><!--{eval echo date('Y-m-d',$value[dateline])}--></td>
+		  <td><!--{if $value[isverify]=="1"}-->已修复<!--{else}-->未修复<!--{/if}--></td>
+          <td><a href="index.php?ac=user&op=jubao&caozuo=deljubao&jbid={$value[id]}">删除</a></td>
+        </tr>
+       <!--{/loop}-->
+      </tbody>
+    </table>
+   <!--{else}-->
+   <div>您还没有举报过改站点的应用。</div>
+   <!--{/if}-->
+	  <div class="fenye">{$multi}</div>
+    </div>
+  </div>
+</div>
+
+<!--{template footer}-->

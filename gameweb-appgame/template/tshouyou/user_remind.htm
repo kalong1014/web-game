@@ -1,0 +1,28 @@
+<!--{template header}-->
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit"><a href="index.php?ac=user&op=remind&caozuo=delremind&id=all">清除全部记录</a>我的提醒记录</h2>
+    <div class="user_content_con">
+      <!--{if $remindinfos}-->
+	  <ul>	  
+	  <!--{loop $remindinfos $value}-->
+                <li class="dangge_app_uxz">
+                    <a href="{$value[url]}" class="app_icon_uxz" target="_blank"><i class="app_img_none_uxz"></i><img alt="{$value[name]}" src="{$value[logo]}"></a>
+                    <div class="app_name_uxz">
+                      <p><a href="{$value[url]}" title="{$value[name]}" target="_blank">{$value[name]}</a></p>
+					   <span class="bigstar<!--{if $value[star]<6 && $value[star]!=0}--><!--{eval echo $value[star]*10}--><!--{elseif $value[star]==0}-->30<!--{else}-->{$value[star]}<!--{/if}-->"></span>
+                      <p>标签：$value[tags]</p>
+                    </div>
+                    <div class="app_xiazaib_uxz"><a href="index.php?ac=user&op=remind&caozuo=delremind&id=$value[id]" class="xzjl_shanchu">取消提醒</a></div>
+                </li>				
+		<!--{/loop}-->
+      </ul>
+	  <div class="fenye">$multi</div>
+	  <!--{else}-->
+	  <div>你还没有下载过本站点的应用。</div>
+	  <!--{/if}-->
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="keywords" content="{$_SCONFIG['keyword']}">
+    <meta name="description" content="{$_SCONFIG['description']}">
+    <title>{$_SCONFIG[title]}</title>
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/pintuer.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/style.css">
+</head>
+<body>
+<!--nav-->
+<div class=" text-center nav-color elementwidth text-big padding-left padding-right"  style="height: 40px;z-index: 10;top: 0px;" id="nav">
+    <div class="line">
+        <div class="xl2 xs2 xm2 xb2 text-left padding-small-top">
+            <a class="icon-angle-left text-large ellipsis text-white" href="Javascript:history.go(-1);void(0);"></a>
+        </div>
+        <div class="xl8 xs8 xm8 xb8  padding-small-top" >
+            <div class="text-white imgshow" id="view-all">
+                {$dqcatename}
+                <span class="icon-angle-down text-large span2"></span>
+                <div class="drop open">
+                    <ul id="dropmenu" class="drop-menu" style="width:160px;left:50%;margin-left:-86px;margin-top: 16px;display:none">
+					    <li><a href="{$SCRIPT_NAME}?ac=news&cateid=0">全部资讯</a></li>
+                        <li class="divider"></li>
+                        <!--{eval $ncount=count($_SGLOBAL[newscate]);}-->
+						<!--{eval $n="1";}-->
+						<!--{loop $_SGLOBAL[newscate] $key $value}-->
+					    <li><a href="{$SCRIPT_NAME}?ac=news&cateid={$value[categoryid]}">{$value[categoryname]}</a></li>
+						<!--{if $n<$ncount}-->
+                        <li class="divider"></li>
+						<!--{/if}-->
+						<!--{eval $n++;}-->
+                        <!--{/loop}-->
+                    </ul>
+                    <div class="imegs" style="width: 25px;height:20px;background:url(/template/$_SCONFIG[template]/images/2015.png);position: absolute;left: 50%;top: 0;margin-left:-17px;z-index:8;"></div>
+                </div>
+            </div>
+	    </div>
+	<div class="xl2 xs2 xm2 xb2 padding-small-top text-right">
+		<a href="javascript:void(0)" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+	</div>
+  </div>
+</div>
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <div class="text-center elementwidth text-big padding-left padding-right bg-yellow" style="height: 40px">
+        <form method="get" action="/{$SCRIPT_NAME}" class="form-inline" name="form">
+            <input type="hidden" value="search" name="ac">
+            <div class="line">
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-left">
+                    <span class="icon-angle-left text-large text-white" id="close"></span>
+                </div>
+                <div class="xl8 xs8 xm8 xb8 margin-small-top">
+                    <input type="text" class="input" value="{$keyword}" name="keyword" placeholder="精品应用、海量搜索"  style="height: 30px;padding:0 10px">
+                </div>
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-right">
+                    <a href="javascript:form.submit();" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--{template search_box}-->
+</div>
+
+	 <!--{eval $newslist=getnewslist(4,-1,-1,1,"dateline",10,$cateid,0)}-->
+	 <div class="all_newslist">
+     <!--{loop $newslist[list] $k $v}-->	
+    <div class="container padding-left padding-right <!--{if $k=="0"}--> padding-top <!--{/if}--> ">
+        <div class="line padding-bottom">
+            <a href="{$SCRIPT_NAME}?ac=newdetail&newid={$v['newid']}">
+                <div class="view-body">
+                    <div class="list-group">
+                        <li class=" text-center">
+                            <p class="text-big"  style="height: 25px;overflow:hidden">{$v['title']}</p>
+                        </li>
+                        <li><p class="text-indent text-left text-small text-gray" style="height: 72px;overflow:hidden"><!--{eval echo nl2br($v['description'])}--></p></li>
+                        <li class=" text-center text-small text-gray">
+                            <span><!--{eval echo $_SGLOBAL[newscate][$v[categoryid]][categoryname]}--></span><span class="text-gray">&nbsp;&nbsp;|&nbsp;&nbsp;</span><!--{eval echo date("Y-m-d",$v[dateline])}--><span class="text-gray">&nbsp;&nbsp;|&nbsp;&nbsp;</span>关注({$v['viewnum']})
+                        </li>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!--{/loop}-->
+	</div>
+<input type="hidden" value="2" id="page_num" loading='no'>
+<div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+<script>
+    var height= $(window).height()+100;
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	$(window).scroll(function(){
+	  if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+	  	var isload=$('#page_num').attr('loading');
+		if(isload=="no"){
+			$('#page_num').attr("loading","yes");
+			var page_num=$('#page_num').val();
+			var addlisthtml="";
+			$.ajax({
+				type:"GET",
+				url:'/$SCRIPT_NAME?ac=news&reqPageNum='+page_num,
+				dataType:'json',
+				beforeSend:function(){
+				  $('.ajax_loading').show() //显示加载时候的提示
+				},
+				success:function(data){
+					 var addapplist=data.moreFineList.list;
+					 if(addapplist){
+						 $.each(addapplist, function(i,val){     
+							 addlisthtml+='<div class="container padding-left padding-right "><div class="line padding-bottom"><a href="'+val.newsurl+'"><div class="view-body"><div class="list-group"><li class=" text-center"><p class="text-big"  style="height: 25px;overflow:hidden">'+val.title+'</p></li><li><p class="text-indent text-left text-small text-gray" style="height: 72px;overflow:hidden">'+val.description+'</p></li><li class=" text-center text-small text-gray"><span>'+val.newscatename+'</span><span class="text-gray">&nbsp;&nbsp;|&nbsp;&nbsp;</span>'+val.date+'<span class="text-gray">&nbsp;&nbsp;|&nbsp;&nbsp;</span>关注('+val.viewnum+')</li></div></div></a></div></div>';
+						 });
+						 $('.all_newslist').append(addlisthtml);
+						 var npage_num = parseInt(page_num) + 1;
+						 $('#page_num').val(npage_num);
+						 $('#page_num').attr("loading","no");
+					 }else{
+						$('#page_num').attr("loading","yes");
+					 }
+					 $('.ajax_loading').hide() //请求成功,隐藏加载提示
+				}
+			})
+		}
+	  }
+	})
+  })
+</script>
+<script type="text/javascript">
+    $(".imgshow").click(function(){
+        $(".drop").show();
+        $(".imegs").show();
+    });
+</script>
+<script type="text/javascript">
+<!--
+var a = document.getElementById("view-all");
+var b = document.getElementById("dropmenu");
+a.onclick = function(){
+if(b.style.display == "none"){
+{b.style.display = "block"}
+$('#view-all span').removeClass('icon-angle-down');
+$('#view-all span').addClass('icon-angle-up');
+}else{b.style.display = "none";
+  $('#view-all span').removeClass('icon-angle-up');
+$('#view-all span').addClass('icon-angle-down');
+}
+
+
+};
+//-->
+</script>
+
+</body>
+</html>

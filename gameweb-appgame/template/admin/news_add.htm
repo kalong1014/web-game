@@ -1,0 +1,172 @@
+ <!--{template header}-->
+<script type="text/javascript" charset="utf-8">
+        window.UEDITOR_HOME_URL = "/admin/ueditor/";
+    </script>
+<script type="text/javascript" src="/admin/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/admin/ueditor/ueditor.all.js"></script> 
+<div class="mainarea">
+	<div class="maininner">	
+            <script type="text/javascript">
+	           	$(document).ready(function(){
+					$("#gjshezhi").click(function(){
+						gjszvalue=$('#title1').attr("class");
+						if(gjszvalue=="xianshi"){
+							$('#title1').attr("class","yincang");
+							$('#keyword1').attr("class","yincang");
+							$('#description1').attr("class","yincang");
+							$('#viewnum').attr("class","yincang");
+							$('#weeknum').attr("class","yincang");
+							$('#daynum').attr("class","yincang");
+							$('#adpic').attr("class","yincang");
+							$('#isad').attr("class","yincang");
+						}else{
+							$('#title1').attr("class","xianshi");
+							$('#keyword1').attr("class","xianshi");
+							$('#description1').attr("class","xianshi");
+							$('#viewnum').attr("class","xianshi");
+							$('#weeknum').attr("class","xianshi");
+							$('#daynum').attr("class","xianshi");
+							$('#adpic').attr("class","xianshi");
+							$('#isad').attr("class","xianshi");
+						}
+						
+					});
+					});
+					</script>
+                    <style>
+                    .yincang{
+					display:none;
+					}
+					.xianshi{
+					display:;
+					}
+					#edui1 { width:auto;}
+                    
+                    </style>
+    <form method="post" enctype="multipart/form-data" <!--{if $newsinfo}--> action="admincp.php?ac=news&op=update" <!--{else}--> action="admincp.php?ac=news&op=add" <!--{/if}-->>
+	<div class="bdrcontent">
+		<h2 class="con_title"><!--{if $newsinfo}-->修改<!--{else}-->新增<!--{/if}-->资讯</h2>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+			<input type="hidden" name="id" value="{$newsinfo[newid]}" />
+			<input type="hidden" name="newsinfo[type]" value="{$_GET[type]}" />
+				<td class="td_tit">标题：</td>
+				<td><input class="con_input" name="newsinfo[title]" type="text" value="{$newsinfo['title']}" /> </td>
+			</tr>
+            <!--{if $_GET[type]=="1"}-->
+            <tr>
+				<td class="td_tit">资讯类别：</td>
+				<td><!--{if $newsinfo}-->
+					<input name="newsinfo[isphone]"  type="checkbox" value="1" <!--{if $newsinfo[isphone]==1}--> checked="checked"<!--{elseif $newsinfo[isphone]==0 && $newsinfo[ispad]==0}-->checked="checked"<!--{/if}--> /> iPhone 
+					<input name="newsinfo[ispad]" type="checkbox" value="1" <!--{if $newsinfo[ispad]==1 }-->checked="checked" <!--{/if}--> /> iPad
+					<!--{else}-->
+					<input name="newsinfo[isphone]"  type="checkbox" value="1"  checked="checked"/> iPhone 
+					<input name="newsinfo[ispad]" type="checkbox" value="1" checked="checked"/> iPad
+					<!--{/if}-->
+                 </td>
+			</tr>
+			<!--{/if}-->
+			 <tr>
+			 <td>资讯类型</td><td><input type="radio" name="newsinfo[type]" value="1" <!--{if $newsinfo[type]=="1" || $_GET[type]=="1"}-->checked="checked"<!--{/if}-->>APPLE 
+			 <input type="radio" name="newsinfo[type]" value="2" <!--{if $newsinfo[type]=="2" || $_GET[type]=="2"}-->checked="checked"<!--{/if}-->>ANDROID 
+			  <input type="radio" name="newsinfo[type]" value="3" <!--{if $newsinfo[type]=="3" || $_GET[type]=="3"}-->checked="checked"<!--{/if}-->>WPhone
+			 </td>
+			 </tr>
+            <tr>
+				<td class="td_tit">审核状态：</td>
+				<td><input name="newsinfo[isverify]" type="radio" value="1" <!--{if $newsinfo[isverify]==1}--> checked="checked"  <!--{/if}--><!--{if !$newsinfo}--> checked="checked"  <!--{/if}--> />审核 <input name="newsinfo[isverify]" type="radio" value="0" <!--{if $newsinfo[isverify]==0 && $newsinfo}--> checked="checked"  <!--{/if}--> />待审核
+                 </td>
+			</tr>
+            
+            
+            <tr>
+              <td class="td_tit"><a id="gjshezhi" class="sub6zf" style=" cursor:pointer;">展开高级设置</a></td><td>设置其他信息</td>
+            </tr>
+            
+            <tr id="title1" class="yincang">
+				<td class="td_tit">文章title：</td>
+				<td><textarea style="height:32px;" name="news_data[seotitle]">{$newsinfo['seotitle']}</textarea><br/>(要统一设置文章页面的标题、关键词请到 站点配置->关键词配置  里面的文章页面配置)</td>
+			</tr>
+
+            <tr id="description1" class="yincang">
+				<td class="td_tit">文章keyword：</td>
+				<td><textarea style="height:32px;" name="news_data[seokeyword]">{$newsinfo['seokeyword']}</textarea></td>
+			</tr>
+
+
+            <tr id="keyword1" class="yincang">
+				<td class="td_tit">文章description：</td>
+				<td><textarea style="height:70px;" name="news_data[seodescription]">{$newsinfo['seodescription']}</textarea></td>
+			</tr>
+            
+            <tr id="viewnum" class="yincang">
+				<td class="td_tit">总查看数：</td>
+				<td><input class="con_input" name="newsinfo[viewnum]"  type="text" value="{$newsinfo[viewnum]}"/></td>
+			</tr>
+            <tr id="weeknum" class="yincang">
+				<td class="td_tit">周查看数：</td>
+				<td><input class="con_input" name="newsinfo[weeknum]"  type="text" value="{$newsinfo[weeknum]}"/></td>
+			</tr>
+            <tr id="daynum" class="yincang">
+				<td class="td_tit">日查看数：</td>
+				<td><input class="con_input" name="newsinfo[daynum]"  type="text" value="{$newsinfo[daynum]}"/></td>
+			</tr>
+           <tr id="adpic" class="yincang">
+				<td class="td_tit">广告图片(500*250)：</td>
+
+                <td><input type="file" name="adpic"/>
+                <!--{if $newsinfo[adpic]}-->
+                	<a href="{$newsinfo[adpic]}" target="_blank"><img src="{$newsinfo[adpic]}" width="80px" height="60px"></a>
+				<!--{/if}-->
+                </td>      
+			</tr>
+
+			<tr>
+			<td class="td_tit">类别选择：</td>
+			<td>
+				<select name="newsinfo[categoryid]">
+                	<option value="">请选择类别</option>
+                	<!--{loop $categorylist $k $v}-->
+                    	<option value="{$v[categoryid]}" <!--{if $newsinfo[categoryid]==$v[categoryid]}-->selected="selected"<!--{/if}-->>{$v[categoryname]}</option>
+                    <!--{/loop}-->
+                </select>
+   			</td>
+			</tr>
+         	<tr>
+				<td class="td_tit">资讯简介：</td>
+				<td>
+				<textarea id="text1" class="xheditor" name="newsinfo[description]"><!--{eval echo trim($newsinfo[description])}--></textarea>
+				</td>
+			</tr>
+            <tr><td class="td_tit">&nbsp;</td><td><input type="checkbox" name="isdownimg" value="1"/> 是否下载远程图片</td></tr>	
+            <tr>
+                <td class="td_tit">资讯内容：</td>
+                <td>
+				<textarea class="userData" name="news_data[content]" id="myEditor" style="height: 100%;
+                            width:90%; border: 0px">{$newsinfo[content]}</textarea>
+                            <script type="text/javascript">
+                                var editor = new UE.ui.Editor();
+                                editor.render("myEditor");
+                            </script>     
+                </td>
+            </tr>	
+	</table>
+	</div>	
+		
+	<div class="footactions">
+		<input type="hidden" id="blogbutton" name="blogbutton" value="提交发布"  style="display:none;" />
+		<input type="submit" id="issuance"  value="保存发布" class="tijiao_button" /></td>
+	</div>
+	</form>
+
+	</div>
+</div>
+
+
+<table cellspacing="4" cellpadding="4" width="100%" id="uchome-edit-pic" class="infotable" style="display:none;">
+	<tbody id="attachbodyhidden" style="display:none"></tbody>
+	<tbody id="attachbody"></tbody>
+	<select name="albumid" id="uploadalbum" onchange="addSort(this)" style="display:none;"></select>
+</table>
+
+ <!--{template footer}-->

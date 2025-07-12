@@ -1,0 +1,85 @@
+<!--{template header}-->
+<script type="text/javascript"src="/template/admin/js/dedeajax2.js"></script>
+<script type="text/javascript" src="/template/admin/js/main.js"></script>
+<script type="text/javascript" src="/template/admin/js/album.js"></script>
+<script type="text/javascript"src="/template/admin/js/handlers.js"></script>
+<script type="text/javascript" src="/admin/swfupload/swfupload.js"></script>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit">认证信息</h2>
+	 <div class="user_content_con">
+     <div class="o_appcon o_renzheng">
+	 <!--{if $devinfo}-->
+	 <!--{if $devinfo[isverify]==1}-->
+	  <!--{if $devinfo[devetype]==1}-->
+	   <div class="o_tishi">您已经通过个人认证。</div>
+	   <ul class="o_rencon">
+          <li><label class="mn_infobox">真实姓名：</label>{$devinfo[devname]}</li>
+          <li><label class="mn_infobox">手机：</label>{$devinfo[phone]}</li>
+          <li><label class="mn_infobox">Email：</label>{$devinfo[email]}</li>
+          <li><label class="mn_infobox">QQ：</label>{$devinfo[QQ]}</li>
+        </ul>
+	  <!--{elseif $devinfo[devetype]==2}-->
+	    <div class="o_tishi">您已经通过企业认证。</div>
+	    <ul class="o_rencon">
+          <li><label class="mn_infobox">公司/团队名称：</label>{$devinfo[devname]}</li>
+          <li><label class="mn_infobox">网址：</label>{$devinfo[companyurl]}</li>
+          <li><label class="mn_infobox">座机：</label>{$devinfo[tell]}</li>
+          <li><label class="mn_infobox">联系人：</label>{$devinfo[contactname]}</li>
+		  <li><label class="mn_infobox">联系人QQ：</label>{$devinfo[QQ]}</li>
+		  <li><label class="mn_infobox">Email：</label>{$devinfo[email]}</li>
+        </ul>
+	  <!--{/if}-->
+	  <!--{elseif $devinfo[isverify]==0}-->
+	  <!--{if $devinfo[devetype]==1}-->
+	   <div class="o_tishi">您已经提交身份认证，工作人员会在3个工作日内进行审核。审核通过后， 即可获得更多权限。有任何问题欢迎 点击 <a href="index.php?ac=contact&op=address">联系我们</a></div>
+	   <ul class="o_rencon">
+          <li><label class="mn_infobox">真实姓名：</label>{$devinfo[devname]}</li>
+          <li><label class="mn_infobox">手机：</label>{$devinfo[phone]}</li>
+          <li><label class="mn_infobox">Email：</label>{$devinfo[email]}</li>
+          <li><label class="mn_infobox">QQ：</label>{$devinfo[QQ]}</li>
+        </ul>
+	  <!--{elseif $devinfo[devetype]==2}-->
+	    <div class="o_tishi">您已经提交身份认证，工作人员会在3个工作日内进行审核。审核通过后， 即可获得更多权限。有任何问题欢迎 点击 <a href="index.php?ac=contact&op=address">联系我们</a></div>
+	    <ul class="o_rencon">
+          <li><label class="mn_infobox">公司/团队名称：</label>{$devinfo[devname]}</li>
+          <li><label class="mn_infobox">网址：</label>{$devinfo[companyurl]}</li>
+          <li><label class="mn_infobox">座机：</label>{$devinfo[tell]}</li>
+          <li><label class="mn_infobox">联系人：</label>{$devinfo[contactname]}</li>
+		  <li><label class="mn_infobox">联系人QQ：</label>{$devinfo[QQ]}</li>
+		  <li><label class="mn_infobox">Email：</label>{$devinfo[email]}</li>
+        </ul>
+	  <!--{/if}-->
+	  <!--{/if}-->
+	  <!--{else}-->
+      <h3>个人认证<span>适用于个体人员或者小团体，无需营业执照</span></h3>
+      <form method="post" action="index.php?ac=user&op=chkvendor">
+	  <input type="hidden" name="chkinfo[devetype]" value="1">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">真实姓名：</label><input type="text" name="chkinfo[devname]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[devname] && $devinfo[type]==1}-->value="{$devinfo[devname]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">手机：</label><input type="text" name="chkinfo[phone]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[phone] && $devinfo[type]==1}-->value="{$devinfo[phone]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">Email：</label><input type="text" name="chkinfo[email]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[email] && $devinfo[type]==1}-->value="{$devinfo[email]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[QQ] && $devinfo[type]==1}-->value="{$devinfo[QQ]}"<!--{/if}-->></li>
+        </ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorgrsubmit" value="提交认证" /></div>
+      </form>
+      <h3>企业认证<span>适用于有营业执照的公司，真实的公司信息可得到更高级的合作模式</span></h3>
+      <form method="post" action="index.php?ac=user&op=chkvendor">
+	   <input type="hidden" name="chkinfo[devetype]" value="2">
+        <ul class="o_rencon">
+          <li><label class="mn_infobox">公司/团队名称：</label><input type="text" name="chkinfo[devname]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[devname] && $devinfo[type]==2}-->value="{$devinfo[devname]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">网址：</label><input type="text" name="chkinfo[companyurl]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[companyurl] && $devinfo[type]==2}-->value="{$devinfo[companyurl]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">座机：</label><input type="text" name="chkinfo[tell]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[tell] && $devinfo[type]==2}-->value="{$devinfo[tell]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">联系人：</label><input type="text" name="chkinfo[contactname]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[contactname] && $devinfo[type]==2}-->value="{$devinfo[contactname]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">联系人手机：</label><input type="text" name="chkinfo[phone]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[phone] && $devinfo[type]==2}-->value="{$devinfo[phone]}"<!--{/if}-->></li>
+          <li><label class="mn_infobox">联系人QQ：</label><input type="text" name="chkinfo[QQ]" class="text-input" <!--{if $devinfo[devetype]==2 && $devinfo[QQ] && $devinfo[type]==2}-->value="{$devinfo[QQ]}"<!--{/if}-->></li>
+        </ul>
+        <div class="tijiao"><input type="submit" class="o_tijiao_b" name="vendorqysubmit" value="提交认证" /></div>
+      </form>
+	  <!--{/if}-->
+    </div>
+  </div>
+</div>
+</div>
+<!--{template footer}-->

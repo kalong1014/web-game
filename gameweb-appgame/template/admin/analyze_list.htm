@@ -1,0 +1,158 @@
+ <!--{template header}-->
+  <script language="javascript" type="text/javascript" src="/template/admin/js/datepicker/WdatePicker.js"></script>
+	        <script type="text/javascript">
+	            function selectAll(checkbox) {
+			
+				if(typeof($("#check").attr('checked'))=="undefined")		
+	                $('.appbox').attr('checked', false);
+					else
+					 $('.appbox').attr('checked',true);			
+	            }
+	            function selectAll3(checkbox) {
+			
+				if(typeof($("#check3").attr('checked'))=="undefined")		
+	                $('.appbox2').attr('checked', false);
+					else
+					 $('.appbox2').attr('checked',true);			
+	            }
+	        </script>
+            <script type="text/javascript">
+	            function verifyAll(checkbox) {
+			
+				if(typeof($("#checkAll").attr('checked'))=="undefined")		
+	                $('.appbox').attr('checked', false);
+					else
+					 $('.appbox').attr('checked',true);
+					 
+					
+	            }
+	        </script>
+            <script type="text/javascript">
+	            function selectAll2(checkbox) {
+			
+				if(typeof($("#check2").attr('checked'))=="undefined")		
+	                $('.subjectbox').attr('checked', false);
+					else
+					 $('.subjectbox').attr('checked',true);
+					 
+					
+	            }
+			function guide(){
+					$('#guide').show();
+				}
+				function guideclose(){
+				$('#guide').hide();
+				}
+	        </script>
+<style type="text/css">
+.subjectlist { padding:5px 0;}
+.subjectlist li{     
+	float: left;
+	height: 18px;
+    line-height: 18px;
+    margin-bottom: 0;
+    padding: 8px 10px 2px;
+    text-align: left;
+    width: 146px;}
+.subjectlist li.subjectbox {}
+.subjectlist li span {margin-left:10px;}
+.close{
+float:right;margin-right:5px;
+}
+.shuoming{
+float:left; margin-left:5px;
+}
+#guide{
+width:300px; height:200px;background: none repeat scroll 0 0 white;
+    border: 2px solid #99D5F3;display:none; position:absolute; z-index:999; margin-top:100px;left:50%; margin-left:-200px;
+}
+
+#frm{ display:none}
+#frm2{ display:none}
+</style>
+
+
+
+	<h2 class="con_title">下载数据统计管理</h2>
+	<form method="post" action="admincp.php?ac=analyze">
+	<div class="sousuobox">
+		<table cellspacing="0" cellpadding="0">
+		<tr>
+		<td>应用名称 <input class="sousuobox_input1" name="appname" type="text" value="$appname"/>
+		排序 <select name="orderby" class="select6z">
+        <option value="alldown" <!--{if $orderby=="alldown"}-->selected="selected"<!--{/if}-->>总下载量</option>
+		<option value="web" <!--{if $orderby=="web"}-->selected="selected"<!--{/if}-->>WEB端下载量</option>
+		<option value="wap" <!--{if $orderby=="wap"}-->selected="selected"<!--{/if}-->>WAP端下载量</option>
+		<option value="khd" <!--{if $orderby=="khd"}-->selected="selected"<!--{/if}-->>APP端下载量</option>
+		</select>
+		开始时间	<input type="text" value="<!--{eval echo date('Y-m-d',$starttime)}-->" name="starttime" id="starttime" class="sousuobox_input1"><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/admin/js/datepicker/skin/datePicker.gif" />
+		截止时间	<input type="text" value="<!--{eval echo date('Y-m-d',$endtime)}-->" name="endtime" id="endtime" class="sousuobox_input1"><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'endtime'})" style="cursor: pointer;" src="template/admin/js/datepicker/skin/datePicker.gif" />
+		<select name="perpage" class="select6z">
+        <option value="30" <!--{if $perpage==30}-->selected="selected"<!--{/if}-->>每页显示30个</option>
+		<option value="50" <!--{if $perpage==50}-->selected="selected"<!--{/if}-->>每页显示50个</option>
+		<option value="100" <!--{if $perpage==100}-->selected="selected"<!--{/if}-->>每页显示100个</option>
+		</select>
+		<input type="submit" name="searchsubmit" value="搜索" class="submit sub2zf">
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+
+<!--{if $downinfo}-->
+
+	<form method="post" name="myform" id="batchform" action="admincp.php" enctype="multipart/form-data" >
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="ac" value="usermanage" />
+    <input type="hidden" name="op" value="caozuo" />
+	<div class="bdrcontent text_center">
+
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <th width="60">选择</th>
+        <th>应用名称</th>
+		<th width="100">总下载数</th>
+		<th width="100">WEB端下载</th>    
+		<th width="100">WAP端下载</th>
+		<th width="100">APP端下载</th>    
+        <th width="100">操作</th>
+        </tr>
+		<tr>
+		<td></td>
+		<td class="text_left" style="color:#f60;">总应用数 ($count)</td>
+		<td style="color:#f60;">总 (<!--{eval echo $countinfo[allweb]+$countinfo[allwap]+$countinfo[allkhd]}-->)</td>
+		<td style="color:#f60;">总 ($countinfo[allweb])</td>
+		<td style="color:#f60;">总 ($countinfo[allwap])</td>
+		<td style="color:#f60;">总 ($countinfo[allkhd])</td>
+		<td></td>
+		</tr>
+		<!--{loop $downinfo $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" class="appbox" id="{$value[id]}" value="{$value[id]}" <!--{if $value[$value[id]]}-->checked="checked"<!--{/if}-->></td>
+		<td class="text_left">$value[name]</td>
+		<td>{$value[alldown]}</td>
+		<td><a href="admincp.php?ac=analyze&op=downmore&dtype=webdownnum&appid=$value[appid]">{$value[web]}</a></td>
+		<td><a href="admincp.php?ac=analyze&op=downmore&dtype=wapdownnum&appid=$value[appid]">{$value[wap]}</a></td>
+		<td><a href="admincp.php?ac=analyze&op=downmore&dtype=khddownnum&appid=$value[appid]">{$value[khd]}</a></td>
+		<td><a href="admincp.php?ac=analyze&op=downmore&appid=$value[appid]">查看记录详情</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+
+		<div class="fenye">$multi</div>
+		<div class="footactions">
+	</div>
+	</div>
+	<div id="demo"></div>
+	
+	</form>	
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>指定条件下还没有数据</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+ <!--{template footer}-->
+

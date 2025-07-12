@@ -1,0 +1,17 @@
+<div class="form-group margin-big-top">
+	<div class="field">
+		<div class="line margin-bottom">
+			<p class="text-left text-yellow">大家都在搜</p>
+		</div>
+		<ul class="list-inline height text-big">
+			<!--{eval $wapresearch=hot_ph_key(20,"sysearchnum",1)}-->
+			<!--{loop $wapresearch $key $value}-->
+			<!--{if $value[isrecommend]=="1"}-->
+			<li style="width: 130px; height:40px"><a href="/{$SCRIPT_NAME}?ac=search&keyword={$value[name]}">{$value[name]}<span class="text-yellow icon-fire"></span></a></li>
+			<!--{else}-->
+			<li style="width: 130px; height:40px"><a href="/{$SCRIPT_NAME}?ac=search&keyword={$value[name]}">{$value[name]}<!--<span class="text-green icon-arrow-up"></span>--></a></li>
+			<!--{/if}-->
+			<!--{/loop}-->
+		</ul>
+	</div>
+</div>

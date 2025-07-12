@@ -1,0 +1,126 @@
+ <!--{template header}-->
+
+
+	        <script type="text/javascript">
+	            function selectAll(checkbox) {
+				if(typeof($("#check").attr('checked'))=="undefined")		
+	                $('input[type=checkbox]').attr('checked', false);
+					else
+					 $('input[type=checkbox]').attr('checked',true);
+	            }
+	        </script>
+
+	        <script type="text/javascript">
+	            function selectcatalogAll(catalog) {
+				var ids="#"+catalog;
+				var classs="."+catalog;
+				if(typeof($(ids).attr('checked'))=="undefined")		
+	                $(classs).attr('checked', false);
+					else
+					 $(classs).attr('checked',true);
+	            }
+				function fabu(id){
+					urlpath="admincp.php?ac=subclient&op=insert&subserverid="+id+"&subtype="+{$subtype};
+					window.location.href=urlpath;
+				}
+				
+				function jubao(id){
+				name="#jb"+id;
+				
+				if($(name).text()=="举报"){
+					$.ajax({
+					beforeSend:function(){
+					},
+					url:"admincp.php?ac=jubao&gameid="+id,
+					type:'get',
+					dataType:'json',
+					success:function(json){
+					var htmls="";
+					if(json.successinfo=="1")
+					htmls='<font style="color:red;">举报成功</font>';
+					$(name).html(htmls); 
+					}
+					});
+				}
+				}
+				
+	        </script>
+
+<style type="text/css">
+.indexcatgame{ border:1px solid #b4d7e9; margin-bottom:4px; padding:5px 10px; text-align:left;}
+</style>
+
+
+   <h2 class="con_title">专辑源</h2>
+	<form method="get" action="admincp.php">
+	<div class="sousuobox">	
+		<table>
+		<tr>
+        <td>搜索专辑：<input class="sousuobox_input2" name="keyword" value="{$keyword}"/>
+        <select name="sublx" class="select4z">
+        <option value="0">专辑类型</option>
+        <option value="1" <!--{if $sublx==1}--> selected="selected" <!--{/if}-->>游戏</option>
+        <option value="2" <!--{if $sublx==2}--> selected="selected" <!--{/if}-->>软件</option>
+		</select>
+		<select name="perpage" class="select6z">
+		<option value="20" <!--{if $perpage==20}--> selected="selected" <!--{/if}-->>每页显示20个</option>
+		<option value="50" <!--{if $perpage==50}--> selected="selected" <!--{/if}-->>每页显示50个</option>
+        <option value="100" <!--{if $perpage==100}--> selected="selected" <!--{/if}-->>每页显示100个</option>
+		</select>
+		</td>
+		<td class="sousuobox_bu">
+		<input type="hidden" name="subtype" value="$subtype" />
+        <input type="hidden" name="ac" value="subclient">
+        <input type="hidden" name="subserverid" value="{$subserverid}">
+        <input type="hidden" name="op" value="list">
+		<input type="hidden" name="do" value="search">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit sub2zf"> 
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+	<form method="post" id="batchform" action="admincp.php?ac=subclient&op=insert">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="ac" value="subclient" />
+    <input type="hidden" name="op" value="insert" />
+	<div class="bdrcontent text_center">	
+		<p class="tishi_con tishi_shuju"> 总共有满足条件的数据 <strong>$count</strong> 条</p>	   
+		<table cellspacing="0" cellpadding="0" class="formtable">   
+		<tr>
+        <th width="60">选择</th>
+        <th>专辑名称</th> 
+		<th width="100">类型</th> 
+		<th width="100">添加时间</th> 
+        <th width="100">操作</th>    
+        </tr>
+        <!--{loop $list $value}-->
+		<tr>
+        <td><input id="Checkbox$value[id]" type="checkbox" name="ids[]" value="$value[id]" ></td></td>
+        <td class="text_left">$value[subjectname]</td>
+		<td><!--{if $value[sublx]==1}-->游戏<!--{else}-->软件<!--{/if}--></td>
+       	<td> <!--{eval echo sgmdate('Y-m-d', $value['dateline'])}--></td> 
+        
+        <td><a href="javascript:void(0)" onclick="fabu($value['id'])" >采用</a> <a id="jb{$value['id']}" href="javascript:void(0)" onclick="jubao($value['id'])" >举报</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	
+		 <!--{if $multi}-->
+		<div class="fenye">$multi</div>
+        <!--{/if}-->
+        <div class="footactions">
+        <!--{if $count}-->
+        <input type="checkbox" id="check" name="chkall" onclick='selectAll(this)'>全选
+       <input type="hidden" name="pageurl" value="{$pageurl}"/>
+        <input type="submit" name="article" class="tijiao_button" value="批量添加"/>
+          <!--{/if}-->
+
+		</div>
+
+	</div>
+	</form>
+
+
+ <!--{template footer}-->

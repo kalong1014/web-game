@@ -1,0 +1,29 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <div class="gs_nav">
+    <dl class="clearfix"><dt>游戏类型：</dt><dd><a href="index.php?ac=games" $tagcss[all]>不限</a><!--{loop $taginfos[id] $value}--><a href="{$value[tagurl]}" $tagcss[$value[engname]]>{$value[tagname]}</a><!--{/loop}--></dd></dl>
+    <dl class="clearfix"><dt>运营状态：</dt><dd><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op" $statecss[0]>不限</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op&yystate=5" $statecss[5]>预告</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op&yystate=4" $statecss[4]>封测</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op&yystate=3" $statecss[3]>内测</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op&yystate=2" $statecss[2]>公测</a></dd></dl>
+    <dl class="clearfix"><dt>使用系统：<dd><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op<!--{if $yystate}-->&yystate=$yystate<!--{/if}-->" $xtcss[all]>不限</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op<!--{if $yystate}-->&yystate=$yystate<!--{/if}-->&xt=an" $xtcss[an]>安卓</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=$op<!--{if $yystate}-->&yystate=$yystate<!--{/if}-->&xt=ios" $xtcss[ios]>苹果</a></dd></dt>
+  </div>
+  <div class="gs_box">
+    <div class="gs_tit clearfix"><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}--><!--{if $yystate}-->&yystate=$yystate<!--{/if}--><!--{if $xt}-->&xt=$xt<!--{/if}-->" $phcss[dateline]>最新发布</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=downloadcount<!--{if $yystate}-->&yystate=$yystate<!--{/if}--><!--{if $xt}-->&xt=$xt<!--{/if}-->" $phcss[downloadcount]>最多人玩</a><a href="index.php?ac=games<!--{if $_GET[cname]}-->&cname=$_GET[cname]<!--{/if}-->&op=score<!--{if $yystate}-->&yystate=$yystate<!--{/if}--><!--{if $xt}-->&xt=$xt<!--{/if}-->" $phcss[score]>最受欢迎</a></div>
+    <div class="gs_con">
+      <ul class="clearfix">
+      <!--{eval $tagapps=getapplists(4,0,-1,-1,0,$op,32,1,"",0,$taginfo[id],$yystate,$_GET[xt])}-->  
+		<!--{loop $tagapps[app][list] $value}-->	
+		<li>
+          <a href="{$value[url]}" class="app_90" target="_blank">
+            <i class="app_img_90"></i>
+            <img src="{$value[logo]}">
+          </a>
+          <p class="app_tit_90"><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+          <p class="app_star_90"><span class="star bigstar<!--{if $value[star]<6 && $value[star]!=0}--><!--{eval echo $value[star]*10}--><!--{elseif $value[star]==0}-->30<!--{elseif $value[star]>50}-->50<!--{else}-->{$value[star]}<!--{/if}-->"></span></p>
+          <div class="iremen_dwon"><a href="{$value[url]}" target="_blank" rel="nofollow" >立即下载</a></div>
+        </li>
+        <!--{/loop}-->
+      </ul>
+      <div class="fenye"><!--{eval echo $tagapps[page]}--></div>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

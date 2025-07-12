@@ -1,0 +1,52 @@
+ <!--{template header}-->
+
+	<h2 class="con_title">用户组管理</h2>
+	<div class="sc_tishi"><a href="admincp.php?ac=usergroup&op=edit" class="sc_tishi_b">添加分组</a></div>
+	<form method="post" name="myform" id="batchform" action="admincp.php" enctype="multipart/form-data" >
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="ac" value="usergroup" />
+    <input type="hidden" name="op" value="caozuo" />
+	<div class="bdrcontent text_center">
+		<h2>特殊用户组</h2>
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <th width="100">组名</th>          
+        <th width="200">操作</th>
+        </tr>
+		<!--{loop $groupinfo[teshu] $value}-->
+		<tr>
+        <td>{$value[group_name]}</td>		
+         <td>
+		 <a href="admincp.php?ac=usergroup&op=edit&id={$value[group_id]}">编辑</a>
+		 <!--{if $value[group_id]>3}--><a href="admincp.php?ac=usergroup&op=delete&id={$value[group_id]}" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a><!--{/if}-->
+		</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		<h2>普通经验组</h2>
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <th width="100">组名</th>
+		<th width="200">经验值上下限</th>          
+        <th width="200">操作</th>
+        </tr>
+		<!--{loop $groupinfo[putong] $value}-->
+		<tr>
+        <td>{$value[group_name]}</td>	
+		<td>{$value[lowerexperience]} ~ {$value[upexperience]}</td>
+         <td>
+		 <a href="admincp.php?ac=usergroup&op=edit&group=putong&id={$value[group_id]}">编辑</a>
+		 <!--{if $value[group_id]>3}--><a href="admincp.php?ac=usergroup&op=delete&id={$value[group_id]}" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a><!--{/if}-->
+		</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		<div class="fenye">$multi</div>
+	</div>
+	<div id="demo"></div>
+	
+	</form>	
+</div>
+</div>
+ <!--{template footer}-->
+

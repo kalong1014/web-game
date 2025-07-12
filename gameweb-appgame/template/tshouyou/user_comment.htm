@@ -1,0 +1,45 @@
+<!--{template header}-->
+<style type="text/css">
+.user_content_con table { text-align:center; width:100%;}
+.user_content_con th { background-color:#ebf4f9; padding:10px 5px;}
+.user_content_con td { padding:10px 5px; border-bottom:1px dotted #ddd; font-size:14px;}
+.user_content_con .dangge_app { text-align:left; height:80px;}
+</style>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit"><a href="index.php?ac=user&op=comment&caozuo=delcom" onclick="return confirm('本操作不可恢复，确认删除？');">删除全部评论</a>我的评论</h2>
+    <div class="user_content_con">
+	<!--{if $commentinfo}-->
+    <table>
+      <tbody>
+        <tr>
+          <th width="220">评论的应用</th>
+          <th>评论内容</th>
+          <th width="100">时间</th>
+          <th width="60">操作</th>
+        </tr>
+	   <!--{loop $commentinfo $value}-->
+        <tr>
+          <td><div class="dangge_app">
+            <a href="$value['app']['url']" class="app_icon" target="_blank"><i class="app_img_none"></i><img alt="{$value[app][name]}" src="$value[app][logo]"></a>
+            <div class="app_name"><a href="$value['app']['url']">{$value[app][name]}</a></div>
+            <span class="star bigstar<!--{if $value[app][star]<6 && $value[app][star]!=0}--><!--{eval echo $value[app][star]*10}--><!--{elseif $value[app][star]==0}-->30<!--{else}-->{$value[app][star]}<!--{/if}-->"></span>
+            <span class="category">标签：$value[tags]</span>
+          </div></td>
+          <td>{$value[message]}</td>
+          <td><!--{eval echo date('Y-m-d',$value[dateline])}--></td>
+          <td><a href="index.php?ac=user&op=comment&caozuo=delcom&commentid={$value[id]}" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a></td>
+        </tr>
+       <!--{/loop}-->
+      </tbody>
+    </table>
+   <!--{else}-->
+   <div>您还没有相关的评论或者回复。</div>
+   <!--{/if}-->
+	  <div class="fenye">{$multi}</div>
+    </div>
+  </div>
+</div>
+
+<!--{template footer}-->

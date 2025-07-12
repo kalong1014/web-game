@@ -1,0 +1,48 @@
+<!DOCTYPE html>  
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> 
+<meta content="email=no,telephone=no" name="format-detection"/>
+<title>登录</title>
+<link href="/template/default/css/logreg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="header">
+  <div class="logregnav"><a href="javascript:history.back()" class="fanhui"><em>返回</em></a><span>立即登录</span></div>
+</div>
+<div id="main">
+  <div class="layout">
+    <div class="log">
+      <form action="/index.php?ac=login" method="post" name="loginform">
+      <ul>
+        <li class="form_li">
+          <div class="form_tit">用户名</div>
+          <div class="form_con">
+            <input class="textinput" type="text" name="username" onFocus="this.select()" id="username">
+          </div>
+        </li>
+        <li class="form_li">
+          <div class="form_tit">密码</div>
+          <div class="form_con">
+            <input class="textinput" type="password" name="password" id="password">
+          </div>
+        </li>
+        <li>
+        <input type="hidden" value="$refer" name="ref">
+        <input type="hidden" value="<!--{eval echo formhash();}-->" name="formhash">
+        <input type="hidden" name="template" value="{$_SCONFIG[stemplate]}"/>
+        <input type="submit" class="tijiao" name="loginsubmit" id="loginsubmit" value="立即登录">
+        </li>
+        <li>
+          <p class="zhmm">忘记密码？<a href="/index.php?ac=lostpasswd">找回密码</a></p>
+        </li>
+      </ul>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="footer">
+</div>
+</body>
+</html>

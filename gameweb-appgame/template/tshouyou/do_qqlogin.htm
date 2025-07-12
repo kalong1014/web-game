@@ -1,0 +1,38 @@
+﻿<!--{template header}-->
+<div class="layout logreg clearfix">
+  <ul class="logreg_nav">
+  	  <li><a href="index.php?ac=login<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->">用户登录</a></li>
+      <li><a href="index.php?ac=register<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->">用户注册</a></li>
+      <li><a href="index.php?ac=lostpasswd<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->">找回密码</a></li>  
+  </ul>
+  <div id="reg-form" class="logreg_con">
+    <h2>新用户</h2>
+	<form name="loginform" action="index.php?ac=register&op=qq" method="post" class="loginform">
+      <ul class="form-list">
+        <li><label class="mn_infobox" for="user">用户名：</label><input type="text" onfocus="this.select()" tabindex="1" value="{$_GET[nickname]}" class="text-input" id="username" name="qqdata[username]"></li>
+        <li><label class="mn_infobox" for="yourpassword">设置密码：</label><input type="password" value="" tabindex="2" class="text-input" id="password" name="qqdata[password]"></li>
+        <li><label class="mn_infobox" for="yourpassword">确认密码：</label><input type="password" value="" tabindex="3" class="text-input" id="password" name="qqdata[password2]"></li>
+		<li class="plwid">
+		<input type="hidden" name="qqdata[openid]" value="$_GET[openid]">
+        <input type="hidden" value="$refer" name="ref">
+        <input type="hidden" value="<!--{eval echo formhash();}-->" name="formhash">
+        <input type="submit" class="tijiao" value="立即登录" name="loginsubmit" id="loginsubmit"></li>
+      </ul>
+	</form>
+	<h2>已注册用户</h2>
+	<form name="loginform" action="index.php?ac=register&op=qq" method="post" class="loginform">
+      <ul class="form-list">
+        <li><label class="mn_infobox" for="user">用户名：</label><input type="text" onfocus="this.select()" tabindex="4" value="" class="text-input" id="username" name="bangding[username]"></li>
+        <li><label class="mn_infobox" for="yourpassword">密码：</label><input type="password" value="" tabindex="5" class="text-input" id="password" name="bangding[password]"></li>
+        <li class="plwid">
+		<input type="hidden" name="bangding[openid]" value="$_GET[openid]">
+        <input type="hidden" value="$refer" name="ref">
+        <input type="hidden" value="<!--{eval echo formhash();}-->" name="formhash">
+        <input type="submit" class="tijiao" value="立即绑定" name="bangdingsubmit" id="loginsubmit"></li>
+      </ul>
+	</form>
+  </div>
+
+</div>
+
+<!--{template footer}-->

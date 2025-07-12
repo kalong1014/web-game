@@ -1,0 +1,99 @@
+ <!--{template header}-->
+<style type="text/css">
+.zwcon { zoom:1;}
+.zwcon:after { content:"."; display:block; clear:both; height:0; overflow:hidden; visibility:hidden;}
+.zwbox { float:left; width:50%;}
+.zwboxcon { border:1px solid #ddd; height:230px; margin:0 5px 10px 5px;}
+.zwbox2 { float:left; width:100%;}
+.zwbox2con { border:1px solid #ddd; margin:0 5px 10px 5px; height:120px;}
+.zw_tit { border-bottom:1px solid #ddd; font-size:14px; font-weight:bold; padding-left:10px; color:#000; height:32px; line-height:32px;}
+.zwbox_con { padding:10px; line-height:1.8;}
+.color { color:#F00;}
+.big { color:#F00; font-size:16px; margin:0 5px; border-bottom:1px solid #999;}
+.quchuli { color:#F00; margin-left:20px; font-size:14px; text-decoration:underline;}
+.quchuli:hover { color:#dc0700;}
+.quchuli2 { color:#666; margin-left:20px; font-size:14px; text-decoration:underline;}
+.quchuli2:hover { color:#666;}
+</style>
+<h2 class="con_title">站务管理中心</h2>
+<div class="zwcon">
+    <div class="zwbox2">
+      <div class="zwbox2con">
+          <div class="zw_tit">待办事项</div>
+          <ul class="zwbox_con">
+		  	<!--{if !$infojson}--><li>189手游推广渠道申请<a href="http://lm.cnssdb.com/mvc/channel/login" class="quchuli" target="_blank">详细请点击</a></li><!--{/if}-->
+            <li>您有<em class="big"><!--{if $apperrors}-->$apperrors<!--{else}-->0<!--{/if}--></em>个还没有修复的被举报应用<a href="admincp.php?ac=apperror&op=list" <!--{if $apperrors}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->>去修复</a></li>
+            <li>您有<em class="big"><!--{if $chevendir}-->$chevendir<!--{else}-->0<!--{/if}--></em>个用户申请认证，还没有被审核<a href="admincp.php?ac=chkvendor&op=list&isverify=2" <!--{if $chevendir}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->>去审核</a></li>
+          </ul>
+      </div>
+    </div>
+    <div class="zwbox">
+      <div class="zwboxcon">
+          <div class="zw_tit">手游应用待办事项</div>
+          <ul class="zwbox_con">
+            <li>您有<em class="big"><!--{if $syappnum}-->{$syappnum}<!--{else}-->0<!--{/if}--></em>个应用等待审核<a href="admincp.php?ac=syapp&op=list&isverify=0" <!--{if $syappnum}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->>去处理</a></li>
+            <li>您有<em class="big"><!--{if $synewsnum}-->{$synewsnum}<!--{else}-->0<!--{/if}--></em>条资讯等待审核<a href="admincp.php?ac=synews&op=list&&verify=-1" <!--{if $synewsnum}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->">去处理</a></li>
+            <li>您有<em class="big"><!--{if $sycommnum}-->{$sycommnum}<!--{else}-->0<!--{/if}--></em>条评论等待审核<a href="admincp.php?ac=comment&op=list&verify=2" <!--{if $sycommnum}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->>去处理</a></li>			
+			<li>您有<em class="big"><!--{if $packnum}-->{$packnum}<!--{else}-->0<!--{/if}--></em>条礼包等待审核<a href="admincp.php?ac=managelb&op=list&isverify=0" <!--{if $packnum}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->>去处理</a></li>
+			<li>您有<em class="big"><!--{if $opengamenum}-->{$opengamenum}<!--{else}-->0<!--{/if}--></em>条开服等待审核<a href="admincp.php?ac=managekfb&op=list&isverify=0" <!--{if $opengamenum}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->>去处理</a></li>
+			<li>您有<em class="big"><!--{if $testgamenum}-->{$testgamenum}<!--{else}-->0<!--{/if}--></em>条开测等待审核<a href="admincp.php?ac=managekcb&op=list&isverify=0" <!--{if $testgamenum}-->class="quchuli"<!--{else}-->class="quchuli2"<!--{/if}-->>去处理</a></li>
+          </ul>
+      </div>
+    </div>
+    <div class="zwbox">
+      <div class="zwboxcon">
+          <div class="zw_tit">审核设置</div>
+          <div class="zwbox_con">
+            <p>是：从资源库挑选的应用需要人工审核后才显示；否：无需审核、直接显示（需要自动更新请选否）</p>
+            <form action="admincp.php?ac=client" method="post">
+            <p>
+              <span class="td_tit">添加应用：</span>
+              <span><input type="radio"  value="1" name="config[isappverify]" <!--{if $_SCONFIG['isappverify']}-->checked="checked"<!--{/if}--> />是 <input type="radio" value="0" name="config[isappverify]" <!--{if !$_SCONFIG['isappverify']}-->checked="checked"<!--{/if}-->/>否</span>
+            </p>
+            <p>
+              <span class="td_tit">添加资讯：</span>
+              <span><input type="radio"  value="1" name="config[isnewsverify]" <!--{if $_SCONFIG['isnewsverify']}-->checked="checked"<!--{/if}--> />是 <input type="radio" value="0" name="config[isnewsverify]" <!--{if !$_SCONFIG['isnewsverify']}-->checked="checked"<!--{/if}-->/>否</span>
+            </p>
+            <p>
+              <span class="td_tit">添加专辑：</span>
+              <span><input type="radio"  value="1"  name="config[issubverify]" <!--{if $_SCONFIG['issubverify']}-->checked="checked"<!--{/if}-->/>是 <input type="radio" value="0"  name="config[issubverify]" <!--{if !$_SCONFIG['issubverify']}-->checked="checked"<!--{/if}-->/>否</span>
+            </p>
+              <p>
+              <span class="td_tit">添加评论：</span>
+              <span><input type="radio"  value="1"  name="config[iscomment]" <!--{if $_SCONFIG['iscomment']}-->checked="checked"<!--{/if}-->/>是 <input type="radio" value="0"  name="config[iscomment]" <!--{if !$_SCONFIG['iscomment']}-->checked="checked"<!--{/if}-->/>否</span>
+            </p>
+            <input type="hidden" name="op" value="save"/>
+            <div style="padding-top:5px;"><input type="submit" name="blogbutton" class="sub6zf" value="确认提交"/></div>
+            </form>
+          </div>
+      </div>
+    </div>
+    <div class="zwbox">
+      <div class="zwboxcon">
+          <div class="zw_tit">系统信息</div>
+          <div class="zwbox_con">
+            <!--{if $update}-->
+              当前版本：{$_SCONFIG[version]} 最新版本：{$update[0]} Release<em class="color"><!--{eval echo date("Y-m-d")}--></em><a href="<!--{eval echo $update[2]}-->" target="_blank">【更新到最新最新版本】</a></p>
+            <!--{else}-->
+            <p>程序版本：{$_SCONFIG[version]}【最新版本】</p>
+            <!--{/if}-->
+            <p>服务时间：<!--{eval echo date("Y-m-d",$content[endtime])}--></p>
+            <p>官方网站：<a href="http://www.189sy.net" target="_blank">http://www.189sy.net</a></p>
+            <p>联盟申请：<a href="http://lm.cnssdb.com" target="_blank">http://lm.cnssdb.com</a></p>
+          </div>
+      </div>
+    </div>
+    <div class="zwbox">
+      <div class="zwboxcon">
+          <div class="zw_tit">授权信息</div>
+          <div class="zwbox_con">
+            <p>授权类型：189手游手机网游版</p>
+            <p>授权域名：<!--{eval echo $_SC['sitehost']}--></p>
+            <p>站点ID：<!--{eval echo $_SCONFIG['siteid']}--></p>
+            <p>站点KEY：<!--{eval echo $_SCONFIG['key']}--></p>
+          </div>
+      </div>
+    </div>
+</div>
+
+ <!--{template footer}-->

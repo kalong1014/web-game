@@ -1,0 +1,172 @@
+ <!--{template header}-->
+	        <script type="text/javascript">
+	            function selectAll(checkbox) {
+			
+				if(typeof($("#check").attr('checked'))=="undefined")		
+	                $('.gamebox').attr('checked', false);
+					else
+					 $('.gamebox').attr('checked',true);
+					 
+					
+	            }
+	        </script>
+            <script type="text/javascript">
+	            function verifyAll(checkbox) {
+			
+				if(typeof($("#checkAll").attr('checked'))=="undefined")		
+	                $('.gamebox').attr('checked', false);
+					else
+					 $('.gamebox').attr('checked',true);
+					 
+					
+	            }
+	        </script>
+            <script type="text/javascript">
+	            function selectAll2(checkbox) {
+			
+				if(typeof($("#check2").attr('checked'))=="undefined")		
+	                $('.subjectbox').attr('checked', false);
+					else
+					 $('.subjectbox').attr('checked',true);
+					 
+					
+	            }
+				function downloadzy(dtype,did){
+				if(did==0){
+			
+				 var c=document.getElementsByName("ids[]");
+				   for( var i=0;i<c.length;i++)
+				   {
+					if(c[i].checked)
+					{
+					if(did!=0){
+					did+=",";
+					did+=c[i].value;
+					}else{
+					did=c[i].value;
+					}
+					
+					}
+				   }
+				 downloading2(dtype,did);
+				}else{
+					did=did;
+					downloading2(dtype,did);
+				}
+				}
+				function downloading(dtype,did){
+				name="#"+dtype+did;
+				$.ajax({
+				beforeSend:function(){
+					$(name).html("<font style='color:red;'>正在下载</font>"); 
+				},
+				url:"admincp.php?ac=downloadzy&op=game&type="+dtype+"&gameid="+did,
+				type:'get',
+       			dataType:'json',
+				success:function(json){
+					if(json.message=="1"){
+						$(name).html("<font style='color:red;'>下载完成</font>"); 
+					}else{
+						$(name).html("<font style='color:red;'>下载失败</font>"); 
+					}
+				}
+				});
+				}
+				
+				function downloading2(dtype,did){
+				var strs= new Array();
+				did=did+""; 
+				if(did.indexOf(",")>0){
+			
+				strs=did.split(","); 
+				}else{
+				strs[0]=did;
+				}
+				$.ajax({
+				beforeSend:function(){
+					for(var i=0;i<strs.length;i++){
+					
+					name="#"+dtype+strs[i];
+					$(name).html("<font style='color:red;'>正在下载</font>"); 
+					}
+				},
+				url:"admincp.php?ac=downloadzy&op=game&type="+dtype+"&gameid="+did,
+				type:'get',
+       			dataType:'json',
+				success:function(json){
+				
+				$.each(json,function(entryIndex,entry){ 
+				name2="#"+dtype+entry['id'];			
+					if(entry['message']=="1"){				
+					$(name2).html("<font style='color:red;'>下载完成</font>"); 
+					}else{
+					$(name2).html("<font style='color:red;'>下载失败</font>"); 
+					}
+				
+				});
+				
+				}
+				});
+				}
+				
+				
+	        </script>
+
+
+<div class="mainarea">
+<div class="maininner">
+
+<h2 class="zy_h2">游戏资源下载管理</h2>
+<div class="zyfeilei"><a href="admincp.php?ac=downloadzy&op=game" class="submit">未下载资源的游戏</a> <a href="admincp.php?ac=downloadzy&op=game&do=1" class="submit">已下载资源的游戏</a></div>
+	<div class="block style4">
+    <a href="admincp.php?ac=downloadzy&op=img" class="submit xzqbzjtp" target="_blank">下载全部游戏小图</a> <a href="admincp.php?ac=downloadzy&op=bigimg" class="submit xzqbzjtp" target="_blank">下载全部游戏大图</a> <a href="admincp.php?ac=downloadzy&op=swf" class="submit xzqbzjtp" target="_blank">下载全部游戏SWF</a>
+		<span><!--{if $do=="0"}-->未下载资源的游戏<!--{else}-->已下载资源的游戏<!--{/if}--></span>
+	</div>
+
+
+<!--{if $list}-->
+
+
+	<div class="bdrcontent">	
+		<p>总共有满足条件的数据 <strong>$count</strong> 个</p>	   
+		<table cellspacing="0" cellpadding="0" class="formtable">   
+		<tr>
+        <td style="width:30px; color:#0097fe;">选择</td>
+        <td style="width:40px;color:#0097fe;">编号</td>
+        <td style="width:390px; color:#0097fe;">应用名称</td>       
+        <td style="width:340px; color:#0097fe;">操作</td>
+        </tr>
+		<!--{loop $list $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" class="gamebox" value="$value[id]" 	<!--{if $gamelist[$value[id]]}-->checked<!--{/if}-->></td></td>
+		<td >$value[id]</td>
+        <td><a href="/index.php?ac=detail&n=$value[othername]">$value[name]</a></td>
+
+       
+  
+
+        <td >
+<span id="sp{$value[id]}"><!--{if $value['isdownloadimg']==1}--><span class="coler_yxz">已下载小图</span><!--{else}--><a href="javascript:void(0)" onclick="downloadzy('sp',$value[id])" class="coler_xz">下载小图</a><!--{/if}--></span><span id="bp{$value[id]}"><!--{if $value['isdownloadbigimg']==1}--><span class="coler_yxz">已下载大图</span><!--{else}--><a href="javascript:void(0)" onclick="downloadzy('bp',$value[id])" class="coler_xz">下载大图</a><!--{/if}--></span><span id="swf{$value[id]}"><!--{if $value['isdownloadswf']==1}--><span class="coler_yxz">已下载SWF</span><!--{else}--><a href="javascript:void(0)" onclick="downloadzy('swf',$value[id])" class="coler_xz">下载SWF</a><!--{/if}--></span>
+        </td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	
+		<div class="footactions">
+		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)">全选
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<a href="javascript:void(0)" onclick="downloadzy('sp',0)" class="submit sub6zf">批量下载小图</a>
+		<input type="submit" name="submitaddtime" value="批量下载大图"  onclick="downloadzy('bp',0)" class="submit sub6zf">
+		<input type="submit" name="verifysubmit" value="批量下载SWF"  onclick="downloadzy('swf',0)" class="submit sub6zf">
+		<div class="pages">$multi</div>
+	</div>
+	</div>
+
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>指定条件下还没有数据</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+ <!--{template footer}-->

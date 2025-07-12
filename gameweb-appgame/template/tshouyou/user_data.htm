@@ -1,0 +1,25 @@
+<!--{template header}-->
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit">我的资料</h2>
+    <div class="user_content_con">
+      <form action="index.php?ac=user&op=data" method="post" enctype="multipart/form-data" >
+        <ul class="user_input">
+          <li><label for="username">用户名：</label>{$userinfo[username]}</li>
+		  <!-- <li><label for="userqq">昵称：</label><input name="user[nickname]" id="userqq" type="text" value="{$userinfo[nickname]}"/></li>-->
+          <li><label for="email">邮箱：</label><input name="user[email]" id="email" type="text" <!--{if $userinfo[email]}-->value="{$userinfo[email]}"<!--{else}-->value=""<!--{/if}--> /></li>
+          <li><label for="userqq">QQ：</label><input name="user[userqq]" id="userqq" type="text" <!--{if $userinfo[userqq]}-->value="{$userinfo[userqq]}"<!--{else}-->value=""<!--{/if}--> /></li>
+          <li><label for="mobile">手机：</label><input name="user[mobile]" id="mobile" type="text" <!--{if $userinfo[mobile]}-->value="{$userinfo[mobile]}"<!--{else}-->value=""<!--{/if}--> /></li>
+		  <li><label>上传头像：</label><input type="file" name="userlogo"></li>
+          <li style="height:70px; line-height:70px;"><label>头像图片：</label><!--{if $userinfo[userlogo]}--><img src="$userinfo[userlogo]" style="height:60px; width:60px; border:1px solid #ddd; padding:4px;"><!--{/if}--></li>
+          <li><input class="usr_tijiao" type="submit" name="alterdata" value="确认修改" /></li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!--{template footer}-->

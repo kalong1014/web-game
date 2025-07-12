@@ -1,0 +1,49 @@
+
+#手游
+rewrite "^/(search)/(.*)/([a-zA-Z]+?)\_([0-9]+?).(htm|html|shtml)" /index.php?ac=$1&keyword=$2&orderby=$3&page=$4 last;
+rewrite "^/(search)/(.*)/" /index.php?ac=$1&keyword=$2 last;
+rewrite "^/(down)/(apple|android)/([0-9]+?)_0_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&type=$2&id=$3&d=$4 last;
+rewrite "^/(down)/(apple|android)/([0-9]+?)_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&type=$2&id=$3&k=$4 last;
+
+rewrite "^/(down)/(apple|android)/([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&type=$2&id=$3 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/([a-zA-Z0-9]+?)/([0-9]+?)/" /index.php?ac=$1&cname=$3&op=$2&yystate=$4 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&op=$2&page=$3 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/([0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&op=$2&yystate=$3&page=$4 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/([0-9]+?)/" /index.php?ac=$1&op=$2&yystate=$3 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/([a-zA-Z0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&cname=$3&op=$2&page=$4 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/([a-zA-Z0-9]+?)/" /index.php?ac=$1&cname=$3&op=$2 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/([a-zA-Z0-9]+?)/([0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&cname=$3&op=$2&yystate=$4&page=$5 last;
+rewrite "^/(games)/([a-zA-Z0-9]+?)/([0-9]+?)/" /index.php?ac=$1&cname=$2&yystate=$3 last;
+rewrite "^/(games)/([0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&yystate=$2&page=$3 last;
+rewrite "^/(games)/(dateline|score|downloadcount)/" /index.php?ac=$1&op=$2 last;
+rewrite "^/(games)/([0-9]+?)/" /index.php?ac=$1&yystate=$2 last;
+rewrite "^/(games)/([a-zA-Z0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&cname=$2&page=$3 last;
+rewrite "^/(games)/([a-zA-Z0-9]+?)/" /index.php?ac=$1&cname=$2 last;
+rewrite "^/(app)/([0-9]+?)_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=appdetail&id=$2&page=$3 last;
+rewrite "^/(app)/([0-9]+?)\.(htm|html|shtml)" /index.php?ac=appdetail&id=$2 last;
+rewrite "^/(news)/([0-9]+?)_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=newdetail&newid=$2&page=$3 last;
+rewrite "^/(news)/([0-9]+?)\.(htm|html|shtml)" /index.php?ac=newdetail&newid=$2 last;
+rewrite "^/(news)/([a-zA-Z0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&cname=$2&page=$3 last;
+rewrite "^/(news)/([a-zA-Z0-9]+?)/" /index.php?ac=$1&cname=$2 last;
+rewrite "^/(packs)/(list)/([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&op=$2&id=$3 last;
+rewrite "^/(packs)/([0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&pt=$2&page=$3 last;
+rewrite "^/(packs)/([0-9]+?)/" /index.php?ac=$1&pt=$2 last;
+rewrite "^/(testmore|servermore)/([0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&op=$2&page=$3 last;
+rewrite "^/(testmore|servermore)/([0-9]+?)/" /index.php?ac=$1&op=$2 last;
+rewrite "^/(games|recommend|news|packs|test|server)/([a-zA-Z0-9]+?)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&orderby=$2&page=$3 last;
+rewrite "^/(games|recommend|news|packs|test|server)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&page=$2 last;
+rewrite "^/(recommend)/(daynum|weeknum|viewnum)/" /index.php?ac=$1&orderby=$2 last;
+rewrite "^/(games|recommend|news|packs|test|server)/" /index.php?ac=$1 last;
+rewrite "^/(packdetail)/([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&packid=$2 last;
+
+#end 手游
+
+#新加
+rewrite "^/(alllist)/(newsoft|newgame|recomgame|recomsoft)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&op=$2&page=$3 last;
+rewrite "^/(alllist)/(newsoft|newgame|recomgame|recomsoft)/" /index.php?ac=$1&op=$2 last;
+rewrite "^/(contact)/(copyright|upload|comment|address)\.(htm|html|shtml)" /index.php?ac=$1&op=$2 last;
+rewrite "^/(contact)/" /index.php?ac=$1 last;
+#新加10121018
+rewrite "^/(rss).(htm|html|shtml)" /index.php?ac=$1 last;
+rewrite "^/(sitemap)_(app|news)/index_([0-9]+?)\.(htm|html|shtml)" /index.php?ac=$1&op=$2&page=$3 last;
+rewrite "^/(sitemap)_(app|news)/" /index.php?ac=$1&op=$2 last;

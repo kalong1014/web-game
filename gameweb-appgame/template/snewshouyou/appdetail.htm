@@ -1,0 +1,220 @@
+<!--{template header}-->
+<link rel="stylesheet" href="/template/$_SCONFIG[template]/css/swiper.3.1.2.min.css">
+<!--game-->
+<div class="container padding-top padding-right padding-left padding-bottom">
+    <div class="line">
+        <div class="media media-x">
+            <a href="javascript:void(0);" class="float-left">
+                <img src="{$appinfo['logo']}" class="radius-big game-icon">
+            </a>
+            <div class="float-right padding-top">
+			<!--<a href="mobile.php?ac=down&id={$appinfo['id']}" class="button button-small border-yellow">下载</a>-->
+			<!--{if $viewtype=="android"}-->
+			<!--{if $appinfo[downurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$appinfo[id]}')" class="button button-small border-yellow">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-small">预告</a>
+			<!--{/if}-->
+			<!--{elseif $viewtype=="apple"}-->
+			<!--{if $appinfo[iosdownurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$appinfo[id]}')" class="button button-small border-yellow">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-small">预告</a>
+			<!--{/if}-->
+			<!--{/if}-->
+			</div>
+            <div class="media-body">
+                <strong>{$appinfo['name']}</strong>
+                <div class="line padding-small-bottom padding-small-top">
+                    <span class="star bigstar{$appinfo[star]} text-left"></span>
+                </div>
+                <p class="text-left height-little margin-small-bottom text-small text-gray">{$appinfo['downloadcount']}下载<span>|</span>{$appinfo['size']}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--images-->
+<div class="container" style="width: 300px;">
+    <div class="swiper-container" id="gallery">
+        <div class="swiper-wrapper">
+            <!--{loop $imgurl $k $v}-->
+            <div class="swiper-slide"><img src="{$v}" class="img-responsive"></div>
+            <!--{/loop}-->
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<!--introduce-->
+<div class="container padding-big-top padding-right padding-left ">
+    <div class="container">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png"  class="images1">
+                <span class="text-big">应用介绍</span>
+            </div>
+        </div>
+        <hr>
+        <div class="line padding-right padding-left">
+            <div>
+                <p class="text-indent text-left text-small text-gray"  style="height: 70px;overflow: hidden"  id="content">
+				<!--{eval echo nl2br($appinfo['summary'])}-->
+                </p>
+            </div>
+                <div class="text-right collapse">
+                    <a class="" id="collapse">+展开全部</a>
+                </div>
+        </div>
+    </div>
+    <div class="container padding-large-top">
+        <div class="line padding-right padding-left">
+            <div class="xl6 xs6 xm6 xb6">
+                <img src="/template/$_SCONFIG[template]/images/shuxian.png"  class="images1">
+                <span class="text-left text-big">评论内容({$commentnum})</span>
+            </div>
+            <a href="mobile.php?ac=comment&appid=$id"><div class="xl6 xs6 xm6 xb6 text-right">
+                	<span class="icon-angle-right text-big"></span>
+            	</div></a>
+        </div>
+        <hr>
+		<!--{loop $commentlist $ckey $cval}-->
+        <div class="line padding-right padding-left">
+            <div class="line <!--{if $ckey>0}-->padding-top<!--{/if}-->" >
+                <span class="float-left text-gray"><!--{if $cval[username]}-->{$cval[username]}<!--{else}-->游客<!--{/if}--></span>
+                <span class="float-right text-gray"><!--{eval echo date('m-d',$cval[dateline])}--></span>
+            </div>
+            <div class="line padding-top">
+                <span class="float-left text-small">{$cval[message]}</span>
+            </div>
+        </div>
+       <!--{/loop}-->
+        <div class="line text-center padding-large-top padding-bottom">
+            <button class="button border-yellow dialogs" data-toggle="click" data-target="#mydialog" data-width="100%" data-mask="1" data-width="50%">发表评论</button>
+            <div id="mydialog">
+                <div class="dialog padding-top">
+                    <form method="get" action="/mobile.php">
+						<input type="hidden" value="appdetail" name="ac">
+						<input type="hidden" value="{$id}" name="id">
+                        <div class="form-group">
+                            <div class="field">
+                                <textarea rows="3" class="input" id="comment" name="comment" placeholder="说说你的想法"></textarea>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="form-button  float-right">
+                                <button type="submit" class="button bg-yellow">提交</button>
+                                <button class="button dialog-close">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="line padding-right padding-left">
+            <img src="/template/$_SCONFIG[template]/images/shuxian.png"  class="images1">
+            <span class="text-left text-big">你可能还喜欢</span>
+        </div>
+        <hr>
+        <div class="line padding-bottom text-center">
+		   <!--{if $apps}-->
+		   <!--{loop $apps $value}-->
+            <div class="xl3 xs3 xm3 xb3">
+                <div class="media clearfix">
+                    <a href="{$value[murl]}"><img src="{$value[logo]}" class="radius-big game-icon" ></a>
+                    <div class="media-body">
+                        <p class="text-small text-center" style="font-weight:bold;text-align:center;width:70px;height:18px;overflow:hidden">{$value[name]}</p>
+                    </div>
+                </div>
+            </div>
+			<!--{/loop}-->
+           <!--{/if}-->
+        </div>
+    </div>
+
+</div>
+
+<div class="line"style="height: 45px"></div>
+<!--footer-->
+<div class="padding-small-top padding-small-bottom padding-big-left padding-big-right elementwidth bg-white" style="position:fixed;bottom:0;z-index: 1;">
+   <!-- <a href="mobile.php?ac=down&id={$appinfo['id']}" class="button bg-yellow button-block text-center" >下载</a>-->
+	<!--{if $viewtype=="android"}-->
+	<!--{if $appinfo[downurl]}-->
+	<a href="javascript:void(0);" onClick="down_box('{$appinfo[id]}')" class="button bg-yellow button-block text-center" style="color:#fff">下载</a>
+	<!--{else}-->
+	<a href="javascript:void(0);" class="button button-block text-center" style="background-color: gray;">预告</a>
+	<!--{/if}-->
+	<!--{elseif $viewtype=="apple"}-->
+	<!--{if $appinfo[iosdownurl]}-->
+	<a href="javascript:void(0);" onClick="down_box('{$appinfo[id]}')" class="button bg-yellow button-block text-center" style="color:#fff">下载</a>
+	<!--{else}-->
+	<a href="javascript:void(0);" class="button button-block text-center" style="background-color: gray;">预告</a>
+	<!--{/if}-->
+	<!--{/if}-->
+</div>
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/swiper.3.1.2.min.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+<script>
+    var mySwiper = new Swiper('#gallery',{
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        slidesPerView: 1
+    });
+</script>
+<script>
+    $('#collapse').click(function(){
+        if($(this).text()=='+展开全部'){
+            $('#content').css('height', 'none');
+            $(this).html('-收起部分');
+        }else if($(this).text()=='-收起部分'){
+            $('#content').height(70);
+            $(this).html('+展开全部');
+        }
+    });
+</script>
+<div class="xz_box">
+    <p class="guanbi"><a href="javascript:void(0);" onclick="close_box('xz_box')">关闭</a></p>
+    <div class="xz_con">
+    	            
+    </div>
+</div>
+<div class="weixin_ts" style="position: fixed;text-align: right;top: 0;width: 100%;z-index: 9999; display:none;background: transparent url('/template/$_SCONFIG[template]/images/wx_down_bg.png') repeat scroll 0% 0%;height: 100%;"><a href="javascript:hidedownpic();"><img src="/template/$_SCONFIG[template]/images/weixin_ts.png" style="width:100%;height:100%"/></a></div>
+<script>
+function down_box(ids){
+	$.ajax({
+		type: 'get', 
+		url: "/mobile.php?ac=downurl&id="+ids,
+		dataType: 'json',
+		success: function(data){
+			if(data.downurl && data.viewtype!="weixin"){
+				$(".xz_con").html(data.downurl);	 
+				$(".xz_box").show();
+			}
+			else if(data.viewtype=='weixin')
+			{
+				$('.weixin_ts').show();
+			}
+		}
+	});
+	
+}
+function close_box(classname){
+	$(".xz_con").html('');
+	$("."+classname).hide();	
+}
+function downurl(downurlstr){
+	window.open(downurlstr);
+}
+function weixindown(){
+	$('.weixin_ts').show();
+}
+function hidedownpic(){
+	$('.weixin_ts').hide();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<!--{if $_SCONFIG[qqmeta]}--><meta property="qc:admins" content="{$_SCONFIG[qqmeta]}" /><!--{/if}-->
+<!--{if $_SCONFIG[wbmeta]}--><meta property="wb:webmaster" content="{$_SCONFIG[wbmeta]}" /><!--{/if}-->
+<meta name="keywords" content="<!--{if $appinfo[seokeyword]}-->
+{$appinfo[seokeyword]}
+<!--{elseif $newsinfo[seokeyword]}-->
+{$newsinfo[seokeyword]}
+<!--{else}-->
+<!--{if $_GET[ac]=="news"}-->
+{$_SCONFIG['synews_keyword']}
+<!--{elseif $_GET[ac]=="newdetail"}-->
+{$_SCONFIG['synewsde_keyword']}
+<!--{elseif $_GET[ac]=="recommend"}-->
+<!--{if $cateseo[seokeyword]}-->
+$cateseo[seokeyword]
+<!--{else}-->
+{$_SCONFIG['syrank_keyword']}
+<!--{/if}-->
+<!--{elseif $_GET[ac]=="test"}-->
+{$_SCONFIG['test_keyword']}
+<!--{elseif $_GET[ac]=="games"}-->
+{$_SCONFIG['games_keyword']}
+<!--{elseif $_GET[ac]=="packdetail"}-->
+{$_SCONFIG['pack_keyword']}
+<!--{elseif $_GET[ac]=="packs"}-->
+{$_SCONFIG['packlist_keyword']}
+<!--{elseif $_GET[ac]=="server"}-->
+{$_SCONFIG['server_keyword']}
+<!--{elseif $_GET[ac]=="appdetail"}-->
+{$_SCONFIG['syapp_keyword']}
+<!--{else}-->
+{$_SCONFIG['shouyou_keyword']}
+<!--{/if}-->
+<!--{/if}-->" />
+<meta name="description" content="<!--{if $appinfo[seodescription]}-->
+{$appinfo[seodescription]}
+<!--{elseif $newsinfo[seodescription]}-->
+{$newsinfo[seodescription]}
+<!--{else}-->
+<!--{if $_GET[ac]=="news"}-->
+{$_SCONFIG['synews_description']}
+<!--{elseif $_GET[ac]=="newdetail"}-->
+{$_SCONFIG['synewsde_description']}
+<!--{elseif $_GET[ac]=="recommend"}-->
+<!--{if $cateseo[seodescription]}-->
+$cateseo[seodescription]
+<!--{else}-->
+{$_SCONFIG['syrank_description']}
+<!--{/if}-->
+<!--{elseif $_GET[ac]=="test"}-->
+{$_SCONFIG['test_description']}
+<!--{elseif $_GET[ac]=="games"}-->
+{$_SCONFIG['games_description']}
+<!--{elseif $_GET[ac]=="packdetail"}-->
+{$_SCONFIG['pack_description']}
+<!--{elseif $_GET[ac]=="packs"}-->
+{$_SCONFIG['packlist_description']}
+<!--{elseif $_GET[ac]=="server"}-->
+{$_SCONFIG['server_description']}
+<!--{elseif $_GET[ac]=="appdetail"}-->
+{$_SCONFIG['syapp_description']}
+<!--{else}-->
+{$_SCONFIG['shouyou_description']}
+<!--{/if}-->
+<!--{/if}-->" />
+<title><!--{if $appinfo[seotitle]}-->
+{$appinfo[seotitle]}
+<!--{elseif $newsinfo[seotitle]}-->
+{$newsinfo[seotitle]}
+<!--{else}-->
+<!--{if $_GET[ac]=="news"}-->
+{$_SCONFIG['synews_title']}
+<!--{elseif $_GET[ac]=="newdetail"}-->
+{$_SCONFIG['synewsde_title']}
+<!--{elseif $_GET[ac]=="recommend"}-->
+<!--{if $cateseo[seotitle]}-->
+$cateseo[seotitle]
+<!--{else}-->
+{$_SCONFIG['syrank_title']}
+<!--{/if}-->
+<!--{elseif $_GET[ac]=="test"}-->
+{$_SCONFIG['test_title']}
+<!--{elseif $_GET[ac]=="games"}-->
+{$_SCONFIG['games_title']}
+<!--{elseif $_GET[ac]=="packdetail"}-->
+{$_SCONFIG['pack_title']}
+<!--{elseif $_GET[ac]=="packs"}-->
+{$_SCONFIG['packlist_title']}
+<!--{elseif $_GET[ac]=="server"}-->
+{$_SCONFIG['server_title']}
+<!--{elseif $_GET[ac]=="appdetail"}-->
+{$_SCONFIG['syapp_title']}
+<!--{else}-->
+{$_SCONFIG['shouyou_title']}
+<!--{/if}-->
+<!--{/if}--></title>
+<!--{if $_SCONFIG['siteicon']}--><link rel="shortcut icon" href="{$_SCONFIG['siteicon']}"><!--{/if}-->
+<link href="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/css/sy.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="http://$_SCONFIG[siteurl]/template/$_SCONFIG[template]/js/sy.js"></script>
+<script language="JavaScript" type="text/javascript">
+function getCookie(objName){
+	var arrStr = document.cookie.split("; ");
+	for(var i = 0;i < arrStr.length;i ++){
+	var temp = arrStr[i].split("=");
+	if(temp[0] == objName) return unescape(temp[1]);
+	} 
+}
+$(function(){
+	var sval=getCookie('search');
+	if (sval=='news'){
+		$('.search_nav').hide();
+		$('.search_nav2').show();	 
+		$("#isac").val("searchnews");
+	} else {
+		$('.search_nav2').hide();
+	    $('.search_nav').show();
+	    $("#isac").val("search");
+	}
+	 $.ajax({
+          type: "GET",
+          url: "/index.php?ac=common&op=islogin",
+          dataType: "json",
+          success: function(data){
+              if(data.uid){
+				 $('.topuser').hide();
+				 $('.topmember').show();
+				 $('.topuser_name').html(data.username);
+				 $('.topuser_tuichu').attr("href","/index.php?ac=common&op=logout&uhash="+data.uhash);
+				 if(data.isadmin=="1"){
+					 $('.topuser_houtai').show();
+				 }else{
+					 $('.topuser_houtai').hide(); 
+				 }
+				 if(data.qiandao){
+					  $('.yiqiandao').show();
+					  $('.qiandao').hide();
+				 }else{
+					  $('.yiqiandao').hide();
+					  $('.qiandao').show(); 
+				 }
+			  }else{
+					$('.topmember').hide();
+					$('.topuser').show();
+				 }
+             }
+      });
+
+});
+function qiandao(){
+	var uid="$_SGLOBAL[supe_uid]";
+	var creditname="$_SCONFIG[creditname]";
+	if(uid=="0"){
+		alert("登入后才能签到");
+		exit();
+	}
+	$.ajax({
+		url:"/index.php?ac=common&op=qiandao&uid="+uid,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var msgs=json.msg;
+			var qdinfo=json.info;
+			if(msgs){
+				var rinfo="<div>"+msgs+"</div>";
+			}else{
+				var rinfo="<div id=\"r_qiandao\">连续签到"+qdinfo.loginnum+"天，获取"+qdinfo.credit+creditname+","+qdinfo.experience+"经验值</div>";
+			}
+			$('#xs_qiandao').html(rinfo);
+			$('.qiandao').html('<em class="yqd">已签到</em>');
+			setTimeout(delqiandao,5000);
+		}
+	});
+}
+function delqiandao(){
+	$('#xs_qiandao').html('');
+}
+$(document).ready(function(){
+  $('.search_zx').click(function(){
+	  document.cookie="search=news";
+	  $('.search_nav').hide();
+	  $('.search_nav2').show();
+	  $("#isac").val("searchnews");
+  });
+  $('.search_app').click(function(){
+	  document.cookie="search=app";
+	  $('.search_nav2').hide();
+	  $('.search_nav').show();
+	  $("#isac").val("search");
+  });
+   $('#bdshare').click(function(){
+	$.ajax({
+		url:"/index.php?ac=common&op=share",
+		type:'get',
+		dataType:'json',
+		success:function(json){
+		}
+		});
+    });
+}); 
+</script>
+</head>
+<body id="top">
+<div id="header">
+  <div class="topnav">
+    <div class="layout clearfix">
+      <div class="top_gn">
+        <a href="{$_SCONFIG[weibourl]}" class="top_gn_fdzm" target="_blank" rel="nofollow">微博</a>
+        <a href="javascript:;" class="top_gn_swzy" rel="nofollow" >微信<!--{if $_SCONFIG['weixin']}--><div class="b_gntu"><em class="b_gn_sj"></em><img src="http://$_SCONFIG[siteurl]/$_SCONFIG['weixin']" /></div><!--{/if}--></a>
+        <a href="{$_SCONFIG[weburl]}" class="top_gn_jrsc" target="_blank" rel="nofollow">手机版
+       <!--{if $_SCONFIG['syerweima']}--><div class="b_gntu2">
+            <em class="b_gn_sj"></em>
+            <ul>
+                <li><img src="http://$_SCONFIG[siteurl]/$_SCONFIG['syerweima']" /></li>
+            </ul>
+          </div><!--{/if}-->
+        </a>
+		<a href="http://{$_SC[sitehost]}" onClick="window.external.addFavorite(this.href,this.title);return false;" title="{$_SCONFIG[sitename]}" rel="sidebar" class="jiarushoucang" rel="nofollow">加入收藏</a>
+      </div>
+	 
+      <div class="topmember" style="display:none;">
+        <a href="javascript:;" class="yiqiandao">已签到</a><a href="javascript:qiandao();" class="qiandao">签到赚$_SCONFIG[creditname]</a>您好，<a href="/index.php?ac=user" class="topuser_name"></a>
+	    <a href="/index.php?ac=user" class="topuser_center" rel="nofollow">用户中心</a>
+	    <a href="/admincp.php" class="topuser_houtai" rel="nofollow">后台管理</a>
+	     <a href="" class="topuser_tuichu" rel="nofollow">退出</a>
+      </div>
+      <div class="topuser" style="display:none;">
+        <a href="javascript:qiandao();" class="qiandao" rel="nofollow">签到赚$_SCONFIG[creditname]</a>
+        <a href="/index.php?ac=login" class="toplog" rel="nofollow">登录</a>|<a href="/index.php?ac=register" class="topreg" rel="nofollow">注册</a>
+      </div>
+	  
+      
+    </div>
+    <div id="xs_qiandao"></div>
+  </div>
+  <div class="headercon">
+    <div class="layout clearfix">
+      <div class="logo"><a href="/"><!--{if $_SCONFIG[sitelogo]}--><img src="/$_SCONFIG[sitelogo]"><!--{else}--><img src="/image/logo.png"><!--{/if}--></a></div>
+      <div class="search">
+        <form action="/index.php" onSubmit="return qrsearch();" method="get" name="search" id="search" >
+         <input type="hidden" name="ac" value="search" id="isac"/>
+		 <input type="text" onBlur="if(this.value==''){this.value='精品手游，海量搜索！';};" onFocus="if(this.value=='精品手游，海量搜索！'){this.value='';}" <!--{if $_GET[keyword]}-->value="$_GET[keyword]"<!--{else}-->value="精品手游，海量搜索！"<!--{/if}--> name="keyword" class="search_input">
+          <ul class="search_nav">
+            <li class="search_app"><a href="javascript:;">游戏</a></li>
+            <li class="search_zx"><a href="javascript:;">资讯</a></li>
+          </ul>
+          <ul class="search_nav2">
+            <li class="search_zx"><a href="javascript:;">资讯</a></li>
+            <li class="search_app"><a href="javascript:;">游戏</a></li>
+          </ul>
+          <input type="submit" value="" class="search_button" id="searchbutton">
+        </form>
+          <div class="hotkey">
+          <!--{if $_SCONFIG[sykey]}-->
+          <!--{eval $sykeyinfo=explode(",",$_SCONFIG[sykey])}-->
+          <!--{loop $sykeyinfo $value}-->
+          <a href="/index.php?ac=search&keyword={$value}">$value</a>
+          <!--{/loop}-->
+           <!--{else}-->
+          <!--{eval $keywords=hot_ph_key(10,"sysearchnum",1)}-->
+          <!--{loop $keywords $key $value}-->
+            <a href="/index.php?ac=search&keyword={$value[name]}" target="_blank">{$value[name]}</a>
+          <!--{/loop}-->
+          <!--{/if}-->
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="erjinav clearfix">
+    <div class="layout">
+        <ul class="erjinavbox clearfix">
+          <li><a href="/" $headcss[index]>手机网游</a></li>
+          <li><a href="index.php?ac=games" $headcss[games] >游戏库</a></li>
+          <li><a href="index.php?ac=recommend" $headcss[recommend]>排行榜</a></li>
+          <li><a href="index.php?ac=test" $headcss[test]>新游开测</a></li>
+          <li><a href="index.php?ac=server" $headcss[server]>游戏开服</a></li>
+          <li><a href="index.php?ac=news" $headcss[news]>新闻资讯</a></li>
+          <li class="fh"><a href="index.php?ac=packs" $headcss[packs]>礼包放号</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+<!--{if $_SCONFIG[dhxad]}-->
+<div class="dhxgg">{$_SCONFIG['dhxad']}</div>
+<!--{/if}-->

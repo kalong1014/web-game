@@ -1,0 +1,79 @@
+<!--{template header}-->
+ <script type="text/javascript">
+function selectAll(checkbox) {
+	if(typeof($("#check").attr('checked'))=="undefined")		
+       $('.tagbox').attr('checked', false);
+	else
+	   $('.tagbox').attr('checked',true);			
+    }
+	function movetype(oldbh){
+		var oldbh=$('#oldname').val();
+		var newbh=$('#newname').val();
+		if(oldbh==""){
+			alert('还没有选择要转移的类型');
+			exit();
+		}
+		if(newbh==""){
+			alert('还没有选择要转移的状态');
+			exit();
+		}
+		window.location.href='admincp.php?ac=managelb&op=packtype&d=move&oldbh='+oldbh+'&newbh='+newbh;
+	}
+</script>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title">礼包类型列表</h2>
+	<div class="sousuobox" style="height:auto; padding:10px 0 10px 8px;">
+	  <form action="admincp.php?ac=managelb&op=packtype" method="post">
+	  <input type="hidden" name="ac" value="managelb">
+	  <input type="hidden" name="op" value="packtype">
+        <div>
+    	  礼包类型：<input class="sousuobox_input1" type="text" value="" name="packtype[name]">
+		  对应编号：<input class="sousuobox_input1" style="width:60px;" type="text" value="" name="packtype[bianhao]">
+		  <input type="submit" class="sub2zf" value="添加" name="addptype">
+        </div>
+	  </form>
+    </div>
+    <div class="bdrcontent text_center">
+      <form action="admincp.php?ac=managelb&op=packtype" method="post">
+      <table>
+      <tbody>
+        <tr>
+			<th width="60">选择</th>
+            <th >礼包类型</th>
+			<th width="100">编号</th>
+            <th width="100">操作</th>
+        </tr>
+        <!--{loop $ptypeinfo $key $value}-->
+        <tr>
+			<td><input type="checkbox" value="$key" class="tagbox" name="ids[]"/></td>
+			<td class="text_left"><input type="text" value="{$value}" name="alterptype[<!--{eval echo $key}-->]" class="sousuobox_input1"/></td>
+			<td>$key</td>
+			<td><a href="admincp.php?ac=managelb&op=packtype&d=del&bianhao=$key" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a></td>
+          </tr>
+        <!--{/loop}-->
+      </tbody>
+      </table>
+	   <div class="fenye">{$multi}</div>
+	   <div class="footactions">
+	   		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)">全选
+	  		<input type="submit" name="alterpname" value="保存修改"  class="submit sub6zf">
+			要转移的类型
+			<select name="oldname" id="oldname">
+			<option value="">选择类型</option>
+			<!--{loop $ptypeinfo $key $value}-->
+			<option value="$key">$value</option>
+			<!--{/loop}-->
+			</select> 转移到 
+			<select name="newname" id="newname">
+			<option value="">选择类型</option>
+			<!--{loop $ptypeinfo $key $value}-->
+			<option value="$key">$value</option>
+			<!--{/loop}-->
+			</select>
+			<input type="button" value="转移" class="submit sub4zf" onclick="movetype();">
+        </div>
+	  </form>
+    </div>
+  </div>
+<!--{template footer}-->

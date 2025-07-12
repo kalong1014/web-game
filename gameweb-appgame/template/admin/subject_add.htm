@@ -1,0 +1,134 @@
+ <!--{template header}-->
+            <script type="text/javascript">
+	           	$(document).ready(function(){
+					$("#gjshezhi").click(function(){
+						gjszvalue=$('#title1').attr("class");
+						if(gjszvalue=="xianshi"){
+							$('#title1').attr("class","yincang");
+							$('#keyword1').attr("class","yincang");
+							$('#description1').attr("class","yincang");
+						}else{
+							$('#title1').attr("class","xianshi");
+							$('#keyword1').attr("class","xianshi");
+							$('#description1').attr("class","xianshi");
+						}
+						
+					});
+					});
+					</script>
+<style>
+.yincang{display:none;}
+.xianshi{}
+</style>
+
+<form method="post" enctype="multipart/form-data" <!--{if $subjectinfo}--> action="admincp.php?ac=subject&subtype=<!--{eval echo $subtype}-->&op=update" <!--{else}--> action="admincp.php?ac=subject&subtype=<!--{eval echo $subtype}-->&op=add" <!--{/if}-->>
+
+<div class="bdrcontent">
+		<h2 class="con_title"><!--{if $subject_info}-->修改<!--{else}-->新增<!--{/if}-->专辑</h2>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+			<input type="hidden" name="id" value="{$subjectinfo[id]}" type="text"/>
+				<td class="td_tit">专辑名称：</td>
+				<td><input class="con_input"  name="subjectinfo[subjectname]" type="text" value="{$subjectinfo['subjectname']}" /> <span style="color:#FF0000">*</span></td>
+			</tr>
+			
+			
+			<tr>
+				<td class="td_tit">专辑别名：</td>
+				<td><input class="con_input"  name="subjectinfo[engname]" type="text" value="<!--{$subjectinfo[engname]}-->" /> <span style="color:#FF0000">*</span>在URL中使用的别称，请使用英文或者拼音。</td>
+			</tr>
+			<!--{if $_GET[subtype]==2}-->
+			<tr>
+				<td class="td_tit">专辑分类：</td>
+				<td><input type="checkbox" name="subjectinfo[isphone]"  value="1" <!--{if $subjectinfo[isphone]==1 }--> checked="checked"<!--{elseif $subjectinfo[isphone]=="" && $subjectinfo[ispad]==""}-->checked="checked"<!--{/if}--> /> iPhone 
+				    <input type="checkbox" name="subjectinfo[ispad]"  value="1" <!--{if $subjectinfo[ispad]==1 }--> checked="checked"  <!--{elseif $subjectinfo[isphone]=="" && $subjectinfo[ispad]==""}-->checked="checked"<!--{/if}-->/> iPad </td>
+			</tr>
+            <!--{/if}-->
+            <tr>
+				<td class="td_tit">专辑类别：</td>
+				<td><input type="radio" name="subjectinfo[sublx]"  value="1" <!--{if $subjectinfo[sublx]==1 }--> checked="checked"<!--{/if}--> /> 游戏 
+				    <input type="radio" name="subjectinfo[sublx]"  value="2" <!--{if $subjectinfo[sublx]==2 }--> checked="checked"  <!--{/if}--> /> 软件 </td>
+			</tr>
+            
+ <!--           <tr>
+				<td class="td_tit">专辑类型</td>
+				<td><input name="subjectinfo[subtype]" type="radio" value="1" {if $subjectinfo[subtype]==1 or $subtype==1} checked="checked"  {/if} />安卓 <input name="subjectinfo[subtype]" type="radio" value="2" {if $subjectinfo[subtype]==2 or $subtype==2} checked="checked"  {/if} />苹果 </td>
+			</tr>
+            -->
+            <tr>
+				<td class="td_tit">状态：</td>
+				<td><input name="subjectinfo[isverify]" type="radio" value="1" <!--{if $subjectinfo[isverify]==1}--> checked="checked"  <!--{/if}--> /> 通过 <input name="subjectinfo[isverify]" type="radio" value="0" <!--{if $subjectinfo[isverify]==0 }--> checked="checked"  <!--{/if}--><!--{if !$subjectinfo}--> checked="checked"  <!--{/if}--> /> 待审核
+                 </td>
+			</tr>
+            
+            
+            <tr>
+              <td class="td_tit"><a id="gjshezhi" class="sub6zf">展开高级设置</a></td>
+              <td>设置该专辑的关键词</td>
+            </tr>
+            
+            <tr id="title1" class="yincang">
+				<td class="td_tit">专辑title：</td>
+				<td><textarea style="height:32px;" name="subjectinfo[seotitle]">{$subjectinfo[seotitle]}</textarea><br/>(要统一设置专辑页面的标题、关键词请到 站点配置->关键词配置  里面的专辑页面配置)</td>
+			</tr>
+
+            <tr id="description1" class="yincang">
+				<td class="td_tit">专辑keyword：</td>
+				<td><textarea style="height:32px;" name="subjectinfo[seokeyword]">{$subjectinfo[seokeyword]}</textarea></td>
+			</tr>
+
+
+            <tr id="keyword1" class="yincang">
+				<td class="td_tit">专辑description</td>
+				<td><textarea style="height:70px;" name="subjectinfo[seodescription]">{$subjectinfo[seodescription]}</textarea></td>
+			</tr>
+           
+            <tr>
+				<td class="td_tit">专辑大图片(580*265)：</td>
+
+                <td><input type="file" name="subjectpic"/>
+                <!--{if $subjectinfo[subjectpic]}-->
+                	<a href="{$subjectinfo[subjectpic]}" target="_blank"><img src="{$subjectinfo[subjectpic]}" width="80px" height="60px"></a>
+				<!--{/if}-->
+                </td>      
+			</tr>			
+			<tr>
+				<td class="td_tit">专辑图片(290*140)：</td>
+
+                <td><input type="file" name="logo"/>   
+                <!--{if $subjectinfo[logo]}-->
+                	<a href="{$subjectinfo[logo]}" target="_blank"><img src="{$subjectinfo[logo]}" width="80px" height="60px"></a>
+				<!--{/if}-->
+				</td>      
+			</tr>
+            <tr>
+				<td class="td_tit">专辑图片(80*80)：</td>
+
+                <td><input type="file" name="slogo"/>                
+                <!--{if $subjectinfo[slogo]}-->
+                	<a href="{$subjectinfo[slogo]}" target="_blank"><img src="{$subjectinfo[slogo]}" width="80px" height="60px"></a>
+				<!--{/if}-->
+                </td>      
+			</tr>
+         	<tr>
+				<td class="td_tit">专辑介绍（限制100字数）：</td>
+				<td>
+				<textarea id="text1" class="xheditor" name="subjectinfo[summary]">{$subjectinfo[summary]}</textarea>
+				</td>
+			</tr>	
+	       <input type="hidden" name="subjectinfo[type]"  value="1" />
+		   <input type="hidden" name="subjectinfo[subtype]"  value="<!--{if $subjectinfo[subtype]}-->{$subjectinfo[subtype]}<!--{else}--><!--{eval echo $_GET[subtype];}--><!--{/if}-->" />
+		   <!--{if $ids1}-->
+		   <input type="hidden" name="ids1" value="$ids1">
+		   <!--{/if}-->
+		   <input type="hidden" name="subjectinfo[dateline]"  value="<!--{eval echo time()}-->" />
+		</table>
+	</div>	
+	
+	<div class="footactions">
+		<input type="submit" id="blogbutton" name="blogbutton" value="提交发布" onclick="validate(this);" style="display: none;" />
+		<input type="button" id="issuance" onclick="document.getElementById('blogbutton').click();" value="保存发布" class="tijiao_button" /></td>
+	</div>
+	</form>
+
+ <!--{template footer}-->

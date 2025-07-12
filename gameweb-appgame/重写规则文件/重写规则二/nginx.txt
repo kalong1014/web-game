@@ -1,0 +1,3 @@
+rewrite "^/index-(.*)\.(htm|html|shtml)" /index.php?rewrite=$1 last;
+rewrite "^/(mobile)/(.*)\.(htm|html|shtml)" /mobile.php?rewrite=$2 last;
+

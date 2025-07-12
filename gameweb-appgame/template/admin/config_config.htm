@@ -1,0 +1,106 @@
+ <!--{template header}-->
+    <h2 class="con_title">配置站点信息</h2>
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+        <form method="post" enctype="multipart/form-data"  action="admincp.php?ac=config&op=config" >
+          <tr>
+              <td class="td_tit">站点logo(164*76):</td>
+              <td>
+              <input id="sitelogo" type="file" name="sitelogo" value=""/>
+              <input type="submit"  name="blogbutton" value="上传"/><img class="sitelogoimg" src="$_SC['dataurl']/{$_SCONFIG['sitelogo']}"/></td>
+		  </tr>
+        </form>
+        <form method="post" enctype="multipart/form-data"  action="admincp.php?ac=config&op=config" >
+          <tr>
+              <td class="td_tit">站点favicon(16*16):</td>
+              <td>
+              <input id="siteicon" type="file" name="siteicon" value=""/>
+              <input type="submit"  name="blogbutton" value="上传"/><img style="margin-left:10px;" src="$_SC['dataurl']/{$_SCONFIG['siteicon']}"/></td>
+		  </tr>
+        </form>
+        <form method="post" enctype="multipart/form-data"  action="admincp.php?ac=config&op=config" >
+		  <tr>			
+			 <td class="td_tit">站点名称:</td>
+			 <td><input class="con_input" type="text" name="config[sitename]"  value="{$_SCONFIG['sitename']}"/></td>
+		  </tr>
+		  <tr>			
+			<td class="td_tit">会员注册是否使用验证码:</td>
+			<td><input type="radio" name="config[qiyongyzm]" value="1" <!--{if $_SCONFIG['qiyongyzm']}--> checked="checked" <!--{/if}-->>启用 <input type="radio" name="config[qiyongyzm]" <!--{if $_SCONFIG['qiyongyzm']!=1}--> checked="checked" <!--{/if}--> value="0">不启用</td>
+		  </tr>
+		  <tr>			
+			<td class="td_tit">会员注册是否添加邮箱:</td>
+			<td><input type="radio" name="config[kqyouxiang]" value="1" <!--{if $_SCONFIG['kqyouxiang']}--> checked="checked" <!--{/if}-->>启用 <input type="radio" name="config[kqyouxiang]" <!--{if $_SCONFIG['kqyouxiang']!=1}--> checked="checked" <!--{/if}--> value="0">不启用</td>
+		  </tr>
+		  <tr>			
+			<td class="td_tit">会员注册是否短信验证:</td>
+			<td><input type="radio" name="config[kqdxyz]" value="1" <!--{if $_SCONFIG['kqdxyz']}--> checked="checked" <!--{/if}-->>启用 <input type="radio" name="config[kqdxyz]" <!--{if $_SCONFIG['kqdxyz']!=1}--> checked="checked" <!--{/if}--> value="0">不启用（需要开通短信接口）</td>
+		  </tr>
+		   <tr>			
+			<td class="td_tit">开启实名认证:</td>
+			<td><input type="radio" name="config[shimingrenzheng]" value="1"  <!--{if $_SCONFIG['shimingrenzheng']}--> checked="checked" <!--{/if}--> >启用 <input type="radio" name="config[shimingrenzheng]" value="0" <!--{if $_SCONFIG['shimingrenzheng']!="1"}--> checked="checked" <!--{/if}-->>不启用</td>
+		  </tr>
+          <tr>			
+			 <td class="td_tit">站点url:</td>
+			 <td><input class="con_input" type="text" name="config[siteurl]"  value="{$_SCONFIG['siteurl']}"/></td>
+		  </tr>
+		   
+          <tr>			
+			 <td class="td_tit">是否启用memcache:</td>
+			 <td><input type="radio" name="config[ismemcache]"  value="1"    <!--{if $_SCONFIG['ismemcache']=="1"}--> checked="checked" <!--{/if}-->/>是 <input type="radio" name="config[ismemcache]"  value="0" <!--{if $_SCONFIG['ismemcache']!="1"}--> checked="checked" <!--{/if}--> />否 &nbsp;&nbsp;(需服务器安装memcache，若无、勿点)</td>
+		  </tr>
+         <tr>			
+			<td class="td_tit">是否开启静态:</td>
+			<td><input type="radio" name="config[kqjingtai]"  value="1"    <!--{if $_SCONFIG['kqjingtai']=="1"}--> checked="checked" <!--{/if}-->/>是 <input type="radio" name="config[kqjingtai]"  value="0" <!--{if $_SCONFIG['kqjingtai']!="1"}--> checked="checked" <!--{/if}--> />否 &nbsp;&nbsp;(生成静态页面)</td>
+			</tr>
+			<tr>			
+			 <td class="td_tit">整站静态更新时间:</td>
+			 <td><input class="con_input" type="text" name="config[jingtaiupdate]"  value="{$_SCONFIG['jingtaiupdate']}"/> (以小时为单位。)</td>
+             <tr>
+          <tr>			
+			 <td class="td_tit">当天评论条数上限:</td>
+			 <td><input class="con_input" type="text" name="config[limitcomnum]"  value="{$_SCONFIG['limitcomnum']}"/> (默认上限为10条)</td>
+		  </tr>
+		  <!--{if $_SCONFIG[kqdxyz]}-->
+          <tr>			
+			 <td class="td_tit">短信发送时间间隔:</td>
+			 <td><input class="con_input" type="text" name="config[usetime]"  value="{$_SCONFIG['usetime']}"/> (已分钟为单位) </td>
+		  </tr>
+          <tr>
+			 <td class="td_tit">当天手机发送条数上限:</td>
+			 <td><input class="con_input" type="text" name="config[sjfstsxz]"  value="{$_SCONFIG['sjfstsxz']}"/></td>
+		  </tr>
+          <tr>			
+			 <td class="td_tit">当天IP发送条数上限:</td>
+			 <td><input class="con_input" type="text" name="config[ipfstsxz]"  value="{$_SCONFIG['ipfstsxz']}"/></td>
+		  </tr>
+		  <!--{/if}-->
+            <tr>			
+				<td class="td_tit">网站底部信息上半部分:</td>
+				<td><textarea name="config[footinfos]">{$_SCONFIG['footinfos']}</textarea><br><strong>(温馨提示：统计代码可加在这里。)</strong></td>
+			</tr>
+			 <tr>			
+				<td class="td_tit">网站底部信息下半部分:</td>
+				<td><textarea name="config[syfootinfo]">{$_SCONFIG['syfootinfo']}</textarea><br></td>
+			</tr>
+            <tr>			
+				<td class="td_tit">百度分享代码:</td>
+				<td><textarea name="config[bdshare]">{$_SCONFIG['bdshare']}</textarea></td>
+			</tr>
+			<tr>			
+			 <td class="td_tit">手游模板:</td>
+			 <td><input class="con_input" type="text" name="config[template]"  value="$_SC['template']"/></td>
+		  </tr>
+			
+			<tr>			
+				<td class="td_tit">生成网站地图:</td>
+				<td>
+                  <a href="index.php?ac=gugemap" class="sub6zf">生成谷歌地图</a><a href="index.php?ac=baidumap" class="sub6zf">生成百度地图</a>
+				</td>
+            </tr>           
+		</table>
+	    </div>
+        <input type="hidden" value="{$_SCONFIG['sitename']}" name="sitename2"/>
+        <input type="hidden" value="{$_SCONFIG['siteurl']}" name="siteurl2"/>
+	  <div class="footactions"><input type="submit" id="blogbutton" name="blogbutton" class="tijiao_button" value="确认提交"/></div>
+    </form>
+ <!--{template footer}-->

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="keywords" content="{$_SCONFIG['keyword']}">
+    <meta name="description" content="{$_SCONFIG['description']}">
+    <title>{$_SCONFIG[title]}</title>
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/pintuer.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/style.css">
+    <script src="/template/{$_SCONFIG['template']}/js/phonegap.js"></script>
+</head>
+<body>
+<!--nav-->
+<div class="container text-center nav-color elementwidth text-big  padding-left padding-right" style="height: 40px;z-index: 10;top: 0px;" id="nav">
+         <div class="line">
+			<div  class="xl3 xs3 xm3 xb3">
+			<div class="text-white float-left" id="view-all"><span style="float:left;margin-right:5px;margin-top:10px;">{$dqtagname}</span>
+			<span class="icon-angle-down text-large span1" style="float:left;margin-top:5px;"></span></div>
+    	</div>
+		<div class="xl7 xs7 xm7 xb7" style="margin-top: 5px;">
+		<div class="button-group button-group-small choose bg radius" style="border-color:#fff">
+		  <!--{if $orderby=="viewnum" || $orderby=="weeknum" || $orderby=="daynum"}-->
+		  	<a href="{$SCRIPT_NAME}?ac=games&tagid=$tagid&order=viewnum" class="button nav-font <!--{if $orderby!='viewnum'}-->nav-color text-white <!--{/if}-->"  id="month" style="border-color:#fff">总排行</a>
+			<a href="{$SCRIPT_NAME}?ac=games&tagid=$tagid&order=weeknum" class="button nav-font <!--{if $orderby!='weeknum'}-->nav-color text-white <!--{/if}-->" id="week" style="border-color:#fff">周排行</a>
+			<a href="{$SCRIPT_NAME}?ac=games&tagid=$tagid&order=daynum" class="button nav-font <!--{if $orderby!='daynum'}-->nav-color text-white <!--{/if}-->" id="day" style="border-color:#fff">日排行</a>
+		  <!--{else}-->
+			<a href="{$SCRIPT_NAME}?ac=games&tagid=$tagid&order=downloadcount" class="button nav-font <!--{if $orderby!='downloadcount'}-->nav-color text-white <!--{/if}-->"  id="month" style="border-color:#fff">热门</a>
+			<a href="{$SCRIPT_NAME}?ac=games&tagid=$tagid&order=isrecommend" class="button nav-font <!--{if $orderby!='isrecommend'}-->nav-color text-white <!--{/if}-->" id="week" style="border-color:#fff">推荐</a>
+			<a href="{$SCRIPT_NAME}?ac=games&tagid=$tagid&order=dateline" class="button nav-font <!--{if $orderby!='dateline'}-->nav-color text-white <!--{/if}-->" id="day" style="border-color:#fff">最新</a>
+			<!--{/if}-->
+		</div>
+		</div>
+       <div class="xl2 xs2 xm2 xb2 padding-small-top text-right">
+            <a href="javascript:void(0)" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px;"></a>
+        </div>
+</div>
+        
+    </div>
+</div>
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <div class="text-center elementwidth text-big padding-left padding-right bg-yellow" style="height: 40px; max-height:92%";>
+        <form method="get" action="/{$SCRIPT_NAME}" class="form-inline" name="form">
+            <input type="hidden" value="search" name="ac">
+            <div class="line">
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-left">
+                    <span class="icon-angle-left text-large text-white" id="close"></span>
+                </div>
+                <div class="xl8 xs8 xm8 xb8 margin-small-top">
+                    <input type="text" class="input" value="{$keyword}" name="keyword" placeholder="精品应用、海量搜索"  style="height: 34px;padding:0 10px !important">
+                </div>
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-right">
+                   
+					<a href="javascript:form.submit();" id="searcher"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px" class="icon-search"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--{template search_box}-->
+</div>
+<div class="white-mask hidden padding-left padding-right" id="mask" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:9;display:block;overflow-x:hidden;overflow-y:auto;padding-top:40px; max-height:600px">
+    <div class="container padding-top padding-left padding-right" id="tab2">
+	 <!--{eval $tn="1"}-->
+	 <!--{loop $taginfos['id'] $key $value}-->
+	 <!--{if $tn%2=="1"}-->
+     <div class="line">
+	 <!--{/if}-->
+        <div class="xs6 xm6 xl6 xb6">
+		<div class="container">
+		   <div class="line">
+            <a href="{$SCRIPT_NAME}?ac=games&tagid={$value['id']}">
+                <div   style="float:left">
+                    <img src="{$value[logo]}" class="radius-big float-left game-icon">
+                </div>
+                <div class="padding-left"  style="float:left">
+                    <p class="gamename">{$value[tagname]}</p>
+                    <p class="text-left height-little margin-small-bottom text-small text-gray">共有 <strong>{$value[nums]}</strong> 款</p>
+                </div>
+            </a>
+		  </div>
+		  </div>
+        </div>
+     <!--{if $tn%2=="0"}-->
+    </div>
+    <hr class="bg-line">
+	 <!--{/if}-->
+	<!--{eval $tn++}-->
+   	<!--{/loop}-->
+</div>
+</div>
+</div>
+<div class="tabs">
+<!--tab1-->
+<div class="container padding-top padding-left padding-right" id="tab1">
+	  <!--{eval $apps=getapplists(4,0,-1,-1,0,$orderby,20,0,"",0,$tagid)}-->
+	 <!--{if $apps[app][list]}-->
+	 <!--{loop $apps[app][list] $key $value}-->
+    <div class="line">
+        <div class="xs9 xm9 xl9 xb9">
+            <a href="{$SCRIPT_NAME}?ac=appdetail&id={$value['id']}">
+                <div style="float:left">
+                    <img src="{$value[logo]}" class="radius-big float-left game-icon">
+                </div>
+                <div class="padding-left"  style="float:left">
+                    <p class="gamename">{$value[name]}</p>
+                    <div class="line padding-bottom padding-top">
+                        <span class="star bigstar{$value[star]} text-left"></span>
+                    </div>
+                    <p class="text-left height-little margin-small-bottom text-small text-gray">{$value['downloadcount']}下载<span>|</span>{$value[size]}</p>
+                </div>
+            </a>
+        </div>
+        <div class="xs3 xm3 xl3 xb3">
+            <div class="float-right padding-top">
+			
+			<!--{if $viewtype=="android"}-->
+			<!--{if $value[downurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+			<!--{/if}-->
+			<!--{elseif $viewtype=="apple"}-->
+			<!--{if $value[iosdownurl]}-->
+			<a href="javascript:void(0);" onClick="down_box('{$value[id]}')" class="button button-small border-yellow">下载</a>
+			<!--{else}-->
+			<a href="javascript:void(0);" class="button button-small border-yellow">预告</a>
+			<!--{/if}-->
+			<!--{/if}-->
+			
+			</div>
+        </div>
+    </div>
+    <hr class="bg-line">
+   	<!--{/loop}-->
+	<!--{else}-->
+	<div>暂无相关数据</div>
+	<!--{/if}-->
+</div>
+</div>
+</div>
+<div class="ajax_loading text-center" style="display:none"><span class="icon-refresh rotate"></span>努力加载中...</div>
+<input type="hidden" value="2" id="page_num" loading='no'>
+<div class="line" style="height: 75px"></div>
+
+<!--footer-->
+<!--{template nav_buttom}-->
+<script>
+    $('.icon-times').click(function(){
+        $(this).parent().addClass('hidden')
+    });
+</script>
+<script>
+    var height= $(window).height()+100;
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+</script>
+<script>
+    $('document').ready(function () {
+        var height= $(window).height()+100;
+        $('#mask').height(height);
+    });
+    $('#view-all').click(function () {
+        if($('#mask').hasClass('show')){
+            $('#nav').css('position','static');
+            $('#mask').removeClass('show');
+            $('#mask').addClass('hidden');
+			$('.span1').removeClass('icon-angle-up');
+			$('.span1').addClass('icon-angle-down');
+        }else if($('#mask').hasClass('hidden')){
+            $('#nav').css('position','fixed');
+            $('#mask').removeClass('hidden');
+            $('#mask').addClass('show');
+			$('.span1').removeClass('icon-angle-down');
+			$('.span1').addClass('icon-angle-up');
+        }
+    });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	$(window).scroll(function(){
+	  if($(document).scrollTop()>=$(document).height()-$(window).height()-100){
+	  	var isload=$('#page_num').attr('loading');
+		if(isload=="no"){
+			$('#page_num').attr("loading","yes");
+			var page_num=$('#page_num').val();
+			var addlisthtml="";
+			var tagid="$tagid";
+			var orderby="$orderby";
+			$.ajax({
+				type:"GET",
+				url:'/$SCRIPT_NAME?ac=games&tagid='+tagid+'&orderby='+orderby+'&reqPageNum='+page_num,
+				dataType:'json',
+				beforeSend:function(){
+				  $('.ajax_loading').show() //显示加载时候的提示
+				},
+				success:function(data){
+					 var addapplist=data.moreFineList.list;
+					 if(addapplist){
+						 $.each(addapplist, function(i,val){     
+							 addlisthtml+='<div class="line"><div class="xs9 xm9 xl9 xb9"><a href="'+val.url+'"><div style="float:left"><img src="'+val.logo+'" class="radius-big float-left game-icon"></div><div class="padding-left" style="float:left"><p class="gamename">'+val.name+'</p><div class="line padding-bottom padding-top"><span class="star bigstar'+val.star+' text-left" ></span></div><p class="text-left height-little margin-small-bottom text-small text-gray">'+val.downloadcount+'下载<span>|</span>'+val.size+'</p></div></a></div><div class="xs3 xm3 xl3 xb3"><div class="float-right padding-top">'+val.downhtml+'</div></div></div><hr class="bg-line">';
+						 });
+						 $('#tab1').append(addlisthtml);
+						 var npage_num = parseInt(page_num) + 1;
+						 $('#page_num').val(npage_num);
+						 $('#page_num').attr("loading","no");
+					 }else{
+						$('#page_num').attr("loading","yes");
+					 }
+					 $('.ajax_loading').hide() //请求成功,隐藏加载提示
+				}
+			})
+		}
+	  }
+	})
+  })
+</script>
+</body>
+</html>

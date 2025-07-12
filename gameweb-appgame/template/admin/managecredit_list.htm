@@ -1,0 +1,56 @@
+ <!--{template header}-->
+  <script language="javascript" type="text/javascript" src="/template/admin/js/datepicker/WdatePicker.js"></script>
+    <h2 class="con_title">用户获取$_SCONFIG[creditname]管理</h2><div><a href="admincp.php?ac=managecredit&starttime=$daybegin&endtime=$dayend">今天数据</a><a href="admincp.php?ac=managecredit&starttime=$weekbegin&endtime=$weekend">本周数据</a></div>
+	<form method="post" action="admincp.php?ac=managecredit&op=list">
+	<div class="sousuobox">
+		<table cellspacing="0" cellpadding="0">
+		<tr>
+		<td>用户名 <input class="sousuobox_input1" name="username" type="text" value="$username"/>
+		开始时间 <input class="sousuobox_input1" id="starttime" name="starttime" type="text" value=""/><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/admin/js/datepicker/skin/datePicker.gif" />
+		结束时间 <input class="sousuobox_input1" id="endtime" name="endtime" type="text" value=""/><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'endtime'})" style="cursor: pointer;" src="template/admin/js/datepicker/skin/datePicker.gif" />
+		<select name="perpage" class="select6z">
+        <option value="30" <!--{if $perpage==30}-->selected="selected"<!--{/if}-->>每页显示30个</option>
+		<option value="50" <!--{if $perpage==50}-->selected="selected"<!--{/if}-->>每页显示50个</option>
+		<option value="100" <!--{if $perpage==100}-->selected="selected"<!--{/if}-->>每页显示100个</option>
+		</select>
+		
+		<input type="submit" name="searchsubmit" value="搜索" class="submit sub2zf">
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+	<div class="bdrcontent">
+	<div class="bdrcontent text_center">
+	<form method="post" action="admincp.php">
+	<input type="hidden" name="ac" value="managecredit" />
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <th width="60">选择</th>
+		<th width="100">用户</th> 
+        <th>操作</th>  
+		<th width="100">奖励方式</th>
+		<th width="100">获取$_SCONFIG[creditname]</th> 
+		<th width="100">获取经验</th>
+		<th width="100">操作时间</th>
+		<th width="60">状态</th>
+        </tr>
+		<!--{loop $setcreditinfo $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" class="appbox" id="{$value[id]}" value="{$value[id]}" <!--{if $value[$value[id]]}-->checked="checked"<!--{/if}-->></td>
+		<td>{$value[username]}</td>
+		<td class="text_left">$_SCONFIG[operate][$value[type]]</td>		
+		<td><!--{if $value[czreward]=="1"}-->加$_SCONFIG[creditname]<!--{else}-->减$_SCONFIG[creditname]<!--{/if}--></td> 
+		<td>{$value[credit]}</td>
+		<td>{$value[experience]}</td>
+		<td><!--{eval echo date('Y-m-d',$value[dateline])}--></td>
+		<td><!--{if $value[isverify]=="1"}-->审核<!--{else}-->待审核<!--{/if}--></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		</form>
+		<div class="fenye">$multi</div>
+	</div>
+	</div>
+ <!--{template footer}-->

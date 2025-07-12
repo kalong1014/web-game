@@ -1,0 +1,32 @@
+<!--{template header}-->
+<div id="main" class="layout clearfix">
+ <div class="search_conbox">
+      <div class="itit">搜索结果</div>
+      <div id="tabcontentSearch">
+        <ul>
+		<!--{eval $appinfo=getapplists(4,0,-1,-1,0,"viewmun",10,1,$idcategorylist,0)}-->
+          <li class="tishiSearch">您搜索的关键词"<em><!--{eval echo $_GET[keyword]}--></em>"有以下<em><!--{if $appinfo}--><!--{eval echo $appinfo[app][count]}--><!--{else}-->0<!--{/if}--></em>个游戏</li>
+		  <!--{loop $appinfo[app][list] $key $value}-->
+          <li class="dangge-appSearch clearfix">      
+            <div class="searchtu">
+              <a href="{$value[url]}" class="dg_icon_Search" target="_blank" ><i class="img-app-none"></i><img alt="{$value[name]}" src="{$value[logo]}"></a><span class="starSearch bigstar{$value[star]}"></span>
+            </div>
+            <div class="searchCon">
+              <h2><a href="{$value[url]}">{$value[name]}</a></h2>
+              <p class="dangge-appInfo">发布时间：<!--{eval echo date("Y-m-d",$value[dateline])}--> 标签：<!--{eval echo implode(",",$appinfo[app][taginfos][$value[id]])}--></p>
+              <p><!--{eval echo utf8Substr($value[briefsummary],0,140)}--></p>
+            </div>
+              <div class="app_xiazaib_search"><a href="{$value[url]}" target="_blank">下载</a></div>
+          </li>
+		  <!--{/loop}-->
+         
+          <li class="fenye"><!--{$appinfo[page]}--></li>
+        </ul>
+
+      </div>
+  </div>
+</div>
+<!--{if $appinfo[app][count]>0}-->
+<!--{eval input_keyword()}-->
+<!--{/if}-->
+<!--{template footer}-->

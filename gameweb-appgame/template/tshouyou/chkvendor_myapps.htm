@@ -1,0 +1,50 @@
+<!--{template header}-->
+<script type="text/javascript">
+$(document).ready(function(){
+$(".u_conab").click(function(){
+  $(".u_conab").addClass("cur");
+  $(".u_conpb").removeClass("cur");
+  $(".user_aapp").show();
+  $(".user_papp").hide();
+});
+$(".u_conpb").click(function(){
+  $(".u_conpb").addClass("cur");
+  $(".u_conab").removeClass("cur");
+  $(".user_papp").show();
+  $(".user_aapp").hide();
+});
+});
+</script>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit"><span class="f_right"><a href="/index.php?ac=chkvendor&op=uploadapp">上传应用</a></span>应用管理</div>
+   <div class="user_content_con">
+      <div class="o_appgltit clearfix"><a href="index.php?ac=chkvendor&op=myapps&isverify=0" $dangqianapp[0]>待审核</a><a href="index.php?ac=chkvendor&op=myapps&isverify=1" $dangqianapp[1]>通过审核</a><a href="index.php?ac=chkvendor&op=myapps&isverify=-1" $dangqianapp[-1]>未通过审核</a></div>
+      <div class="o_appglcon">
+	 	 <!--{if $appinfo}-->	
+              <table width="100%" cellpadding="0" cellspacing="0" class="shouyou_tb">
+             <tr><th>应用名称</th><th>标签</th><th>运营状态</th><th>上传时间</th><th>logo</th><th>操作</th></tr> 
+              <!--{loop $appinfo $value}-->
+              <tr>
+              <td>{$value[name]}</td>
+              <td>{$value[tags]}</td>
+              <td><!--{if $value[yystate]=="1"}-->公测<!--{elseif $value[yystate]=="2"}-->公测<!--{elseif $value[yystate]=="3"}-->内测<!--{elseif $value[yystate]=="4"}-->封测<!--{elseif $value[yystate]=="5"}-->预告<!--{/if}--></td>
+              <td><!--{eval echo date('Y-m-d',$value[dateline])}--></td>
+              <td><!--{if $value[logo]}--><img height='30px' src="{$value[logo]}" /><!--{else}-->无<!--{/if}--></td>
+              <td><!--{if $value[isverify]=="0"}--><a href="index.php?ac=chkvendor&op=myapps&lx=$value[type]&caozuo=appedit&id=$value[id]" class="o_appglcon_bj">编辑</a><a href="index.php?ac=chkvendor&op=myapps&caozuo=delapp&lx=$value[type]&id=$value[id]" class="o_appglcon_sc">删除</a><!--{elseif $value[isverify]=="1"}--><a href="index.php?ac=chkvendor&op=myapps&lx=$value[type]&caozuo=appedit&id=$value[id]" class="o_appglcon_sj">升级</a><!--{/if}--></td>
+              </tr>
+              <!--{/loop}-->	  
+              </table>
+              <div class="fenye"><!--{eval echo $multi}--></div>
+		<!--{else}-->
+			<div class="o_appglcon_ts">还没有相关应用信息!</div>
+		<!--{/if}-->		  
+      </div>
+
+  </div>
+</div>
+</div>
+
+
+<!--{template footer}-->

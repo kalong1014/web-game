@@ -1,0 +1,95 @@
+<div class="text-center bg-white elementwidth foot-title padding-small-top border-top border-gray" style="position:fixed;bottom:0;z-index: 11;" id="foot">
+    <div class="xl3 xs3 xm3 xb3">
+        <a href="/{$SCRIPT_NAME}">
+            <div <!--{if $ac=="index"}--> class="icon-color" <!--{/if}-->>
+                <!--{if $ac=="index"}-->
+				<img src="/template/$_SCONFIG[template]/images/tab_home_press.png" class="nav-icon">
+				<!--{else}-->
+				<img src="/template/$_SCONFIG[template]/images/tab_home.png" class="nav-icon">
+                <!--{/if}-->
+				<p class="height-little margin-small-bottom text-small">首页<span id="ccccc"></span></p>
+            </div>
+        </a>
+    </div>
+	<div class="xl3 xs3 xm3 xb3">
+        <a href="{$SCRIPT_NAME}?ac=games">
+            <div <!--{if $ac=="games"}-->class="icon-color"<!--{/if}-->>
+				<!--{if $ac=="games"}-->
+				 <img src="/template/$_SCONFIG[template]/images/nav_game_press.png" class="nav-icon">
+				<!--{else}-->
+				 <img src="/template/$_SCONFIG[template]/images/nav_game.png" class="nav-icon">
+				<!--{/if}-->
+                <p class="height-little margin-small-bottom text-small">游戏<span id="aaaaa"></span></p>
+            </div>
+        </a>
+    </div>
+    <div class="xl3 xs3 xm3 xb3">
+        <a href="{$SCRIPT_NAME}?ac=packs">
+            <div <!--{if $ac=="packs"}-->class="icon-color"<!--{/if}-->>
+				 <!--{if $ac=="packs"}-->
+				 <img src="/template/$_SCONFIG[template]/images/tab_gift_press.png" class="nav-icon">
+				<!--{else}-->
+				 <img src="/template/$_SCONFIG[template]/images/tab_gift.png" class="nav-icon">
+				<!--{/if}-->
+                <p class="height-little margin-small-bottom text-small">礼包<span id="bbbbb"></span></p>
+            </div>
+        </a>
+    </div>
+    <div class="xl3 xs3 xm3 xb3">
+        <a href="{$SCRIPT_NAME}?ac=member">
+            <div <!--{if $ac=="member"}-->class="icon-color"<!--{/if}-->>
+				<!--{if $ac=="member"}-->
+				 <img src="/template/$_SCONFIG[template]/images/tab_mine_press.png" class="nav-icon">
+				<!--{else}-->
+				 <img src="/template/$_SCONFIG[template]/images/tab_mine.png" class="nav-icon">
+				<!--{/if}-->
+                <p class="height-little margin-small-bottom text-small">管理</p>
+            </div>
+        </a>
+    </div>
+</div>
+<script src="/template/$_SCONFIG[template]/js/jquery.js"></script>
+<script src="/template/$_SCONFIG[template]/js/pintuer.js"></script>
+<script src="/template/$_SCONFIG[template]/js/search.js"></script>
+<div class="xz_box">
+    <p class="guanbi"><a href="javascript:void(0);" onclick="close_box('xz_box')">关闭</a></p>
+    <div class="xz_con">
+    	            
+    </div>
+</div>
+<div class="weixin_ts" style="position: fixed;text-align: right;top: 0;width: 100%;z-index: 9999; display:none;background: transparent url('/template/$_SCONFIG[template]/images/wx_down_bg.png') repeat scroll 0% 0%;height: 100%;"><a href="javascript:hidedownpic();"><img src="/template/$_SCONFIG[template]/images/weixin_ts.png" style="width:100%;height:100%"/></a></div>
+<script>
+function down_box(ids){
+	$.ajax({
+		type: 'get', 
+		url: "/mobile.php?ac=downurl&id="+ids,
+		dataType: 'json',
+		success: function(data){
+			if(data.downurl && data.viewtype!="weixin"){
+				$(".xz_con").html(data.downurl);	 
+				
+				$(".xz_box").show();
+			}
+			else if(data.viewtype=='weixin')
+			{
+				$('.weixin_ts').show();
+			}
+		}
+	});
+	
+}
+function close_box(classname){
+	$(".xz_con").html('');
+	$("."+classname).hide();	
+}
+function downurl(downurlstr){
+	siteurl="$_SC[siteurl]";
+	window.open(siteurl+downurlstr,"_system");
+}
+function weixindown(){
+	$('.weixin_ts').show();
+}
+function hidedownpic(){
+	$('.weixin_ts').hide();
+}
+</script>

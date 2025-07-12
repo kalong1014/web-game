@@ -1,0 +1,138 @@
+ <!--{template header}-->
+<script type="text/javascript" src="/template/admin/js/hdm.js"></script>
+<script type="text/javascript" src="/template/admin/js/ajaxfileupload.js"></script>
+
+	<div class="bdrcontent adguanli">
+		<h2 class="con_title">广告管理</h2>
+	 <form method="post" action="admincp.php?ac=config&op=ad" >
+        <div class="tabmenu">
+          <ul>
+          <li onmouseover="tabChange(this,'tabcontent')" class="cli">广告设置</li>
+		    <li onmouseover="tabChange(this,'tabcontent')" class="">手机端广告</li>
+          </ul>
+        </div>
+       <div id="tabcontent">
+         <ul class="">
+           <li class="clearfix">
+             <div class="td_tit"><p>全局对联广告(限宽90px)：</p><p><img src="/template/admin/images/ad_duilian.jpg" /></p></div>
+             <div><textarea name="config[globalad]">{$_SCONFIG['globalad']}</textarea></div>
+			</li>
+			 <li class="clearfix">
+				<div class="td_tit"><p>导航下广告(限宽1000px)：</p><p><img src="/template/admin/images/ad_tonglan.jpg" /></p></div>
+				<div>
+					<textarea name="config[dhxad]">{$_SCONFIG['dhxad']}</textarea>
+				</div>
+			</li>
+            <li class="clearfix">
+				<div class="td_tit"><p>通告栏广告(精品上方)(限宽1000px)：</p><p><img src="/template/admin/images/ad_tonglan.jpg" /></p></div>
+				<div>
+					<textarea name="config[symiddlead]">{$_SCONFIG['symiddlead']}</textarea>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="td_tit"><p>通告栏广告2(热门分类上方)(限宽1000px)：</p><p><img src="/template/admin/images/ad_tonglan.jpg" /></p></div>
+				<div>
+					<textarea name="config[symiddlead2]">{$_SCONFIG['symiddlead2']}</textarea>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="td_tit"><p>应用详细页广告(限宽1000px)：</p><p><img src="/template/admin/images/ad_tonglan.jpg" /></p></div>
+				<div>
+					<textarea name="config[appdetailad]">{$_SCONFIG['appdetailad']}</textarea>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="td_tit"><p>资讯详细页广告(限宽255px)：</p><p><img src="/template/admin/images/ad_neirongye.jpg" /></p></div>
+				<div>
+					<textarea name="config[newsdetailad]">{$_SCONFIG['newsdetailad']}</textarea>
+				</div>
+			</li>
+            <li class="clearfix">
+				<div class="td_tit"><p>全局底部广告(限宽1000px):</p><p><img src="/template/admin/images/ad_dibu.jpg" /></p></div>
+				<div>
+					<textarea name="config[buttomad]">{$_SCONFIG['buttomad']}</textarea>
+				</div>
+			</li>  
+		</ul>
+		<ul class="hidden">
+			<li class="clearfix">
+				<div class="td_tit"><p>手机端首页轮播广告(500px*250px)：</p><p><img src="/template/admin/images/waplb.png" /></p></div>
+				<div style="float:left;">
+					<textarea name="config[waplbad]" id="waplbadtext">{$_SCONFIG['waplbad']}</textarea>
+					<div style="margin-top: 20px;"><span>广告图：</span> <input type="file" name="waplbadfile" id="waplbadfile"> <span>链接地址：</span> <input type="text" value="" class="con_input" name="waplbadurl" id="waplbadurl">  <a href="javascript:scadcode('waplbad');" class="scbutton">生成广告</a></div>
+				</div>
+			</li>
+			 <li class="clearfix">
+				<div class="td_tit"><p>插屏广告(600px*500px)：</p><p><img src="/template/admin/images/wapcpgg.png" /></p></div>
+				<div style="float:left;">
+					<textarea name="config[wapxfad]" id="wapxfadtext">{$_SCONFIG['wapxfad']}</textarea>
+					<div style="margin-top: 20px;">用户关闭广告后: <input type="input" value="{$_SCONFIG[xftime]}" class="con_input" id="xftime" name="config[xftime]"> 分钟内，不再重复显示</div>
+					<span>广告图：</span> <input type="file" name="wapxfadfile" id="wapxfadfile"> <span>链接地址：</span> <input type="text" value="" class="con_input" id="wapxfadurl">  <a href="javascript:scadcode('wapxfad');" class="scbutton">生成广告</a>
+				</div>
+			</li>
+			
+			<li class="clearfix">
+				<div class="td_tit"><p>精品推荐栏广告(640px*130px)：</p><p><img src="/template/admin/images/waphengfu.png" /></p></div>
+				<div style="float:left;">
+					<textarea name="config[wapjptjad]" id="wapjptjadtext">{$_SCONFIG['wapjptjad']}</textarea>
+					<div style="margin-top: 20px;"><span>广告图：</span> <input type="file" name="wapjptjadfile" id="wapjptjadfile"> <span>链接地址：</span> <input type="text" value="" class="con_input" id="wapjptjadurl">  <a href="javascript:scadcode('wapjptjad');" class="scbutton">生成广告</a></div>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="td_tit"><p>人气排行栏广告(640px*130px)：</p><p><img src="/template/admin/images/waphengfu.png" /></p></div>
+				<div style="float:left;">
+					<textarea name="config[waprqphad]" id="waprqphadtext">{$_SCONFIG['waprqphad']}</textarea>
+					<div style="margin-top: 20px;"><span>广告图：</span> <input type="file" name="waprqphadfile" id="waprqphadfile"> <span>链接地址：</span> <input type="text" value="" class="con_input" id="waprqphadurl">  <a href="javascript:scadcode('waprqphad');" class="scbutton">生成广告</a></div>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="td_tit"><p>热门下载栏广告(640px*130px)：</p><p><img src="/template/admin/images/waphengfu.png" /></p></div>
+				<div style="float:left;">
+					<textarea name="config[waprmxzad]" id="waprmxzadtext">{$_SCONFIG['waprmxzad']}</textarea>
+					<div style="margin-top: 20px;"><span>广告图：</span> <input type="file" name="waprmxzadfile" id="waprmxzadfile"> <span>链接地址：</span> <input type="text" value="" class="con_input" id="waprmxzadurl">  <a href="javascript:scadcode('waprmxzad');" class="scbutton">生成广告</a></div>
+				</div>
+			</li>
+			
+			<li class="clearfix">
+				<div class="td_tit"><p>最新上线栏广告(640px*130px)：</p><p><img src="/template/admin/images/waphengfu.png" /></p></div>
+				<div style="float:left;">
+					<textarea name="config[wapzxsxad]" id="wapzxsxadtext">{$_SCONFIG['wapzxsxad']}</textarea>
+					<div style="margin-top: 20px;"><span>广告图：</span> <input type="file" name="wapzxsxadfile" id="wapzxsxadfile"> <span>链接地址：</span> <input type="text" value="" class="con_input" id="wapzxsxadurl">  <a href="javascript:scadcode('wapzxsxad');" class="scbutton">生成广告</a></div>
+				</div>
+			</li>			
+		</ul>
+		
+      </div>
+
+	<div class="footactions">
+		<input type="submit" id="blogbutton" name="blogbutton" class="tijiao_button" value="提交发布"/>		
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+	function scadcode(t){
+		var url=$('#'+t+'url').val();
+		var xftime=$('#xftime').val();
+		if(xftime<1){
+			xftime=60;
+		}
+		$.ajaxFileUpload({
+            url: '/admincp.php?ac=config&op=scadcode&t='+t+'&url='+encodeURIComponent(url)+'&xftime='+xftime, 
+            type: 'post',
+            secureuri: false, //一般设置为false
+            fileElementId: t+'file', // 上传文件的id、name属性名
+            dataType: 'text', //返回值类型，一般设置为json、application/json
+          //  elementIds: t+'url', //传递参数到服务器
+            success: function(data,status){
+                if(data){
+					$('#'+t+'text').val(data);
+					if(t=="wapxfad"){
+						$('#xftime').val(xftime);
+					}
+				}
+            }
+        });
+	
+	}
+</script>
+ <!--{template footer}-->

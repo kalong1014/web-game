@@ -1,0 +1,30 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <div class="news">
+   <div class="itit">搜索结果</div>
+    <ul class="news_con">
+       <!--{eval $newslist=getnewslist(4,-1,-1,1,"dateline",10,$newscategorys[engname][$_GET[cname]][categoryid],1,$_GET[keyword])}-->
+	   <li class="tishiSearch">您搜索的关键词"<em><!--{eval echo $_GET[keyword]}--></em>"有以下<em><!--{if $newslist}--><!--{eval echo $newslist[count]}--><!--{else}-->0<!--{/if}--></em>条资讯</li>
+	   <!--{loop $newslist[list] $k $v}-->
+	    <li class="clearfix">
+          <div class="news_con_l">
+              <a <!--{if $v[appid]}-->href="index.php?ac=appdetail&id=$v[appid]" target="_blank"<!--{else}-->href="javascript:;"<!--{/if}--> class="app_90" >
+                <i class="app_img_90"></i>
+                <!--{if $newslist[applogo][$v[appid]]}--><img src="{$newslist[applogo][$v[appid]]}"><!--{else}--><img src="/image/wutu.png"><!--{/if}-->
+              </a>
+          </div>
+          <div class="news_con_r">
+            <h2 class="news_title"><span class="news_time_ri"><!--{eval echo date("d",$v[dateline])}--></span><a href="{$v['newsurl']}" target="_blank" title="{$v[title]}">{$v[title]}</a></h2>
+            <div class="news_info">资讯类型：<a href="$v[curl]" target="_blank" ><!--{eval echo $_SGLOBAL['newscate'][$v[categoryid]][categoryname]}--></a><span class="issue-date"><!--{eval echo date("Y-m-d",$v[dateline])}--></span></div>
+            <div class="news_text">
+              <p><!--{eval echo utf8Substr($v[description],0,100)}--></p>
+            </div>
+          </div>
+          <div class="news_btn"><a href="{$v['newsurl']}" target="_blank">查看详情</a></div>
+        </li>
+        <!--{/loop}-->
+    </ul>
+    <div class="fenye">{$newslist[page]}</div>
+  </div>
+</div>
+<!--{template footer}-->

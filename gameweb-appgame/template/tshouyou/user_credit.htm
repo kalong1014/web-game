@@ -1,0 +1,90 @@
+<!--{template header}-->
+<script type="text/javascript">
+$(document).ready(function(){
+$(".u_conshb").click(function(){
+  $(".u_conshb").addClass("cur");
+  $(".u_condshb").removeClass("cur");
+  $(".u_consh").show();
+  $(".u_condsh").hide();
+});
+$(".u_condshb").click(function(){
+  $(".u_condshb").addClass("cur");
+  $(".u_conshb").removeClass("cur");
+  $(".u_condsh").show();
+  $(".u_consh").hide();
+});
+});
+</script>
+<style type="text/css">
+.user_content_con table { text-align:center; width:100%;}
+.user_content_con th { background-color:#ebf4f9; padding:10px 5px;}
+.user_content_con td { padding:10px 5px; border-bottom:1px dotted #ddd;}
+</style>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+
+    <div class="user_content_con">
+
+      <div class="o_appgltit clearfix"><a href="index.php?ac=user&op=credit&t=wdjf"  <!--{if $t=="wdjf"}-->class="dangqian"<!--{/if}-->>我的$_SCONFIG[creditname]</a><a href="index.php?ac=user&op=credit&t=jfjl" <!--{if $t=="jfjl"}-->class="dangqian"<!--{/if}-->>$_SCONFIG[creditname]记录</a><a href="index.php?ac=user&op=credit&t=fzgz"  <!--{if $t=="fzgz"}-->class="dangqian"<!--{/if}-->>用户组规则</a></div>
+      <!--{if $t=="jfjl"}-->
+	  <div class="o_appglcon">
+	  <!--{if $creditinfo}-->
+       	<table>
+		<tr><td>操作</td><td>$_SCONFIG[creditname]</td><td>经验</td><td>领取时间</td><td>状态</td></tr>
+		<!--{loop $creditinfo $key $value}-->
+		<tr><td>$_SCONFIG[operate][$value[type]]</td><td><!--{if $value[czreward]=="1"}-->增加<!--{else}-->减少<!--{/if}-->	$value[credit]</td><td>$value[experience]</td><td><!--{eval echo date('Y-m-d',$value[dateline])}--></td><td><!--{if $value[isverify]=="1"}-->已领取<!--{else}-->待领取<!--{/if}--></td></tr>
+		<!--{/loop}-->
+		</table>
+		<!--{else}-->
+		<div class="o_appglcon_ts">还没有相关$_SCONFIG[creditname]信息!</div>
+		<!--{/if}-->
+      </div>   
+	  <!--{elseif $t=="fzgz"}-->
+	   <div class="o_appglcon">
+	   	<!--{if $groupinfos}-->
+       	<table>
+		<tr><td>组名</td><td>经验值</td></tr>
+		<!--{loop $groupinfos $key $value}-->
+		<tr><td>$value[group_name]</td><td>$value[lowerexperience] ~  $value[upexperience]</td></tr>
+		<!--{/loop}-->
+		</table>
+		<!--{else}-->
+		<div class="o_appglcon_ts">还没有相关分组规则信息!</div>
+		<!--{/if}-->
+	    </div>  
+	 <!--{else}-->
+		 <div class="o_appglcon">
+           <div class="o_wodejifen">
+             <p class="o_wodejifen_info">您好，您<span>当前总$_SCONFIG[creditname]: <em>$userinfo[count_credit]</em></span> <span>当前经验值: <em>$userinfo[count_experience]</em></span> <span>当前用户组: <em>$groupname</em></span></p>
+             <h2>如何获得$_SCONFIG[creditname]</h2>
+			<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+			<tr>
+			<td>操作</td>
+			<td width="80">奖励周期</td>
+			<td width="80">奖励次数</td>    
+			<td width="100">奖励方式</td>
+			<td width="80">获取$_SCONFIG[creditname]</td> 
+			<td width="80">获取经验</td>         
+			</tr>
+			<!--{loop $setcreditinfo $value}-->
+			<tr>
+			<td class="text_left">$_SCONFIG[operate][$value[type]]</td>
+			<td><!--{if $value[cycle]=="1"}-->一次性<!--{elseif $value[cycle]=="2"}-->每天<!--{elseif $value[cycle]=="3"}-->无限周期<!--{/if}--></td>
+			<td>{$value[getnum]}</td>
+			<td><!--{if $value[reward]=="1"}-->加$_SCONFIG[creditname]<!--{else}-->减$_SCONFIG[creditname]<!--{/if}--></td> 
+			<td>{$value[credit]}</td>
+			<td>{$value[experience]}</td>
+			</tr>
+			<!--{/loop}-->
+			</table>
+           </div>
+		 </div>
+	  <!--{/if}-->  
+    </div>
+
+  </div>
+</div>
+
+
+<!--{template footer}-->

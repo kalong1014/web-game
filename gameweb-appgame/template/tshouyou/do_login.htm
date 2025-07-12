@@ -1,0 +1,111 @@
+﻿<!--{template header}-->
+<div class="layout logreg clearfix">
+  <ul class="logreg_nav">
+      <li><a href="index.php?ac=login<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->" class="dangqian">用户登录</a></li>
+      <li><a href="index.php?ac=register<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->">用户注册</a></li>
+      <li><a href="index.php?ac=lostpasswd<!--{if $type}-->&type=$type<!--{else}--><!--{/if}-->">找回密码</a></li>
+  </ul>
+  <div id="reg-form" class="logreg_con">
+    <h2>用户登录</h2>
+	<form name="loginform" action="index.php?ac=login&$url_plus" method="post" class="loginform">
+      <ul class="form-list">
+        <li><label class="mn_infobox" for="user">账号：</label><input type="text" onfocus="this.select()" tabindex="2" value="" class="text-input" id="username" name="username"></li>
+        <li><label class="mn_infobox" for="yourpassword">密码：</label><input type="password" value="" tabindex="3" class="text-input" id="password" name="password"></li>
+        <li class="plwid"><input type="checkbox" value="315360000" name="cookietime" id="cookietime"><label for="cookietime">记住我</label><a class="wjmm" href="index.php?ac=lostpasswd">忘记密码？</a></li>
+        <li class="plwid">
+        <input type="hidden" value="$refer" name="ref">
+        <input type="hidden" value="<!--{eval echo formhash();}-->" name="formhash">
+        <input type="submit" class="tijiao" value="立即登录" name="loginsubmit" id="loginsubmit"></li>
+      </ul>
+	   <!--{if $_SCONFIG[isqqlogin] || $_SCONFIG[iswblogin]}-->
+      <div class="qtdenglu clearfix">
+        <h2>其他登录方式</h2>
+		<!--{if $_SCONFIG[isqqlogin]}--><p><a onclick="toQzoneLogin()" href="#"><img src="/image/qq_login.png"></a></p><!--{/if}-->
+        <!--{if $_SCONFIG[iswblogin]}--><p><a href="index.php?ac=login&loginway=weibo"><img src="/image/weibo_login.png" title="点击进入授权页面" alt="点击进入授权页面" border="0" /></p><!--{/if}-->
+      </div>
+	  <!--{/if}-->
+	</form>
+  </div>
+<script type="text/javascript">
+	var lastSecCode = '';
+	function checkSeccode() {
+		var seccodeVerify = $('seccode').value;
+		if(seccodeVerify == lastSecCode) {
+			return;
+		} else {
+			lastSecCode = seccodeVerify;
+		}
+		ajaxresponse('checkseccode', 'op=checkseccode&seccode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(seccodeVerify) : seccodeVerify));
+	}
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('index.php?ac=register&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	function warning(obj, msg) {
+		if((ton = obj.id.substr(5, obj.id.length)) != 'password2') {
+			$(ton).select();
+		}
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+var lastTarget = null;
+                    var target = null;
+                    var timer = 0;
+
+					function show_submenu(id, obj){
+	                    clearTimeout(timer);
+	                    if (lastTarget) lastTarget.style.display = "none";
+	                    target = document.getElementById(id);
+	                    lastTarget = target;
+	                    target.style.display = "inline";
+	                    //下拉触发
+	                    target.onmouseover = function(){
+		                    clearTimeout(timer);	
+	                    }
+	                    //移除
+	                    target.onmouseout = obj.onmouseout = function(){
+		                    timer = setTimeout(function(){
+			                    target.style.display = "none";
+		                    }, 300);	
+	                    };
+                    }
+                    
+                    function login_type_selector(login_type, type_name)
+                    {
+	                    document.getElementById('DropDown_login').style.display='none';
+	                    document.getElementById('username').value=type_name;
+	                    document.getElementById('login_type').value=login_type;
+                    }
+</script>
+<script type="text/javascript">
+            var childWindow;
+            function toQzoneLogin()
+            {	
+                childWindow = window.open("index.php?ac=login&loginway=qq","_self","width=450,height=320,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+            } 
+            
+            function closeChildWindow()
+            {
+                childWindow.close();
+            }
+        </script>
+<!--{if $_SGLOBAL['input_seccode']}-->
+<script>
+$('seccode').style.background = '#FFFFCC';
+$('seccode').focus();
+</script>
+<!--{/if}-->
+</div>
+
+<!--{template footer}-->

@@ -1,0 +1,142 @@
+<!--{template header}-->
+<style>
+.dmore{display:none}
+.shpic{display:none}
+.liuyan{display:none}
+</style>
+<script>
+function lookmore(c,e,t,devid){
+	$('#dmore_'+devid).removeClass("dmore");
+	$('#dmore_'+devid).addClass("dmore2");
+	$('#dcompanyurl_'+devid).html(c);
+	$('#demail_'+devid).html(e);
+	$('#dtell_'+devid).html(t);
+}
+function hiddenmore(devid){
+	$('#dmore_'+devid).removeClass("dmore2");
+	$('#dmore_'+devid).addClass("dmore");
+}
+function closepic(devid){
+	$('#shpic_'+devid).removeClass("shpic2");
+	$('#shpic_'+devid).addClass("shpic");
+}
+function shenhepic(pic,devid){
+	$('#shpic_'+devid).removeClass("shpic");
+	$('#shpic_'+devid).addClass("shpic2");
+	$('#shpic_'+devid+' img').attr("src",pic);
+}
+function selectstate(t,did,uid){
+	if(t==1){
+		window.location.href='admincp.php?ac=chkvendor&op=verify&id='+did+'&uid='+uid+'';
+	}else if(t==2){
+		window.location.href='admincp.php?ac=chkvendor&op=jzverify&id='+did+'&uid='+uid+'';
+	}else{
+		window.location.href='admincp.php?ac=chkvendor&op=noverify&id='+did+'&uid='+uid+'';
+	}
+}
+function liuyan(devid){
+	$('#liuyan_'+devid).removeClass("liuyan");
+	$('#liuyan_'+devid).addClass("liuyan2");
+}
+function closeliuyan(devid){
+	$('#liuyan_'+devid).removeClass("liuyan2");
+	$('#liuyan_'+devid).addClass("liuyan");
+}
+</script>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title">认证用户管理</h2>
+    <div class="sousuobox">
+      <form action="admincp.php" method="get">
+        <input type="hidden" value="chkvendor" name="ac">
+		<input type="hidden" value="list" name="op">
+		<table cellspacing="0" cellpadding="0">
+		<tr>
+    	  <td>用户名称： <input type="text" value="{$username}" name="username" class="sousuobox_input1">
+		    平台： <input type="text" value="{$platform}" name="platform" class="sousuobox_input1">
+		   <select name="isverify" class="select4z">
+			<option value="-1" <!--{if $isverify=="-1"}-->selected="selected"<!--{/if}-->>不限</option>
+			<option value="1" <!--{if $isverify=="1"}-->selected="selected"<!--{/if}-->>已审核</option>
+            <option value="2" <!--{if $isverify=="0"}-->selected="selected"<!--{/if}-->>待审核</option>
+			</select>
+			<input type="submit" value="搜索" name="searchvendor" class="submit sub2zf">
+		  </td>
+        </tr>
+        </table>
+	  </form>
+     </div>
+	<div class="bdrcontent text_center">
+      <table>
+      <tbody>
+        <tr>
+          <th width="60">选择</th>
+		  <th>用户名</th>
+          <th width="80">联系人</th>
+		  <th width="80">平台简称</th>
+          <th width="80">分类</th>
+          <th width="80">手机号码</th>
+		  <th width="80">QQ</th>
+		  <th width="60">查看更多</th>
+		  <th width="80">认证时间</th>
+		  <th width="80">认证图片</th>
+		  <th width="140">审核</th>		  
+        </tr>
+        <!--{loop $chkuserlist $k $v}-->
+        <tr>
+         <td><input type="checkbox" value="{$v[devid]}" /></td>
+         <td class="t_left">{$v[username]}</td>
+		 <td class="t_left"><!--{if $v[devetype]==1}-->{$v[devname]}<!--{else}-->{$v[contactname]}<!--{/if}--></td>
+		 <td class="t_left">{$v[platform]}</td>
+         <td><!--{if $v[devetype]==1}-->个人<!--{else}-->企业<!--{/if}--></td>
+         <td>{$v[phone]}</td>
+		 <td>{$v[QQ]}</td>
+		 <td>
+          <div style="position:relative">
+            <a href="javascript:void(0)" onmousemove="lookmore(<!--{if $v[companyurl]}-->'$v[companyurl]'<!--{else}-->'暂无信息'<!--{/if}-->,<!--{if $v[email]}-->'$v[email]'<!--{else}-->'暂无信息'<!--{/if}-->,<!--{if $v[tell]}-->'$v[tell]'<!--{else}-->'暂无信息'<!--{/if}-->,'$v[devid]');" onmouseout="hiddenmore($v[devid]);">预览</a>
+            <div id="dmore_$v[devid]" class="dmore">
+                <p>公司网址:<span id="dcompanyurl_$v[devid]"></span></p>
+                <p>邮箱：<span id="demail_$v[devid]"></span></p>
+                <p>座机：<span id="dtell_$v[devid]"></span></p>
+            </div>
+          </div>
+         </td>
+		 <td><!--{eval echo date("Y-m-d",$v[dateline])}--></td>
+		 <td>
+           <div style="position:relative">
+           <!--{if $v[sfzpic]}--><a href="javascript:void(0)" onclick="shenhepic(<!--{if $v[sfzpic]}-->'$v[sfzpic]'<!--{elseif $v[yyzzpic]}-->'$v[yyzzpic]'<!--{else}-->'暂无图片信息'<!--{/if}-->,'$v[devid]')"><img src="{$v[sfzpic]}" style="width:60px;" /></a><!--{/if}--><!--{if $v[yyzzpic]}--><a href="javascript:void(0)" onclick="shenhepic(<!--{if $v[sfzpic]}-->'$v[sfzpic]'<!--{elseif $v[yyzzpic]}-->'$v[yyzzpic]'<!--{else}-->'暂无图片信息'<!--{/if}-->,$v[devid])"><img src="{$v[yyzzpic]}" style="width:60px;"/></a><!--{/if}-->
+            <div id="shpic_$v[devid]" class="shpic">
+                <div onclick="closepic('$v[devid]');">关闭</div>
+                <img src="">
+            </div>
+           </div>
+          </td>
+          <td><select name="statevalue" onchange="selectstate(this.value,$v[devid],$v[uid])">
+		  <option value="0" <!--{if $v[isverify]=="0"}-->selected="selected"<!--{/if}-->>未审核</option>
+		  <option value="1" <!--{if $v[isverify]=="1"}-->selected="selected"<!--{/if}-->>审核</option>
+		  <option value="2" <!--{if $v[isverify]=="2"}-->selected="selected"<!--{/if}-->>拒绝</option>
+		  </select> <a href="admincp.php?ac=chkvendor&op=delchk&id={$v[devid]}&uid={$v[uid]}">删除</a>  <a href="javascript:liuyan('$v[devid]')">留言</a>
+		  <div style="position:relative">
+		  	<div id="liuyan_$v[devid]" class="liuyan">
+			<div onclick="closeliuyan('$v[devid]');">关闭</div>
+			<div class="liuyan_con">留言内容：$v[message]</div>
+			<form action="admincp.php" method="post">
+			<input type="hidden" name="ac" value="chkvendor">
+			<input type="hidden" name="op" value="liuyan">
+			<input type="hidden" name="did" value="$v[devid]">
+			<input type="text" class="liuyan_input" name="message" value="">
+			<input type="submit" class="liuyan_tijiao" value="提交" name="liuyan">
+			</form>
+			 </div>
+		  </div>
+		  </td>
+        </tr>
+        <!--{/loop}-->
+      </tbody>
+      </table>
+      <div class="fenye">{$multi}</div>
+    </div>
+  </div>
+</div>
+
+
+<!--{template footer}-->

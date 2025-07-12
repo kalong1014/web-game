@@ -1,0 +1,141 @@
+<!--{template header}-->
+<script type="text/javascript">
+function selectAll(checkbox) {
+	if(typeof($("#check").attr('checked'))=="undefined")		
+       $('.packbox').attr('checked', false);
+	else
+	   $('.packbox').attr('checked',true);			
+}
+function lbchangepacktype(pid,val){
+	window.location.href="admincp.php?ac=managelb&op=alertptype&pid="+pid+"&tval="+val;
+}
+function lbselectstate(t,did){
+	if(t==1){
+		window.location.href='admincp.php?ac=managelb&op=verify&packid='+did;
+	}else if(t==2){
+		window.location.href='admincp.php?ac=managelb&op=jzverify&packid='+did;
+	}else{
+		window.location.href='admincp.php?ac=managelb&op=noverify&packid='+did;
+	}
+}
+function lbliuyan(packid){
+	$('#liuyan_'+packid).removeClass("liuyan");
+	$('#liuyan_'+packid).addClass("liuyan2");
+}
+function lbcloseliuyan(packid){
+	$('#liuyan_'+packid).removeClass("liuyan2");
+	$('#liuyan_'+packid).addClass("liuyan");
+}
+function lbuploadmessage(packid){
+	var message=$('#message_'+packid).val();
+	$.ajax({
+		url:"/admincp.php?ac=managelb&op=liuyan&packid="+packid+"&message="+message,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			if(json){
+				alert('留言成功');
+				window.location.href="admincp.php?ac=managelb";
+			}else{
+				alert('留言失败');
+			}
+		}
+	});	
+}
+</script>
+<style>
+.dmore{display:none}
+.shpic{display:none}
+.liuyan{display:none}
+</style>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title"><span style="margin-left:10px; font-size:12px; font-weight:normal; color:#f50; float:right;">(温馨提示：手游首页展示被推荐的最新10条礼包信息)</span>礼包列表</h2><div class="sc_tishi clearfix"><div class="button"><a href="admincp.php?ac=managelb&op=packtype" class="sc_tishi_b sc_tishi_b2">管理礼包类型</a></div><div class="button"><a href="admincp.php?ac=managelb&op=addpack" class="sc_tishi_b sc_tishi_b">添加礼包</a></div></div>
+	<div class="sousuobox" style="height:auto; padding:10px 0 10px 8px;">
+      <form action="admincp.php?ac=managelb" method="post">
+    	  礼包名称：<input type="text" value="" name="packname" class="sousuobox_input1">
+		  礼包状态：<select name="time" class="select4z">
+        	<option value="0" selected="selected">不限</option>
+			<option value="1" <!--{if $time=="1"}--> selected="selected" <!--{/if}--> >过期</option>
+        	<option value="2" <!--{if $time=="2"}--> selected="selected" <!--{/if}-->>未过期</option>
+          </select>
+          审核状态：<select name="isverify" class="select4z">
+        	<option value="0" selected="selected">不限</option>
+			<option value="1" <!--{if $isverify=="1"}--> selected="selected" <!--{/if}-->>审核</option>
+        	<option value="2" <!--{if $isverify=="2"}--> selected="selected" <!--{/if}-->>待审核</option>
+          </select>
+		  <input type="submit" class="sub2zf" value="搜索" name="searchsubmit">
+        <input type="hidden" name="ac" value="managelb"/>
+	  </form>
+    </div>
+    <div class="bdrcontent text_center">
+      <form action="admincp.php?ac=managelb&op=caozuo" method="post">
+      <table>
+      <tbody>
+        <tr>
+			<th width="60">选择</th>
+            <th>礼包名称</th>
+			<th width="120">结束时间</th>
+			<th width="120">游戏</th>
+			<th width="90">系统要求</th>
+            <th width="70">礼包类型</th>
+            <th width="60">消耗积分</th>
+			<th width="80">礼包预览</th>
+            <th width="70">剩余|总数</th>
+			<th width="40">推荐</th>
+			<th width="60">审核</th>
+            <th width="100">操作</th>
+        </tr>
+        <!--{loop $packinfo $key $value}-->
+        <tr>
+			<td><input type="checkbox" value="{$value[packid]}" class="packbox" name="ids[]"/></td>
+            <td class="text_left">{$value[packname]}</td>
+			<td><!--{eval echo date('Y-m-d H:i',$value[endtime])}--></td>
+            <td>$value[gamename]</td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td><select name="packtypes[<!--{eval echo $value[packid]}-->]" onchange="lbchangepacktype('$value[packid]',this.value)">
+			<option>选择类型</option>
+			<!--{loop $ptypeinfo $k $val}-->
+			<option value="$k" <!--{if $k==$value[packtype]}-->selected="selected"<!--{/if}-->>$val</option>
+			<!--{/loop}-->
+			</select>
+			</td>
+            <td>{$value[usecredit]}</td>
+			<td><a href="admincp.php?ac=managelb&op=lbyl&packid={$value[packid]}" target="_blank">点击预览</a></td>
+            <td>$value[leftcard]|$value[allcard]</td>
+			<td><!--{if $value[isrecommend]==0}--><a href="admincp.php?ac=managelb&op=recommend&packid={$value[packid]}">否</a><!--{elseif $value[isrecommend]==1}--><a href="admincp.php?ac=managelb&op=qxrecommend&packid={$value[packid]}">是</a><!--{/if}--></td>
+			<td>
+			 <select name="statevalue" onchange="lbselectstate(this.value,$value[packid])">
+		   	 <option value="0" <!--{if $value[isverify]=="0"}-->selected="selected"<!--{/if}-->>未审核</option>
+		 	 <option value="1" <!--{if $value[isverify]=="1"}-->selected="selected"<!--{/if}-->>审核</option>
+		 	 <option value="2" <!--{if $value[isverify]=="2"}-->selected="selected"<!--{/if}-->>拒绝</option>
+		 	 </select>
+			</td>
+			<td><a href="admincp.php?ac=managelb&op=addpack&packid=$value[packid]" >编辑</a> <a href="admincp.php?ac=managelb&op=packdel&packid=$value[packid]" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a>
+			<a href="javascript:lbliuyan('$value[packid]')">留言</a>
+			<div style="position:relative">
+		  	<div id="liuyan_$value[packid]" class="liuyan">
+			<div onclick="lbcloseliuyan('$value[packid]');">关闭</div>
+			<div class="liuyan_con">留言内容：$value[message]</div>
+			<input type="text" id="message_$value[packid]" class="liuyan_input" name="message" value="$value[message]" /><a href="javascript:lbuploadmessage('$value[packid]');">提交</a>
+			</div>
+		    </div>
+			</td>
+          </tr>
+        <!--{/loop}-->
+      </tbody>
+      </table>
+      <div class="footactions">
+     		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)"> 全选
+		    <input type="hidden" name="mpurl" value="$mpurl">
+	    	<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">
+            <input type="submit" name="recomsubmit" value="推荐"  class="submit sub2zf">
+            <input type="submit" name="qxrecomsubmit" value="取消推荐"  class="submit sub4zf">
+			<!--<input type="submit" name="saveptype" value="保存类型修改"  class="submit sub6zf">-->
+	    	<!--<input type="submit" name="verifysubmit" value="审核"  class="submit sub2zf">-->	
+       </div>		
+         <div class="fenye">{$multi}</div>
+	  </form>
+    </div>
+  </div>
+<!--{template footer}-->

@@ -1,0 +1,21 @@
+ <!--{template header}-->
+    <h2 class="con_title">手游配置站点信息</h2>
+	<div class="bdrcontent">
+	 <form method="post" enctype="multipart/form-data"  action="admincp.php?ac=config&op=syconfig" >       
+		<table cellspacing="0" cellpadding="0" class="formtable">
+          <tr>			
+			 <td class="td_tit">手游安装目录:</td>
+			 <td><input class="con_input" type="text" name="config[sydir]"  value="{$_SCONFIG['sydir']}"/></td>
+		  </tr>
+		  <tr>			
+			 <td class="td_tit">手游绑定域名:</td>
+			 <td><input class="con_input" type="text" name="config[syurl]"  value="{$_SCONFIG['syurl']}"/>  （高级设置，如无，请留空。点击查看教程）<a href="http://bbs.yyjia.com/thread-1305-1-1.html" target="_blank">链接》</a></td> 
+		  </tr>
+		</table>
+	    </div>
+        <input type="hidden" value="{$_SCONFIG['sitename']}" name="sitename2"/>
+        <input type="hidden" value="{$_SCONFIG['siteurl']}" name="siteurl2"/>
+	  <div class="footactions"><input type="submit" id="blogbutton" name="blogbutton" class="tijiao_button" value="确认提交"/></div>
+    </form>
+	<div><a href="$_SCONFIG[sysiteurl]/index.php" class="sub6zf">点击手游安装</a></div>
+ <!--{template footer}-->

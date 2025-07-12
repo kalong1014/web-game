@@ -1,0 +1,23 @@
+ <!--{template header}-->
+    <h2 class="con_title">获取$_SCONFIG[creditname]配置</h2>
+	<div class="bdrcontent">
+	<div class="bdrcontent">
+	<form method="post" action="admincp.php">
+	<input type="hidden" name="ac" value="setcredit" />
+	<input type="hidden" name="op" value="savecredit" />
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr><td width="100">操作方式</td><td>$_SCONFIG[operate][$creditinfo[type]]</td></tr>
+		<tr><td>奖励周期</td><td><select name="creditinfo[cycle]"><option value="1" <!--{if $creditinfo[cycle]=="1"}-->selected="selected"<!--{/if}-->>一次性</option><option value="2" <!--{if $creditinfo[cycle]=="2"}-->selected="selected"<!--{/if}-->>每天</option><option value="3" <!--{if $creditinfo[cycle]==3}-->selected="selected"<!--{/if}-->>不限周期</option></select></td></tr>
+		<tr><td>奖励次数</td><td><input class="con_input" type="text" value="$creditinfo[getnum]" name="creditinfo[getnum]"></td></tr>    
+		<tr><td>奖励方式</td><td><select name="credit[reward]"><option value="1" <!--{if $creditinfo[reward]=="1"}-->selected="selected"<!--{/if}-->>加$_SCONFIG[creditname]</option><option value="0" <!--{if $creditinfo[reward]=="0"}-->selected="selected"<!--{/if}-->>减$_SCONFIG[creditname]</option></select></td></tr>
+		<tr><td>获取$_SCONFIG[creditname]</td><td><input class="con_input" type="text" value="$creditinfo[credit]" name="creditinfo[credit]"> <!--{if $creditinfo[type]=="12"}-->叠加积分 <input type="text" value="$creditinfo[addcredit]" name="creditinfo[addcredit]">   签到天数上限 <input type="text" value="$creditinfo[limitdaynum]" name="creditinfo[limitdaynum]"><!--{/if}--></td></tr> 
+		<tr><td>获取经验</td><td><input class="con_input" type="text" value="$creditinfo[experience]" name="creditinfo[experience]"></td></tr>         
+		</table>
+        <div class="footactions">
+		<input type="hidden" value="$creditinfo[id]" name="creid">
+		<input class="tijiao_button" type="submit" value="保存" name="savesubmit">
+        </div>
+		</form>
+	</div>
+	</div>
+ <!--{template footer}-->

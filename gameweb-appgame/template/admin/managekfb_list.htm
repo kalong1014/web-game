@@ -1,0 +1,129 @@
+<!--{template header}-->
+ <script type="text/javascript">
+function selectAll(checkbox) {
+	if(typeof($("#check").attr('checked'))=="undefined")		
+       $('.kfbox').attr('checked', false);
+	else
+	   $('.kfbox').attr('checked',true);			
+    }
+	function selectstate(t,did){
+	if(t==1){
+		window.location.href='admincp.php?ac=managekfb&op=verify&id='+did;
+	}else if(t==2){
+		window.location.href='admincp.php?ac=managekfb&op=jzverify&id='+did;
+	}else{
+		window.location.href='admincp.php?ac=managekfb&op=noverify&id='+did;
+	}
+}
+function liuyan(id){
+	$('#liuyan_'+id).removeClass("liuyan");
+	$('#liuyan_'+id).addClass("liuyan2");
+}
+function closeliuyan(id){
+	$('#liuyan_'+id).removeClass("liuyan2");
+	$('#liuyan_'+id).addClass("liuyan");
+}
+function uploadmessage(id){
+	var message=$('#message_'+id).val();
+	$.ajax({
+		url:"/admincp.php?ac=managekfb&op=liuyan&id="+id+"&message="+message,
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			if(json){
+				alert('留言成功');
+				window.location.href="admincp.php?ac=managekfb";
+			}else{
+				alert('留言失败');
+			}
+		}
+	});	
+}
+
+</script>
+<style>
+.dmore{display:none}
+.shpic{display:none}
+.liuyan{display:none}
+</style>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title">开服列表<span style=" margin-left:10px; font-size:12px; font-weight:normal; color:#f50; float:right;">(温馨提示：手游首页展示被推荐的最新10条开服信息)</span></h2><div class="sc_tishi clearfix"><div class="button"><a href="admincp.php?ac=managekfb&op=addopen" class="sc_tishi_b sc_tishi_b2">添加开服表</a></div><div class="button"><a href="index.php?ac=cj_360server" class="sc_tishi_b sc_tishi_b2" target="_blank">采360开服表</a></div><div class="button"><a href="index.php?ac=cj_4399server" class="sc_tishi_b sc_tishi_b2" target="_blank">采4399开服表</a></div></div>
+	<div class="sousuobox" style="height:auto; padding:10px 0 10px 8px;">
+      <form action="admincp.php">
+    	  游戏名称：<input type="text" value="$sgamename" name="sgamename" class="sousuobox_input1">
+		  排序：<select name="orderby" class="select4z">
+        	<option value="" >默认</option>
+			<option value="dateline" <!--{if $orderby=="dateline"}--> selected="selected" <!--{/if}--> >添加时间</option>
+        	<option value="starttime" <!--{if $orderby=="starttime"}--> selected="selected" <!--{/if}-->  >开服时间</option>
+          </select>
+          审核状态：<select name="isverify" class="select4z">
+        	<option value="-1" selected="selected">不限</option>
+			<option value="1">审核</option>
+        	<option value="0">待审核</option>
+			<option value="2">拒绝</option>
+          </select>
+		  <input type="submit" class="sub2zf" value="搜索" name="searchsubmit">
+        <input type="hidden" name="ac" value="managekfb"/>
+	  </form>
+    </div>
+    <div class="bdrcontent text_center">
+      <form action="admincp.php?ac=managekfb&op=caozuo" method="post">
+      <table>
+      <tbody>
+        <tr>
+            <th width="60">选择</th>
+			<th>游戏</th>
+            <th width="70">区服</th>
+            <th width="90">系统要求</th>
+            <th width="60">游戏地址</th>
+            <th width="100">厂商平台</th>
+            <th width="120">时间</th>
+			<th width="40">推荐</th>
+			<th width="60">审核</th>
+            <th width="100">操作</th>
+        </tr>
+        <!--{loop $kfbinfo $key $value}-->
+        <tr> 
+			<td><input type="checkbox" value="{$value[id]}" class="kfbox" name="ids[]"/></td>
+            <td class="text_left">{$value[gamename]}</td>
+            <td>{$value[addressnum]}</td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td><a href="{$value[gameurl]}" target="_blank">预览</a></td>
+            <td>{$value[useplatform]}</td>
+            <td><!--{eval echo date('Y-m-d',$value[starttime])}-->  <!--{eval echo date('H',$value[starttime])}-->点</td>
+			<td><!--{if $value[isrecommend]==0}--><a href="admincp.php?ac=managekfb&op=recommend&kfid={$value[id]}">否</a><!--{elseif $value[isrecommend]==1}--><a href="admincp.php?ac=managekfb&op=qxrecommend&kfid={$value[id]}">是</a><!--{/if}--></td>
+			<td>
+			 <select name="statevalue" onchange="selectstate(this.value,$value[id])">
+		     <option value="0" <!--{if $value[isverify]=="0"}-->selected="selected"<!--{/if}-->>未审核</option>
+		     <option value="1" <!--{if $value[isverify]=="1"}-->selected="selected"<!--{/if}-->>审核</option>
+		     <option value="2" <!--{if $value[isverify]=="2"}-->selected="selected"<!--{/if}-->>拒绝</option>
+		     </select>
+		 	</td>
+            <td><a href="admincp.php?ac=managekfb&op=editopen&kfid=$value[id]">编辑</a> <a href="admincp.php?ac=managekfb&op=kfdel&kfid=$value[id]" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a>
+			<a href="javascript:liuyan('$value[id]')">留言</a>
+			<div style="position:relative">
+		  	<div id="liuyan_$value[id]" class="liuyan">
+			<div onclick="closeliuyan('$value[id]');">关闭</div>
+			<div class="liuyan_con">留言内容：$value[message]</div>
+			<input type="text" id="message_$value[id]" class="liuyan_input" name="message" value="$value[message]" /><a href="javascript:uploadmessage('$value[id]');">提交</a>
+			</div>
+		    </div>
+			</td>
+        </tr>
+        <!--{/loop}-->
+      </tbody>
+      </table>
+      <div class="footactions">
+     		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)"> 全选
+		    <input type="hidden" name="mpurl" value="$mpurl">
+	    	<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">
+            <input type="submit" name="recomsubmit" value="推荐"  class="submit sub2zf">
+            <input type="submit" name="qxrecomsubmit" value="取消推荐"  class="submit sub4zf">
+	    	<input type="submit" name="verifysubmit" value="审核"  class="submit sub2zf">
+       </div>
+       <div class="fenye">{$multi}</div>
+	  </form>
+    </div>
+  </div>
+<!--{template footer}-->

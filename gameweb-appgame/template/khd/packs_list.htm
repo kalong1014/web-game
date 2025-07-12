@@ -1,0 +1,74 @@
+<!--{template header}-->
+<script>
+
+	function   formatDate(unixtime)   { 
+		  var now=new Date(parseInt(unixtime) * 1000);   
+          var   year=now.getYear();     
+          var   month=now.getMonth()+1;     
+          var   date=now.getDate();     
+          var   hour=now.getHours();     
+          var   minute=now.getMinutes();     
+          var   second=now.getSeconds();
+		  if(month<10){
+				month="0"+month;  
+		  }
+		  if(date<10){
+				date="0"+date;  
+		  }
+		  if(hour<10){
+				hour="0"+hour;  
+		  }
+		  if(minute<10){
+				minute="0"+minute;  
+		  }
+          return   month+"-"+date+" "+hour+":"+minute;     
+    }     
+
+
+</script>
+
+
+
+
+
+
+<div id="main">
+  <div class="layout">
+    <div class="tit lbtit">{$syappinfo['name']}礼包</div>
+    <div class="box libao_lq">
+      <div class="libao_lqcon clearfix">
+        <div class="libao_lqcon_l">
+          <i class="app_img_90"></i>
+          <img src="{$syappinfo['logo']}">
+        </div>
+        <div class="libao_lqcon_r">
+          <div class="libao_app_r_tit">{$syappinfo['name']}</div>
+          <div class="libao_app_r_leixing">标签：{$syappinfo[tags]}</div>
+          <div class="libao_jianjie">简介：{$syappinfo[briefsummary]}</div>
+          <div class="lb_ljlq"><a href="khd.php?ac=down&id={$syappinfo['appid']}" class="lb_ljlq_b" >立即下载</a></div>
+        </div>
+      </div>
+      <!--{eval $packs=getpackinfo(0,0,0,20,0,$id)}-->
+      <div class="libaotit">{$syappinfo['name']}礼包列表（共有<!--{eval echo count($packs['list'])}-->）</div>
+      <table class="lb_list">
+        <tbody>
+          <tr>
+            <th class="text_left">礼包名称</th>
+            <th width="32">操作</th>
+          </tr>
+          
+           <!--{loop $packs[list] $key $value}--> 
+			<tr>
+            <td class="text_left"><a href="khd.php?ac=packdetail&packid={$value[packid]}">{$value[packname]}</a></td>
+            <td><a href="khd.php?ac=packdetail&packid={$value[packid]}" class="lingqu_lb">领取</a></td>
+          </tr>
+       <!--{/loop}-->
+          
+          
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+</div>
+<!--{template footer}-->

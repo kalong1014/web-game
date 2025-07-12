@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>应用+ 管理系统</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <link href="/template/admin/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+   <link href="/template/admin/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+   <link href="/template/admin/assets/css/main-min.css" rel="stylesheet" type="text/css" />
+   <link href="/template/admin/assets/css/jia.css" rel="stylesheet" type="text/css" />
+   
+</head>
+<body>
+  <div class="header">
+    <div class="dl-title"><a href="/admincp.php?ac=index"><span>应用+系统后台</span></a></div>
+    <div class="dl-log">欢迎您，<span class="dl-log-user">{$_SGLOBAL[supe_username]}</span><a href="/index.php?ac=common&op=logout&uhash=$_SGLOBAL[uhash]" title="退出系统" class="dl-log-quit">[退出]</a><a href="http://bbs.yyjia.com/thread-1352-1-1.html" target="_blank" title="新手指南" class="dl-log-quit">新手指南</a><a href="/" target="_blank" title="网站首页" class="dl-log-quit">网站首页</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="dl-main-nav">
+      <ul id="J_Nav" class="nav-list ks-clear">
+	  	<li class="nav-item dl-selected"><div class="nav-item-inner nav-inventory">应用云资源中心</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-home">站点配置</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-order">数据管理</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-user">运营管理</div></li>
+		<li class="nav-item"><div class="nav-item-inner nav-union">联盟管理</div></li>
+      </ul>
+    </div>
+    <ul id="J_NavContent" class="dl-tab-conten">
+    </ul>
+  </div>
+  <script type="text/javascript" src="/template/admin/assets/js/jquery-1.8.1.min.js"></script>
+  <script type="text/javascript" src="/template/admin/assets/js/bui-min.js"></script>
+  <script type="text/javascript" src="/template/admin/assets/js/config-min.js"></script>
+  <script>
+    BUI.use('common/main',function(){
+      var config = [{
+            id:'yun',
+            homePage:'yun_ap_ysj',
+            menu:[{
+                text:'站务管理',
+                items:[
+				  {id:'yun_ap_ysj',text:'站务管理',href:'admincp.php?ac=client'},
+				  {id:'peizhi_zdgx',text:'自动更新设置',href:'admincp.php?ac=config&op=autodown'}
+                ]
+              },{
+                text:'手游资源库',
+                items:[
+                  {id:'yun_an_yy',text:'应用源',href:'admincp.php?ac=appclient&op=list&subtype=4'},
+                  {id:'yun_an_zx',text:'资讯源',href:'admincp.php?ac=newsclient&op=list&type=4'},
+                  {id:'yun_an_yyxz',text:'应用图片本地化',href:'admincp.php?ac=appdownload&op=app&type=4'},
+                  {id:'yun_an_zxxz',text:'资讯图片本地化',href:'admincp.php?ac=newsdownload&op=news&type=4'},
+                  {id:'yun_an_jcyygx',text:'检测应用更新',href:'admincp.php?ac=checkupdate&op=list&type=4'}
+                ]
+              }]
+          },{
+          id:'peizhi', 
+          homePage:'peizhi_jiben',
+          menu:[{
+              text:'站点配置',
+              items:[
+                {id:'peizhi_jiben',text:'站点基本配置',href:'admincp.php?ac=config&op=config',closeable:false},
+				{id:'peizhi_wapjiben',text:'手机端基本配置',href:'admincp.php?ac=config&op=wapconfig'},
+                {id:'peizhi_xinxi',text:'网站信息配置',href:'admincp.php?ac=config&op=help'},
+				{id:'peizhi_xinxi',text:'前台模块配置',href:'admincp.php?ac=config&op=mode'},
+                {id:'peizhi_mima',text:'后台密码修改',href:'admincp.php?ac=config&op=password'}
+              ]
+            },{
+              text:'搜索优化',
+              items:[
+				{id:'peizhi_seo',text:'手游SEO设置管理',href:'admincp.php?ac=config&op=sykeyword'},
+				{id:'peizhi_seo',text:'wap端SEO设置',href:'admincp.php?ac=config&op=wapkeyword'},
+				{id:'peizhi_ucsz',text:'Rewrite配置',href:'admincp.php?ac=config&op=rewrite'},
+				{id:'peizhi_schkey',text:'搜索词管理',href:'admincp.php?ac=config&op=manageschkey'}
+              ]
+            },{
+              text:'其他配置',
+              items:[
+				{id:'peizhi_tpsy',text:'图片水印配置',href:'admincp.php?ac=config&op=watermark'},
+				{id:'peizhi_zxnl',text:'资讯内链配置',href:'admincp.php?ac=config&op=addnewslink'},
+			  	{id:'peizhi_sendmail',text:'发送邮件配置',href:'admincp.php?ac=config&op=sendmail'},
+                {id:'peizhi_flink',text:'友情链接管理',href:'admincp.php?ac=config&op=flink'},
+                {id:'peizhi_ad',text:'广告设置管理',href:'admincp.php?ac=config&op=ad'},
+				{id:'peizhi_ucsz',text:'ucenter配置',href:'admincp.php?ac=config&op=syndata'},
+				{id:'peizhi_login',text:'其他登入配置',href:'admincp.php?ac=config&op=otherlogin'},
+                {id:'peizhi_gxhc',text:'更新缓存',href:'admincp.php?ac=recache'}
+              ]
+            }]
+          },{
+            id:'shuju',
+            homePage:'shuju_sy_yy',
+            menu:[{
+                text:'手游数据管理',
+                items:[
+				   {id:'shuju_sy_yy',text:'应用管理',href:'admincp.php?ac=syapp'},
+				   {id:'shuju_sy_bq',text:'标签管理',href:'admincp.php?ac=managetag'},
+				   {id:'shuju_sy_lm',text:'栏目管理',href:'admincp.php?ac=sycate'},	
+                   {id:'shuju_sy_zx',text:'资讯管理',href:'admincp.php?ac=synews'},
+				   {id:'shuju_sy_lb',text:'礼包管理',href:'admincp.php?ac=managelb'},
+				   {id:'shuju_sy_lqlbjl',text:'领取礼包记录',href:'admincp.php?ac=packrecord'},
+				   {id:'shuju_sy_kfb',text:'开服表管理',href:'admincp.php?ac=managekfb'},
+                   {id:'shuju_sy_kcb',text:'开测表管理',href:'admincp.php?ac=managekcb'},
+				   {id:'shuju_sy_comment',text:'评论管理',href:'admincp.php?ac=comment'}
+                ]
+              }]
+          },{
+            id:'user',
+            homePage:'shuju_yh',
+            menu:[{
+                text:'用户管理',
+                items:[
+                  {id:'shuju_yh',text:'用户管理',href:'admincp.php?ac=usermanage'},
+				  {id:'shuju_yhz',text:'用户组管理',href:'admincp.php?ac=usergroup'},
+				  {id:'shuju_rzyh',text:'认证用户管理',href:'admincp.php?ac=chkvendor'}
+                ]},{
+                text:'其他管理',
+                items:[
+                  {id:'jcjb_gl',text:'纠错举报管理',href:'admincp.php?ac=apperror'},
+				  {id:'xztj_gl',text:'下载统计管理',href:'admincp.php?ac=analyze'},
+				  {id:'xztj_jfszgl',text:'积分设置管理',href:'admincp.php?ac=setcredit'},
+				  {id:'xztj_yhjfgl',text:'用户积分记录',href:'admincp.php?ac=managecredit'}
+                ]
+              }]
+          },{
+            id:'union',
+            homePage:'union_360lm',
+            menu:[{
+                text:'联盟管理',
+                items:[
+				  {id:'union_360lm',text:'189联盟',href:'admincp.php?ac=360union'},
+                ]}]
+          }];
+      new PageUtil.MainPage({
+        modulesConfig : config
+      });
+    });
+  </script>
+</body>
+</html>

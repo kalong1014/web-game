@@ -1,0 +1,40 @@
+<!--{template header}-->
+<div id="main">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit"><span class="f_right"><a href="/index.php?ac=chkvendor&op=open">添加开服表</a></span>开服表管理</div>
+    <div class="o_appcon">
+	<div class="o_appgltit clearfix"><a href="index.php?ac=chkvendor&op=managekfb&isverify=0" $dqkfb[0]>待审核</a><a href="index.php?ac=chkvendor&op=managekfb&isverify=1"  $dqkfb[1]>通过审核</a><a href="index.php?ac=chkvendor&op=managekfb&isverify=-1" $dqkfb[-1]>未通过审核</a></div>
+      <div class="o_appglcon">
+      <!--{if $kfinfo}-->
+	  <table width="100%" class="shouyou_tb">
+        <tbody>
+          <tr>
+            <th>游戏名称</th>
+            <th>区服</th>
+			<th>系统要求</th>
+            <th>游戏地址</th>
+            <th>时间</th>
+            <th>操作</th>
+          </tr>
+		  <!--{loop $kfinfo $key $value}-->
+          <tr>
+            <td>{$value[gamename]}</td>
+            <td>{$value[addressnum]}</td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td><a href="{$value[gameurl]}" target="_blank">预览</a></td>
+            <td><!--{eval echo date('Y-m-d',$value[starttime])}-->  <!--{eval echo date('H',$value[starttime])}-->点</td>
+            <td><!--{if $value[isverify]=="0"}--><a class="o_appglcon_bj" href="index.php?ac=chkvendor&op=kfedit&kfid=$value[id]">编辑</a><a class="o_appglcon_sc" href="index.php?ac=chkvendor&op=kfdel&kfid=$value[id]">删除</a><!--{else}-->无操作<!--{/if}--></td>
+          </tr>
+		  <!--{/loop}-->
+        </tbody>
+      </table>
+	  <div class="fenye">{$multi}</div>
+	   <!--{else}-->
+	  <div class="o_appglcon_ts">目前还没有相关信息...</div>
+	  <!--{/if}-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

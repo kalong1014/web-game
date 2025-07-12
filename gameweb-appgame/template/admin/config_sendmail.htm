@@ -1,0 +1,23 @@
+ <!--{template header}-->
+	<div class="bdrcontent">
+		<h2 class="con_title">发送邮件配置</h2>
+	<form method="post" action="admincp.php?ac=config&op=sendmail" >
+	<h3>方式一：用php的 mail 函数发送 <input type="radio" name="issendmail" value="1" <!--{if $_SCONFIG[issendmail]=="1"}-->checked="checked"<!--{/if}-->></h3>
+ 	<p>配置方式一的方式发送邮件需要服务器支持邮件发送</p>
+	<h3>方式二：配置 SMTP <input type="radio" name="issendmail" value="2" <!--{if $_SCONFIG[issendmail]=="2"}-->checked="checked"<!--{/if}-->> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bbs.yyjia.com/thread-1339-1-1.html" target="_blank">操作说明</a></h3>
+	
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr><td>SMTP服务器</td><td><input type="text" class="con_input" value="$sendsmtpmail[server]" name="smtpmail[server]"> 例如(smtp.qq.com)</td></tr>
+	<tr><td>端口</td><td><input type="text" class="con_input" value="$sendsmtpmail[port]" name="smtpmail[port]"> 例如(25)</td></tr>
+	<tr><td>发件人邮件地址</td><td><input type="text" class="con_input" value="$sendsmtpmail[from]" name="smtpmail[from]"> 例如(QQ邮箱账号)</td></tr>
+	<tr><td>SMTP身份验证用户</td><td><input type="text" class="con_input" value="$sendsmtpmail[auth_username]" name="smtpmail[auth_username]"> 例如(QQ邮箱账号)</td></tr>
+	<tr><td>SMTP身份验证密码</td><td><input type="text" class="con_input" value="$sendsmtpmail[auth_password]" name="smtpmail[auth_password]"> 例如(QQ邮箱密码)</td></tr>
+	<input type="hidden" value="1" name="smtpmail[auth]">
+	<input type="hidden" value="2" name="smtpmail[mailsend]" />
+	<input type="hidden" value="0" name="smtpmail[maildelimiter]" />
+	<input type="hidden" value="1" name="smtpmail[mailusername]" />
+	</table>
+	<div><input type="submit" value="提交" name="sendinfo" class="tijiao_button"></div>
+	</form>
+	</div>
+ <!--{template footer}-->

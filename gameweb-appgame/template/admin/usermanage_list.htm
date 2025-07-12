@@ -1,0 +1,173 @@
+ <!--{template header}-->
+<script type="text/javascript">
+	function selectAll(checkbox) {
+
+	if(typeof($("#check").attr('checked'))=="undefined")		
+		$('.appbox').attr('checked', false);
+		else
+		 $('.appbox').attr('checked',true);			
+	}
+	function selectAll3(checkbox) {
+
+	if(typeof($("#check3").attr('checked'))=="undefined")		
+		$('.appbox2').attr('checked', false);
+		else
+		 $('.appbox2').attr('checked',true);			
+	}
+</script>
+<script type="text/javascript">
+	function verifyAll(checkbox) {
+
+	if(typeof($("#checkAll").attr('checked'))=="undefined")		
+		$('.appbox').attr('checked', false);
+		else
+		 $('.appbox').attr('checked',true);
+		 
+		
+	}
+</script>
+<script type="text/javascript">
+	function selectAll2(checkbox) {
+
+	if(typeof($("#check2").attr('checked'))=="undefined")		
+		$('.subjectbox').attr('checked', false);
+		else
+		 $('.subjectbox').attr('checked',true);
+		 
+		
+	}
+function guide(){
+		$('#guide').show();
+	}
+	function guideclose(){
+	$('#guide').hide();
+	}
+function selectfenzu(t,uid){
+	window.location.href='admincp.php?ac=usermanage&op=altergroup&gid='+t+'&uid='+uid;
+}
+	        </script>
+<style type="text/css">
+.subjectlist { padding:5px 0;}
+.subjectlist li{     
+	float: left;
+	height: 18px;
+    line-height: 18px;
+    margin-bottom: 0;
+    padding: 8px 10px 2px;
+    text-align: left;
+    width: 146px;}
+.subjectlist li.subjectbox {}
+.subjectlist li span {margin-left:10px;}
+.close{
+float:right;margin-right:5px;
+}
+.shuoming{
+float:left; margin-left:5px;
+}
+#guide{
+width:300px; height:200px;background: none repeat scroll 0 0 white;
+    border: 2px solid #99D5F3;display:none; position:absolute; z-index:999; margin-top:100px;left:50%; margin-left:-200px;
+}
+
+#frm{ display:none}
+#frm2{ display:none}
+</style>
+
+
+
+	<h2 class="con_title">用户管理</h2>
+	<form method="post" action="admincp.php?ac=usermanage&op=list">
+	<div class="sousuobox">
+		<table cellspacing="0" cellpadding="0">
+		<tr>
+		<td>用户名 <input class="sousuobox_input1" name="username" type="text" value="$username"/>
+		邮箱 <input class="sousuobox_input1" name="email" type="text" value="$email"/>
+		<select name="group" class="select6z">
+		<option value="0">选择分组</option>
+		<!--{loop $usergroup $v}-->
+        <option value="$v[group_id]" <!--{if $group==$v[group_id]}-->selected="selected"<!--{/if}-->>{$v[group_name]}</option>
+		<!--{/loop}-->
+		</select>
+		排序 <select name="orderby" class="select6z">
+		<option value="">排序方式</option>
+		<option value="count_credit" <!--{if $orderby=="count_credit"}-->selected="selected"<!--{/if}-->>$_SCONFIG[creditname]</option>
+		<option value="count_experience" <!--{if $orderby=="count_experience"}-->selected="selected"<!--{/if}-->>经验</option>
+		</select>
+		<select name="perpage" class="select6z">
+        <option value="30" <!--{if $perpage==30}-->selected="selected"<!--{/if}-->>每页显示30个</option>
+		<option value="50" <!--{if $perpage==50}-->selected="selected"<!--{/if}-->>每页显示50个</option>
+		<option value="100" <!--{if $perpage==100}-->selected="selected"<!--{/if}-->>每页显示100个</option>
+		</select>
+		
+		<input type="submit" name="searchsubmit" value="搜索" class="submit sub2zf">
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+
+<!--{if $userinfo}-->
+
+	<form method="post" name="myform" id="batchform" action="admincp.php" enctype="multipart/form-data" >
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<input type="hidden" name="ac" value="usermanage" />
+    <input type="hidden" name="op" value="caozuo" />
+	<div class="bdrcontent text_center">
+
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <th width="60">选择</th>
+        <th>用户名</th>
+		<th width="80">$_SCONFIG[creditname]</th>
+		<th width="80">经验</th>
+		<th width="240">邮箱</th>
+		<th width="120">注册时间</th>    
+		<th width="120">用户权限</th>         
+        <th width="70">操作</th>
+        </tr>
+		<!--{loop $userinfo $value}-->
+		<!--{if $value[uid]!=1}-->
+		<tr>
+        <td><input type="checkbox" name="uids[]" class="appbox" id="{$value[uid]}" value="{$value[uid]}" <!--{if $value[$value[uid]]}-->checked="checked"<!--{/if}-->></td>
+		<td class="text_left">$value[username]</td>
+		<td>$value[count_credit]</td>
+		<td>$value[count_experience]</td>
+		<td>$value[email]</td>
+		<td><!--{eval echo date('Y-m-d',$value['addtime'])}--></td>  
+         <td>
+		<select name="fenzu[{$value[uid]}]" onchange="selectfenzu(this.value,$value[uid])">
+		<!--{loop $usergroup $v}-->
+		<option value="$v[group_id]" <!--{if $value[group_id]==$v[group_id]}-->selected="selected"<!--{/if}--> >{$v[group_name]}</option>
+		<!--{/loop}-->
+		</select>
+		</td>
+		<td>
+            <a href="admincp.php?ac=usermanage&op=delete&uid=$value[uid]" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a>
+        </td>
+		</tr>
+		<!--{/if}-->
+		<!--{/loop}-->
+		</table>
+
+		<div class="fenye">$multi</div>
+	
+		<div class="footactions">
+		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)">全选
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">		
+		<!--<input type="submit" name="savealter" value="保存权限修改" class="submit sub6zf" >-->
+	</div>
+	</div>
+	<div id="demo"></div>
+	
+	</form>	
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>指定条件下还没有数据</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+ <!--{template footer}-->
+

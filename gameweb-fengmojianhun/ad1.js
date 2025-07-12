@@ -1,0 +1,18 @@
+document.writeln("<div id=\"qqk7\" style=\"margin: auto;left:0; right:0;bottom:0;position:fixed;text-align:center;z-index:99999;background:#000;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity:0.8;opacity:0.8;\">");
+document.writeln("<a href=\"../www.no885.com\" target=\"_blank\"><img src=\"hf.png\"></a>  ");
+document.writeln("<p onclick=\"removeElement(\'qqk7\')\" ><a style=\"display: block;");
+document.writeln("    position: fixed;");
+document.writeln("    width: 53px;");
+document.writeln("    height: 52px;");
+document.writeln("    -webkit-transition: all 400ms;");
+document.writeln("    z-index: 10000;");
+document.writeln("    right: 50px;");
+document.writeln("    bottom: 20px;\"></a></p> ");
+document.writeln("  ");
+document.writeln("</div>");
+document.writeln("<script type=\"text/javascript\">");
+document.writeln("function removeElement(qqk7)");
+document.writeln("{");
+document.writeln("document.getElementById(qqk7).style.display=\"none\";");
+document.writeln("}");
+document.writeln("</script>");

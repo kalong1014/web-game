@@ -1,0 +1,26 @@
+ <!--{template header}-->
+	<div class="bdrcontent">
+		<h2 class="con_title">友情链接管理</h2>
+<form method="post"   action="admincp.php?ac=config&op=flink" >
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<td class="td_tit">友情链接:</td>
+				<td class="flink_textarea">
+					<textarea name="config[flink]" class="xheditor"> {$_SCONFIG['flink']}</textarea>
+				</td>
+				
+			</tr>
+			<tr>
+			<td class="td_tit">WAP端友情链接:</td>
+			<td class="flink_textarea">
+					<textarea name="config[mlink]" class="xheditor"> {$_SCONFIG['mlink']}</textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="submit" id="blogbutton" name="blogbutton" class="tijiao_button" value="提交发布"/>		
+	</div>
+	</form>
+ <!--{template footer}-->

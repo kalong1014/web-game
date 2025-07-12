@@ -1,0 +1,57 @@
+ <!--{template header}-->
+	        <script type="text/javascript">
+	            function selectAll(checkbox) {
+				if(typeof($("#check").attr('checked'))=="undefined")		
+	                $('input[type=checkbox]').attr('checked', false);
+					else
+					 $('input[type=checkbox]').attr('checked',true);
+	            }
+	        </script>
+   <h2 class="con_title">检测更新应用</h2>
+	
+<!--{if $updateapp}-->
+
+	<form method="post" id="batchform" action="admincp.php?ac=checkupdate">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent text_center">	
+		<p class="tishi_con tishi_shuju">总共有更新的数据 <strong>$count</strong> 条 </p>	   
+		<table cellspacing="0" cellpadding="0" class="formtable">   
+		<tr>
+        <th width="60">选择</th>
+        <th>应用名称</th>  
+		<th width="100">更新时间</th> 
+        <th width="80">操作</th>    
+        </tr>
+        <!--{loop $updateapp $value}-->
+		<tr>
+        <td><input id="Checkbox$value[id]" type="checkbox" name="ids[]" value="$value[id]" 	<!--{if $updateapp[$value[id]]}-->checked<!--{/if}-->></td></td>
+        <td class="text_left"><a href="{$value[url]}">$value[name]</a></td>          
+       <td > <!--{eval echo sgmdate('Y-m-d', $value['updatetime'])}--></td>
+        <td><a href="admincp.php?ac=checkupdate&op=update&ids=$value[id]">更新</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	
+        <!--{if $multi}-->
+		<div class="fenye">$multi</div>
+        <!--{/if}-->
+		
+        <div class="footactions">
+        <!--{if $count}-->
+        <input type="checkbox" id="check" name="chkall" onclick='selectAll(this)'>全选
+       <input type="hidden" name="pageurl" value="{$pageurl}"/>
+	   <input type="hidden" name="op" value="update">
+       <input type="submit" name="article" class="sub6zf" value="批量更新应用" class="submit" />
+       <!--{/if}-->
+		</div>
+
+	</div>
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>指定条件下还没有数据</p>
+	</div>
+ <!--{/if}-->   
+
+ <!--{template footer}-->

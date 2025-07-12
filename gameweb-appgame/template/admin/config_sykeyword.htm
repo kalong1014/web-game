@@ -1,0 +1,239 @@
+ <!--{template header}-->
+	<div class="bdrcontent">
+		<h2 class="con_title">配置站点关键词</h2>
+        <div class="tishi_con">
+		  <h2>技巧提示</h2>
+		  <p>插入的变量两边必需包括百分号”%...%“，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置，SEO自定义支持手写。
+以下是可用SEO变量:</p>
+		  <p>站点名称 =<span class="b_conintro">%sitename%</span></p>
+		   <p>资讯栏目 =<span class="b_conintro">%newscatename%</span> (例如：攻略,资讯）</p>
+		  <p>标签 =<span class="b_conintro"> %tagname%</span> (例如：动作,冒险)</p>
+		  <p>应用名称 =<span class="b_conintro">%appname%</span></p>
+		  <p>资讯标题 =<span class="b_conintro">%newsname%</span></p>
+		  <p>礼包名称 =<span class="b_conintro">%packname%</span></p>
+        </div>
+        <form  method="post" enctype="multipart/form-data"  action="admincp.php?ac=config&op=config" >
+       
+         <h3>首页</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+           
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[shouyou_title]">{$_SCONFIG['shouyou_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td>
+					<textarea style="height:32px;" name="config[shouyou_keyword]">{$_SCONFIG['shouyou_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td>
+					<textarea style="height:70px;" name="config[shouyou_description]">{$_SCONFIG['shouyou_description']}</textarea></td>
+			</tr>
+            
+         </table>
+		<h3>游戏库</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[games_title]">{$_SCONFIG['games_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[games_keyword]">{$_SCONFIG['games_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[games_description]">{$_SCONFIG['games_description']}</textarea></td>
+			</tr>
+            
+         </table>
+		 <h3>开服</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[server_title]">{$_SCONFIG['server_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[server_keyword]">{$_SCONFIG['server_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[server_description]">{$_SCONFIG['server_description']}</textarea></td>
+			</tr>
+
+		</table>
+		
+		 <h3>开测</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[test_title]">{$_SCONFIG['test_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[test_keyword]">{$_SCONFIG['test_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[test_description]">{$_SCONFIG['test_description']}</textarea></td>
+			</tr>
+
+		</table>
+		
+        <h3>应用详细页</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[syapp_title]">{$_SCONFIG['syapp_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[syapp_keyword]">{$_SCONFIG['syapp_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[syapp_description]">{$_SCONFIG['syapp_description']}</textarea></td>
+			</tr>
+
+		</table>
+		 <h3>礼包放号</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[packlist_title]">{$_SCONFIG['packlist_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[packlist_keyword]">{$_SCONFIG['packlist_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[packlist_description]">{$_SCONFIG['packlist_description']}</textarea></td>
+			</tr>
+
+		</table>
+         <h3>礼包专区页</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[packzq_title]">{$_SCONFIG['packzq_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[packzq_keyword]">{$_SCONFIG['packzq_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[packzq_description]">{$_SCONFIG['packzq_description']}</textarea></td>
+			</tr>
+
+		</table>
+		 <h3>礼包详细页</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[pack_title]">{$_SCONFIG['pack_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[pack_keyword]">{$_SCONFIG['pack_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[pack_description]">{$_SCONFIG['pack_description']}</textarea></td>
+			</tr>
+
+		</table>
+		<h3>热榜</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[syrank_title]">{$_SCONFIG['syrank_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[syrank_keyword]">{$_SCONFIG['syrank_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[syrank_description]">{$_SCONFIG['syrank_description']}</textarea></td>
+			</tr>
+
+		</table>
+		
+        <h3>资讯列表</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[synews_title]">{$_SCONFIG['synews_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[synews_keyword]">{$_SCONFIG['synews_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[synews_description]">{$_SCONFIG['synews_description']}</textarea></td>
+			</tr>
+
+		</table>
+        
+        
+         <h3>单篇资讯</h3>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+
+            <tr>			
+				<td class="td_tit">title:</td>
+				<td><textarea style="height:32px;" name="config[synewsde_title]">{$_SCONFIG['synewsde_title']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">keyword:</td>
+				<td><textarea style="height:32px;" name="config[synewsde_keyword]">{$_SCONFIG['synewsde_keyword']}</textarea></td>
+			</tr>
+            
+            <tr>			
+				<td class="td_tit">description:</td>
+				<td><textarea style="height:70px;" name="config[synewsde_description]">{$_SCONFIG['synewsde_description']}</textarea></td>
+			</tr>
+
+		</table>
+ 
+	<div class="footactions">
+		<input type="submit" id="blogbutton" name="blogbutton" class="tijiao_button" value="提交发布"/>		
+	</div>
+	</form>
+	</div>
+ <!--{template footer}-->

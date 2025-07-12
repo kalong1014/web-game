@@ -1,0 +1,123 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <div class="kaifu">
+    <div class="kc_btit kf_btit"><a href="index.php?ac=test" class="k_qhb">最新开测表</a>游戏开服</div>
+    <!--{if $op=="1"}-->
+	<div class="kc_tit kc_tit1">今日开服</div>
+    <div class="kc_con">
+     <!--{eval $todayopen=getopengames(0,1,30,1)}-->
+	 <!--{if $todayopen[list]}-->
+	  <table>
+        <tbody>
+          <tr>
+            <th width="120">游戏名称</th>
+            <th width="130">开服时间</th>
+			<th width="80">适用平台</th>
+            <th width="80">服务区名</th>
+            <th width="120">运营商</th>
+            <th width="120">专区地址</th>
+            <th width="120">领卡发号</th>
+            <th>下载游戏</th>
+          </tr>
+		  <!--{loop $todayopen[list] $key $value}-->
+          <tr>
+            <td>
+              <div class="k_now">
+                <a href="{$value[url]}" target="_blank" class="app_72"><i class="app_img_72"></i><img src="{$value[logo]}" alt="{$value[name]}"></a>
+              </div>
+              <p><a href="{$value[url]}" target="_blank" title="{$value[name]}">{$value[name]}</a></p>
+            </td>
+            <td><!--{eval echo date('m-d H:i',$value[starttime])}--></td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td>{$value[addressnum]}</td>
+            <td>{$value[useplatform]}</td>
+            <td><a href="$value[url]" target="_blank" class="k_jrzq">进入专区</a></td>
+            <td><a href="{$value[packurl]}" target="_blank" class="k_lqlb">领取礼包</a></td>
+            <td><a <!--{if $value[appledw]}-->href="$value[appledw]" target="_blank" class="idown_ios"<!--{else}-->class="idown_ios_wu<!--{/if}--> rel="nofollow" ><span>苹果下载</span></a><a <!--{if $value[andrdw]}-->href="$value[andrdw]" class="k_an_d" target="_blank"<!--{else}--> class="k_an_d_wu" <!--{/if}--> rel="nofollow" ><span>安卓下载</span></a></td>
+          </tr>
+          <!--{/loop}-->
+        </tbody>
+      </table>
+	  <div class="fenye">{$todayopen[page]}</div>
+	  <!--{else}-->
+	  <div>今日没有相关开服信息...</div>
+	  <!--{/if}-->
+    </div>
+	<!--{/if}-->
+	<!--{if $op=="2"}-->
+    <div class="kc_tit kc_tit2">即将开服</div>
+    <div class="kc_con">
+     <!--{eval $tomopen=getopengames(0,2,30,1)}-->
+	 <!--{if $tomopen[list]}-->
+	  <table>
+        <tbody>
+          <tr>
+            <th>游戏名称</th>
+            <th width="130">开服时间</th>
+			<th width="80">适用平台</th>
+            <th width="80">服务区名</th>
+            <th width="120">运营商</th>
+            <th width="120">专区地址</th>
+            <th width="120">领卡发号</th>
+            <th width="120">下载游戏</th>
+          </tr>
+          <!--{loop $tomopen[list] $key $value}-->
+          <tr>
+            <td><a href="{$value[url]}" target="_blank" title="{$value[name]}">{$value[name]}</a></td>
+            <td><!--{eval echo date('m-d H:i',$value[starttime])}--></td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td>{$value[addressnum]}</td>
+            <td>{$value[useplatform]}</td>
+            <td><a href="{$value[url]}" class="k_jrzq" target="_blank">进入专区</a></td>
+            <td><a href="{$value[packurl]}" class="k_lqlb" target="_blank">领取礼包</a></td>
+            <td><a <!--{if $value[appledw]}-->href="$value[appledw]" class="k_ios_d" target="_blank"<!--{else}--> class="k_ios_d_wu" <!--{/if}--> rel="nofollow" ><span>苹果下载</span></a><a <!--{if $value[andrdw]}-->href="$value[andrdw]" class="k_an_d" target="_blank"<!--{else}--> class="k_an_d_wu" <!--{/if}--> rel="nofollow" ><span>安卓下载</span></a></td>
+          </tr>
+          <!--{/loop}-->
+        </tbody>
+      </table>
+	  <div class="fenye">{$tomopen[page]}</div>
+	   <!--{else}-->
+	  <div>没有相关开服信息...</div>
+	  <!--{/if}-->
+    </div>
+	<!--{/if}-->
+	<!--{if $op=="3"}-->
+    <div class="kc_tit kc_tit3">已经开服</div>
+    <div class="kc_con">
+	 <!--{eval $overopen=getopengames(0,3,30,1)}-->
+	 <!--{if $overopen[list]}-->
+      <table>
+        <tbody>
+          <tr>
+            <th>游戏名称</th>
+            <th width="130">开服时间</th>
+			<th width="80">适用平台</th>
+            <th width="80">服务区名</th>
+            <th width="120">运营商</th>
+            <th width="120">专区地址</th>
+            <th width="120">领卡发号</th>
+            <th width="120">下载游戏</th>
+          </tr>
+          <!--{loop $overopen[list] $key $value}-->
+          <tr>
+            <td><a href="{$value[url]}" target="_blank" title="{$value[name]}">{$value[name]}</a></td>
+            <td><!--{eval echo date('m-d H:i',$value[starttime])}--></td>
+			<td><!--{if $value[isandroid]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_an.jpg" /><!--{/if}--> <!--{if $value[isios]=="1"}--><img src="/template/$_SCONFIG[template]/images/tu_ios.jpg" /><!--{/if}--></td>
+            <td>{$value[addressnum]}</td>
+            <td>{$value[useplatform]}</td>
+            <td><a href="{$value[zqurl]}" class="k_jrzq" target="_blank">进入专区</a></td>
+            <td><a href="{$value[packurl]}" class="k_lqlb" target="_blank">领取礼包</a></td>
+            <td><a <!--{if $value[appledw]}-->href="$value[appledw]" class="k_ios_d" target="_blank"<!--{else}--> class="k_ios_d_wu" <!--{/if}--> rel="nofollow" ><span>苹果下载</span></a><a <!--{if $value[andrdw]}-->href="$value[andrdw]" class="k_an_d" target="_blank"<!--{else}--> class="k_an_d_wu" <!--{/if}--> rel="nofollow" ><span>安卓下载</span></a></td>
+          </tr>
+        <!--{/loop}-->
+        </tbody>
+      </table>
+	   <div class="fenye">{$overopen[page]}</div>
+	   <!--{else}-->
+	  <div>没有相关开服信息...</div>
+	  <!--{/if}-->
+    </div>
+	<!--{/if}-->
+  </div>
+</div>
+<!--{template footer}-->

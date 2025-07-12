@@ -1,0 +1,148 @@
+<!--{template header}-->
+<script language="javascript" type="text/javascript" src="/template/admin/js/datepicker/WdatePicker.js"></script>
+<script>
+var gamenames="$packinfo[sinfo][gamename]";
+var tests='{$testgamelist}';
+var opens='{$opengamelist}';
+var others	='<input type="text" name="gamename" value="$packinfo[sinfo][gamename]" id="gamename3" onblur="searchname3(this.value)" class="text-input sousuobox_input1" ><span>	你是不是在找:<span id="glgames"></span></span>';
+
+function addgames(fl){
+	if(fl=="1"){
+		$('#gamename').show();
+		$('#qufu').show();
+		$('#gamename').html(opens);
+		$('#appid').val('');
+	}else if(fl=="2"){
+		$('#gamename').show();
+		$('#qufu').show();
+		
+		$('#gamename').html(tests);
+		$('#appid').val('');
+	}else if(fl=="3"){
+		$('#qufu').hide();
+		$('#gamename').html(others);
+		
+		$('#appid').val('');
+	}
+}
+$(function(){
+	if(gamenames){
+		searchname3(gamenames);
+	}
+$('#qufu').change(function(){
+	var obj=document.getElementById("qufu");  
+ 	var index=obj.selectedIndex;  
+	var serverid=obj.options[index].getAttribute("gid"); 
+	$('#serverid').val(serverid);
+});
+});
+function searchname3(name){
+	if(name==""){
+		alert("关联游戏不能为空，请重新填写...");
+		return;
+	}
+		$.ajax({
+		url:"/admincp.php?ac=synews&gamename="+encodeURIComponent(name),
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var snames="";
+			var infos=json.info;
+			var sames=json.same;
+			var error=json.error;
+			for(var i=0;i<sames.length;i++){
+				samesinfo=sames[i];
+				snames=snames+"<a href=\"javascript:setname('"+samesinfo.name+"','"+samesinfo.id+"');\">"+samesinfo.name+"</span>"+" ";
+			}
+			$('#glgames').html(snames);
+			if(error=="isnull"){
+				alert("游戏名称不存在,请确认输入是否有错...");
+				$('#gamename3').val('');
+				return;
+			}else{
+				$('#appid').val(infos.id);
+			}
+		}
+	});
+}
+function chkpackinfo(){
+	var gname=$('#gamename3').val();
+	if(gname==""){
+		alert("还没填写游戏名称");
+		return false;
+	}
+}
+function setname(gname,appid){
+	$('#gamename3').val(gname);
+	$('#appid').val(appid);
+}
+function setplatname(platname){
+	$('#yypt').val(platname);
+	$('#uplatname').html('');
+}
+function getplatname(){
+	$.ajax({
+		url:"/admincp.php?ac=managelb&op=savepack&getplatname=1",
+		type:'get',
+		dataType:'json',
+		success:function(json){
+			var snames="历史记录：";
+			var infos=json.platname;
+			for(var i=0;i<infos.length;i++){
+				samesinfo=infos[i];
+				snames=snames+"<a href=\"javascript:setplatname('"+samesinfo.useplatform+"');\">"+samesinfo.useplatform+"</span>"+" ";
+			}
+			$('#uplatname').html(snames);
+		}
+	});
+}
+</script>
+<div id="main">
+  <div class="content">
+    <h2 class="con_title">添加礼包</h2><div class="sc_tishi"><span><a href="admincp.php?ac=managelb" class="sc_tishi_b">礼包管理</a></span></div>
+    <div class="o_appcon">
+      <form action="admincp.php?ac=managelb&op=savepack" method="post" enctype="multipart/form-data" onsubmit="return chkpackinfo()">
+        <ul class="o_rencon libaocon">
+        <li><label class="mn_infobox">礼包类型:</label><select name="lbinfo[packtype]">
+                <option value="">选择礼包类型</option>
+                <!--{loop $ptypeinfo $k $val}-->
+				<option value="$k" <!--{if $k==$packinfo[packtype]}-->selected="selected"<!--{/if}-->>$val</option>
+				<!--{/loop}-->
+              </select>
+          </li>
+		<li> <label class="mn_infobox">运营平台:</label><input type="text" id="yypt" <!--{if $packinfo[useplatform]}-->value="{$packinfo[useplatform]}"<!--{else}-->value="$devinfo[platform]"<!--{/if}--> name="lbinfo[useplatform]" class="text-input sousuobox_input1" onclick="getplatname()"/> （前台显示为运营商，如：百度手游、九游平台）</li>
+        <div id="uplatname"></div>
+		<li> <label class="mn_infobox">游戏名称:</label><span id="gamename">
+			<input type="text" value="$packinfo[sinfo][gamename]" name="gamename" id="gamename3" onblur="searchname3(this.value)" class="text-input sousuobox_input1"/><span>	你是不是在找:<span id="glgames"><!--{loop $ugames $k $v}--><a href="javascript:setname('$v[name]','$v[appid]');">$v[name]</a><!--{/loop}--></span></span></span>
+          </li>
+          <li><label class="mn_infobox">礼包名称:</label><input type="text" class="text-input sousuobox_input1" name="lbinfo[packname]" value="{$packinfo[packname]}"></li>
+          <li><label class="mn_infobox">系统选择：</label><input type="checkbox" name="lbinfo[isandroid]" value="1" <!--{if !$packinfo}-->checked="checked"<!--{/if}--><!--{if $packinfo[isandroid]=="1"}-->checked="checked"<!--{/if}-->> 安卓 <input type="checkbox" name="lbinfo[isios]" value="1" <!--{if $packinfo[isios]=="1"}-->checked="checked"<!--{/if}-->> 苹果</li>
+          <li id="fwqmc"><label class="mn_infobox">适用服务区：</label>
+		  <input type="text" name="lbinfo[addressnum]" <!--{if $packinfo[addressnum]}--> value="$packinfo[addressnum]"  <!--{else}--> value="全服通用" <!--{/if}--> class="text-input sousuobox_input1" />
+		  </li>
+		  
+          <li><label class="mn_infobox">消耗积分值：</label><input type="text" value="$packinfo[usecredit]" name="lbinfo[usecredit]" class="text-input sousuobox_input1"> (范围：0~1000)</li>
+		  <li><label class="mn_infobox">开始时间：</label><input type="text" name="lbinfo[starttime]" class="text-input sousuobox_input1" id="starttime" <!--{if $packinfo[starttime]}-->value="<!--{eval echo date('Y-m-d',$packinfo[starttime])}-->"<!--{else}-->value=""<!--{/if}--> size="10" onclick="WdatePicker({el:'starttime'})" /><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/tshouyou/js/datepicker/skin/datePicker.gif" /> <select id="hour" name="starthour"><option value="" selected="selected">请选择</option><!--{loop $hours $val}--><option value="{$val}"  <!--{if $packinfo[starttime]}--><!--{if date('H',$packinfo[starttime])==$val}--> selected="selected"<!--{/if}--><!--{/if}-->>$val</option><!--{/loop}--></select> 点</li>
+		<li><label class="mn_infobox">截至时间：</label><input type="text" name="lbinfo[endtime]" class="text-input sousuobox_input1" id="endtime" <!--{if $packinfo[endtime]}-->value="<!--{eval echo date('Y-m-d',$packinfo[endtime])}-->"<!--{else}-->value=""<!--{/if}--> size="10" onclick="WdatePicker({el:'endtime'})" /><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'endtime'})" style="cursor: pointer;" src="template/tshouyou/js/datepicker/skin/datePicker.gif" /> <select id="hour" name="endhour"><option value="" selected="selected">请选择</option><!--{loop $hours $v}--><option value="{$v}" <!--{if $packinfo[endtime]}--><!--{if date('H',$packinfo[endtime])==$v}--> selected="selected"<!--{/if}--><!--{/if}-->>$v</option><!--{/loop}--></select> 点</li>  
+		  <li><label class="mn_infobox">礼包广告：</label><input type="file" name="packlogo"> <!--{if $packinfo[packlogo]}--><img src="$packinfo[packlogo]" width="100px"><!--{/if}--></li>
+          <li><label class="mn_infobox">卡号上传：</label><input type="file" name="pack"> <span class="input_ts">只支持.txt文件，一行一个卡号，最大200k</span></li>
+          <li><label class="mn_infobox">内容：</label><textarea class="libaocontextarea" name="lbinfo[packcontent]">{$packinfo[packcontent]}</textarea></li>
+          <li><label class="mn_infobox"></label><span class="input_ts">如：铜币*30000、次级补兵符*50如果是激活码则填写游戏激活码一枚即可</span></li>
+          <li><label class="mn_infobox">使用方法：</label><textarea class="libaocontextarea" name="lbinfo[packuse]">{$packinfo[packuse]}</textarea></li>
+          <li><label class="mn_infobox"></label><span class="input_ts">如：1.领取礼包CD-KEY;2.进入游戏点击“礼包领取”图标,输入CD-KEY,选择“确定”</span></li>
+          <li><label class="mn_infobox">游戏官网：</label><input type="text" class="text-input sousuobox_input1" name="lbinfo[gameurl]" value="{$packinfo[gameurl]}"><span class="input_ts"> 禁止广告链接，否则不予审核。（请以http://开头）</span></li>
+          <li><label class="mn_infobox">激活地址：</label><input type="text" class="text-input sousuobox_input1" name="lbinfo[activate]" value="{$packinfo[activate]}"><span class="input_ts"> 如游戏内激活则无需填写激活地址。（请以http://开头）</span></li>
+        </ul>
+        <div class="footactions">
+		<!--{if $packinfo}-->
+		<input type="hidden" value="{$packinfo[packid]}" name="packid" />
+		<!--{/if}-->
+		<input type="hidden" value="$packinfo[serverid]" name="lbinfo[serverid]" id="serverid" />
+		<input type="hidden" value="$packinfo[appid]" name="lbinfo[appid]" id="appid" />
+        <input class="tijiao_button" type="submit" name="packsubmit" value="提交">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

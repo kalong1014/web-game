@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="keywords" content="{$_SCONFIG['keyword']}">
+    <meta name="description" content="{$_SCONFIG['description']}">
+    <title>游戏分类</title>
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/pintuer.css">
+    <link rel="stylesheet" href="/template/$_SCONFIG[template]/css/style.css">
+</head>
+<body>
+	<!--header-->
+	<div class=" text-center nav-color elementwidth text-big padding-left padding-right" style="height: 40px;z-index: 10;top: 0px;" id="nav">
+        <div class="line">
+        <div class="xl2 xs2 xm2 xb2 text-left padding-small-top">
+            <a class="icon-angle-left text-large ellipsis text-white" href="Javascript:history.go(-1);void(0);"></a>
+        </div>
+        <div class="xl8 xs8 xm8 xb8 padding-top text-white" >
+            分类
+	    </div>
+	<div class="xl2 xs2 xm2 xb2 padding-small-top text-right">
+		<a href="javascript:void(0)" id="search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+	</div>
+  </div>
+  </div>
+</div>
+<div class="hidden" id="dialog" style="position:fixed;left:0;top:0;right:0;bottom:0;background:#FFFFFF;z-index:10;display:block;overflow-x:hidden;overflow-y:auto;">
+    <div class="text-center elementwidth text-big padding-left padding-right bg-yellow" style="height: 40px">
+        <form method="get" action="/mobile.php" class="form-inline" name="form">
+            <input type="hidden" value="search" name="ac">
+            <div class="line">
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-left">
+                    <span class="icon-angle-left text-large text-white" id="close"></span>
+                </div>
+                <div class="xl8 xs8 xm8 xb8 margin-small-top">
+                    <input type="text" class="input" value="{$keyword}" name="keyword" placeholder="精品应用、海量搜索"  style="height: 30px;padding:0 10px">
+                </div>
+                <div class="xl2 xs2 xm2 xb2 margin-small-top text-right">
+                    <a href="javascript:form.submit();" id="icon-search"><img src="/template/$_SCONFIG[template]/images/s1.png" width="25" style="margin-top:5px"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--{template search_box}-->
+</div>
+	<!--body-->
+	<div class="container padding-top padding-left padding-right" id="tab1"> 
+		<!--{loop $taginfos[id] $key $value}-->   
+	    <div class="line">
+	        <div class="xs12 xm12 xl12 xb12">
+	            <a href="mobile.php?ac=games&tagid={$key}">
+	                <div   style="float:left">
+	                    <img src="{$value[logo]}" class="radius-big float-left game-icon">
+	                </div>
+	                <div class="padding-left"   style="float:left">
+	                    <p class="gamename margin-top height-little chenges">{$value[tagname]}</p>
+	                    <p class="chenges text-small text-gray">共有{$value[num]}款</p>
+	                </div>
+	            </a>
+	        </div>
+	    </div>
+	    <hr class="bg-line">
+	    <!--{/loop}-->
+   	</div>
+<script src="http://apps.bdimg.com/libs/jquery/1.8.0/jquery.min.js"></script>
+
+	<script>
+    var height= $(window).height();
+    $('#search').click(function(){
+        $('#dialog').removeClass('hidden');
+        $('#dialog').height(height);
+    });
+    $('#close').click(function(){
+        $('#dialog').addClass('hidden');
+    });
+</script>
+</body>
+</html>

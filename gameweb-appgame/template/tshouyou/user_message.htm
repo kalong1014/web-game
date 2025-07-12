@@ -1,0 +1,26 @@
+<!--{template header}-->
+<script type="text/javascript">
+function readmessage(mid){
+	window.location.href="index.php?ac=common&op=readmessage&mid="+mid;
+}
+</script>
+<div id="main" class="layout clearfix">
+<!--{template user_left}-->
+  <div class="user_content">
+    <h2 class="utit"><a href="javascript:;"></a>我的消息</h2>
+    <div class="user_content_con">
+     <!--{if $messages}-->
+	  <ul class="wodexiaoxi">
+	    <!--{loop $messages $key $value}-->
+        <li> 通知：$value[message]。	<a href="$value[murl]" target="_blank" onclick="readmessage($value[mid])">点击领取</a></li>
+		<!--{/loop}-->
+      </ul>
+	  <!--{else}-->
+	  <div>目前还没有相关的提醒消息。</div>
+	  <!--{/if}-->
+	  <div class="fenye">{$multi}</div>
+    </div>
+  </div>
+</div>
+
+<!--{template footer}-->

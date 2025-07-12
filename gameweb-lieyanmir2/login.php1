@@ -1,0 +1,231 @@
+<?php
+header('Content-Type:text/html; charset=utf-8');
+require_once 'crypt.php';
+$data = file_get_contents("php://input");
+$xxtea = new Xxtea();
+$rawdata = $xxtea->decrypt($data, "!@#asdfD_cdp[");
+file_put_contents("loginRAW_log.txt",$rawdata);
+$PostArr = json_decode($rawdata, true);
+$reqData = null;
+if(isset($PostArr["Body"])) {
+	$reqData = $PostArr["Body"];
+}
+else {
+	$arr = array('errCode'=>1,'errmsg'=>'数据错误');
+	echo gzcompress(json_encode($arr));
+	exit();
+}
+
+$reqtype = "verifyLogin";
+if(isset($reqData["reqtype"])) {
+	$reqtype = $reqData["reqtype"];
+}
+if ($reqtype == "register" || $reqtype == "login") {
+	$serverId = 0;
+	if(isset($reqData["serverId"])) {
+		$serverId = $reqData["serverId"];
+	}
+	$userName = '';
+	if(isset($reqData["username"])) {
+		$userName = $reqData["username"];
+	}
+	$passWord = '';
+	if(isset($reqData["password"])) {
+		$passWord = $reqData["password"];
+	}
+	$tstamp = '' . time();
+	$errmsg = '登录成功';
+	$sessionid = '';
+	$userId = 0;
+	$code = 0;
+	$devid = '';
+	$error = '';
+	$str_len1 = strlen($userName);
+	$str_len2 = strlen($passWord);
+
+	//---------------------------------------
+	// 要先检查帐号和密码等字符串的合法性
+	//---------------------------------------
+	if ($str_len1 < 4 || $str_len1 > 9){
+		$arr = array('errCode'=>1,'errmsg'=>'帐号长度必须4~9');
+		echo gzcompress(json_encode($arr));
+		exit();
+	}
+
+	if ($str_len2 < 1 || $str_len2 > 9){
+		$arr = array('errCode'=>1,'errmsg'=>'密码长度必须1~9');
+		echo gzcompress(json_encode($arr));
+		exit();
+	}
+
+	if (!preg_match("#^[a-z0-9]+$#i", $userName)){
+		$arr = array('errCode'=>1,'errmsg'=>'帐号只能包含数字和小写字母');
+		echo gzcompress(json_encode($arr));
+		exit();
+	}
+
+	if (!preg_match("#^[a-z0-9]+$#i", $passWord)){
+		$arr = array('errCode'=>1,'errmsg'=>'密码只能包含数字和小写字母');
+		echo gzcompress(json_encode($arr));
+		exit();
+	}
+
+	if ($reqtype != "register"){
+		$reqtype = "login";
+	}
+	//---------------------------------------
+	// 要先检查帐号和密码等字符串的合法性
+	//---------------------------------------
+
+	$mysqli = new mysqli('127.0.0.1', 'root', '000000', 'wxdzs_passport');
+	if ($mysqli->connect_error) {
+		die('Connect Error (' . $mysqli->connect_errno . ') '
+				. $mysqli->connect_error);
+	}
+
+	//---------------------------------------
+	// 查找是否有这个帐号
+	//---------------------------------------
+	$sql = "SELECT COUNT(*) AS COUNT from user WHERE userName='".$userName."'";
+	$result = $mysqli->query($sql);
+	$field = $result->fetch_object();
+
+	//---------------------------------------
+	// 处理注册
+	//---------------------------------------
+	if ($reqtype == "register") {
+		if ($field->COUNT == 0) {
+			$sessionid = strtoupper(md5('' . $userName . $passWord . 'ABC123'));
+			// 没注册就注册一下
+			$sql ='insert into user(`userName`,`passWord`, `c_time`, `devid`, `sessionid`) values("'.
+				$userName.'", "'.$passWord.'", '.time().', "'.$devid.'", "'.$sessionid.'")';
+			$result = $mysqli->query($sql);
+			if ($result == false) {
+				$error = '注册失败: ' . $sql . "\r\n";
+				$arr = array('errCode'=>1,'errmsg'=>'数据库错误，注册失败');
+				echo gzcompress(json_encode($arr));
+				exit();
+			}
+			else {
+				$errmsg = '注册成功';
+			}
+		}
+		else {
+			$arr = array('errCode'=>1,'errmsg'=>'此帐号已被注册');
+			echo gzcompress(json_encode($arr));
+			exit();
+		}
+	}
+	else if ($field->COUNT == 0) {
+		$arr = array('errCode'=>1,'errmsg'=>'登录失败,没有找到该帐号');
+		echo gzcompress(json_encode($arr));
+		exit();
+	}
+
+	//---------------------------------------
+	// 处理验证
+	//---------------------------------------
+	// 验证并获取帐号信息
+	$sql = "SELECT COUNT(*) AS COUNT, userId, sessionid from user WHERE userName='".$userName."' and passWord='".$passWord."'";
+	$result = $mysqli->query($sql);
+	$field = $result->fetch_object();
+	if ($field->COUNT != 1) {
+		$code = 1;
+		$error = '验证失败: ' . $sql . "\r\n";
+		$arr = array('errCode'=>1,'errmsg'=>'登录失败,密码错误');
+		echo gzcompress(json_encode($arr));
+		exit();
+	}
+	else {
+		$code = 0;
+		$userId = $field->userId;
+		$sessionid = $field->sessionid;
+	}
+
+	//---------------------------------------
+	// 输出信息给客户端
+	$identityId = $userId;
+	$sign = strtoupper(md5('' . $identityId . $tstamp . ''));
+	$arr = array(
+		'errCode'=>$code,
+		'errmsg'=>$errmsg,
+		'serverId'=>$serverId,
+		'userId'=>'' . $userId,
+		'userName'=>$userName,
+		'uin'=>"wx__".$userId,
+		'sessionid'=>$sessionid,
+		'tstamp'=>$tstamp,
+		'sign'=>$sign,
+	);
+	$mysqli->close();
+	echo gzcompress(json_encode($arr));
+	exit();
+}
+
+//---------------------------------------
+// 要先检查帐号和密码等字符串的合法性
+//---------------------------------------
+
+$mysqli = new mysqli('127.0.0.1', 'root', '000000', 'wxdzs_passport');
+if ($mysqli->connect_error) {
+	die('Connect Error (' . $mysqli->connect_errno . ') '
+			. $mysqli->connect_error);
+}
+
+$SessionId = 0;
+if(isset($reqData["SessionId"])) {
+	$SessionId = $reqData["SessionId"];
+}
+
+if (!preg_match("#^[A-Z0-9]+$#", $SessionId)){
+	$arr = array('errCode'=>1,'errmsg'=>'SessionId错误');
+	echo gzcompress(json_encode($arr));
+	exit();
+}
+
+//---------------------------------------
+// 处理验证
+//---------------------------------------
+// 验证并获取帐号信息
+$userId = 0;
+$userName = 0;
+$sql = "SELECT COUNT(*) AS COUNT, userId, userName from user WHERE `sessionid`='".$SessionId."'";
+$result = $mysqli->query($sql);
+$field = $result->fetch_object();
+if ($field->COUNT != 1) {
+	$error = '验证失败: ' . $sql . "\r\n";
+	$arr = array('errCode'=>1,'errmsg'=>'登录失败,找不到SessionId对应的帐号');
+	echo gzcompress(json_encode($arr));
+	exit();
+}
+else {
+	$userId = $field->userId;
+	$userName = $field->userName;
+}
+
+$arr = array(
+	'errCode'=>0,
+	'rtnObj'=>array(
+		'user'=>array(
+			'lac'=>"",
+			'acc'=>"wx__".$userId,
+			'extend'=>"extend",
+		),
+		'servers'=>array(
+			array(
+				'idx'=>1,
+				'status'=>3,
+				'msg'=>'msg',
+				'name'=>'ZHUPF测试服',
+				'zoneId'=>1,
+				'ip'=>'192.168.0.101',
+				'port'=>'4001',
+				'debug'=>1,
+			)
+		)
+	)
+);
+$outData = gzcompress(json_encode($arr));
+echo $outData;
+exit();
+?>

@@ -1,0 +1,68 @@
+ <!--{template header}-->
+  <script language="javascript" type="text/javascript" src="/template/admin/js/datepicker/WdatePicker.js"></script>
+  <script type="text/javascript">
+	function selectAll(checkbox) {
+
+	if(typeof($("#check").attr('checked'))=="undefined")		
+		$('.appbox').attr('checked', false);
+		else
+		 $('.appbox').attr('checked',true);			
+	}
+</script>
+    <h2 class="con_title">用户领取礼包记录管理</h2><!--<div><a href="admincp.php?ac=packrecord&starttime=$daybegin&endtime=$dayend">今天数据</a><a href="admincp.php?ac=packrecord&starttime=$weekbegin&endtime=$weekend">本周数据</a></div>-->
+	<form method="get" action="admincp.php?ac=packrecord&op=list">
+	<input type="hidden" name="ac" value="packrecord" />
+	<div class="sousuobox">
+		<table cellspacing="0" cellpadding="0">
+		<tr>
+		<td>用户名 <input class="sousuobox_input1" name="username" type="text" value="$username"/>
+		礼包名 <input class="sousuobox_input1" name="packname" type="text" value="$packname"/>
+		开始时间 <input class="sousuobox_input1" id="starttime" name="starttime" type="text" value=""/><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'starttime'})" style="cursor: pointer;" src="template/admin/js/datepicker/skin/datePicker.gif" />
+		结束时间 <input class="sousuobox_input1" id="endtime" name="endtime" type="text" value=""/><img height="22" align="absmiddle" width="16" onclick="WdatePicker({el:'endtime'})" style="cursor: pointer;" src="template/admin/js/datepicker/skin/datePicker.gif" />
+		<select name="perpage" class="select6z">
+        <option value="30" <!--{if $perpage==30}-->selected="selected"<!--{/if}-->>每页显示30个</option>
+		<option value="50" <!--{if $perpage==50}-->selected="selected"<!--{/if}-->>每页显示50个</option>
+		<option value="100" <!--{if $perpage==100}-->selected="selected"<!--{/if}-->>每页显示100个</option>
+		</select>
+		
+		<input type="submit" name="searchsubmit" value="搜索" class="submit sub2zf">
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+	<div class="bdrcontent">
+	<div class="bdrcontent text_center">
+	<form method="post" action="admincp.php?ac=packrecord">
+	<input type="hidden" name="ac" value="packrecord" />
+	  <input type="hidden" name="op" value="caozuo" />
+		<table cellspacing="0" cellpadding="0" class="formtable" style="clear:both;">   
+		<tr>
+        <th width="60">选择</th>
+		<th width="100">用户</th> 
+        <th>礼包</th>  
+		<th width="100">卡号</th>
+		<th width="120">领取时间</th>
+		<th width="100">操作</th>
+        </tr>
+		<!--{loop $packrecord $value}-->
+		<tr>
+        <td><input type="checkbox" name="ids[]" class="appbox" id="{$value[id]}" value="{$value[id]}"></td>
+		<td>{$gusername[$value[uid]]}</td>
+		<td>{$gpackname[$value[pid]]}</td>
+		<td>{$value[card]}</td>
+		<td><!--{eval echo date('Y-m-d',$value[dateline])}--></td>
+		<td><a href="admincp.php?ac=packrecord&op=delrecord&id=$value[id]" onclick="return confirm('本操作不可恢复，确认删除？');">删除</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		<div class="fenye">$multi</div>
+		<div class="footactions">
+		<input type="checkbox" id="check" name="chkall" onclick="selectAll(this)">全选
+		<input type="submit" name="batchsubmit" value="批量删除" onclick="return confirm('本操作不可恢复，确认删除？');" class="submit sub4zf">	
+	</div>
+	</form>
+	</div>
+	</div>
+ <!--{template footer}-->

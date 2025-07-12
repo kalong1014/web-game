@@ -1,0 +1,205 @@
+<!--{template header}-->
+	        <script type="text/javascript">
+	            function selectAll(checkbox) {
+				if(typeof($("#check").attr('checked'))=="undefined")		
+	                $('.checkbox1').attr('checked', false);
+					else
+					 $('.checkbox1').attr('checked',true);
+	            }
+	        </script>
+			<script type="text/javascript">
+	            function selectAll2(checkbox) {
+				if(typeof($("#check2").attr('checked'))=="undefined")		
+	                $('.checkbox2').attr('checked', false);
+					else
+					 $('.checkbox2').attr('checked',true);
+	            }
+	        </script>
+	        <script type="text/javascript">
+	            function selectcatalogAll(catalog) {
+				var ids="#"+catalog;
+				var classs="."+catalog;
+				if(typeof($(ids).attr('checked'))=="undefined")		
+	                $(classs).attr('checked', false);
+					else
+					 $(classs).attr('checked',true);
+	            }
+				function fabu(id){
+					var subid='{$ssubtype}';
+					urlpath="admincp.php?ac=appclient&op=insert&gameserverid="+id+"&subtype="+subid+"&subjectinfo=1";
+					nameid="#cat"+id; 
+					catvalue=$(nameid).val(); 
+					urlpath+="&catalogids="+catvalue;
+					window.location.href=urlpath;
+				}
+				
+				function jubao(id){
+				name="#jb"+id;
+				
+				if($(name).text()=="举报"){
+					$.ajax({
+					beforeSend:function(){
+					},
+					url:"admincp.php?ac=jubao&gameid="+id,
+					type:'get',
+					dataType:'json',
+					success:function(json){
+					var htmls="";
+					if(json.successinfo=="1")
+					htmls='<font style="color:red;">举报成功</font>';
+					$(name).html(htmls); 
+					}
+					});
+				}
+				}
+				
+	        </script>
+
+<style type="text/css">
+.indexcatgame{ border:1px solid #b4d7e9; margin-bottom:4px; padding:5px 10px; text-align:left;}
+</style>
+
+
+   <h2 class="con_title"><a href="/admincp.php?ac=subject&op=list&subtype={$_GET['subtype']}" class="sub6zf">返回专辑列表</a><a href="/admincp.php?ac=subject&op=applist&id={$subjectinfo['id']}&subtype={$_GET['subtype']}" class="sub6zf">管理专辑游戏</a>添加专辑应用</h2>
+	<form method="get" action="admincp.php">
+	<div class="sousuobox">
+		<table>
+		<tr>
+        <td>搜索专辑：<input class="sousuobox_input1" name="keyword" value="{$keyword}"/>
+        <select name="sublx" class="select4z">
+        <option value="0">类型</option>
+        <option value="1" <!--{if $sublx==1}--> selected="selected" <!--{/if}-->>游戏</option>
+        <option value="2" <!--{if $sublx==2}--> selected="selected" <!--{/if}-->>软件</option>
+		</select>
+        
+		<select name="cid" class="select4z">
+        <option value="0">选择栏目</option>
+        <!--{loop $catalogs $value}-->
+        <option value="{$value['categoryid']}" <!--{if $catalogid2==$value[categoryid]}--> selected="selected" <!--{/if}-->>{$value['categoryname']}</option>
+        <!--{/loop}-->
+		</select>
+        
+		<select name="perpage" class="select6z">
+		<option value="50" <!--{if $perpage==50}--> selected="selected" <!--{/if}-->>每页显示50个</option>
+		<option value="100" <!--{if $perpage==100}--> selected="selected" <!--{/if}-->>每页显示100个</option>
+		</select>
+		</td>
+		<td class="sousuobox_bu">
+         <input type="hidden" name="ac" value="appclient">
+          <input type="hidden" name="subserverid" value="{$subserverid}">
+        <input type="hidden" name="op" value="list">
+		<input type="hidden" name="do" value="search">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit sub2zf"> 
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+	<!--{if !($_SCONFIG['siteid'] and $_SCONFIG['key'])}--> <div class="block style4">您还未设置站点ID，请先设置 <a href="admincp.php?ac=config&op=yun" class="sub2zf">设置</a></div> <!--{/if}-->
+	
+	<div class="bdrcontent text_center">	
+		<p class="tishi_con tishi_shuju"><!--{if $listapp}-->该专题下有数据 <strong>$count</strong> 个未添加到本站，可批量入库。<!--{else}-->已经没有推荐的应用可加入该专题啦。想继续添加应用，可查看教程》》》<a href="http://bbs.yyjia.com/thread-1293-1-1.html">专辑的管理和使用</a><!--{/if}--></p>	
+		<!--{if $listapp}-->
+		<form method="post" id="batchform" action="admincp.php?ac=appclient&op=insert">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<input type="hidden" name="ac" value="appclient" />
+		<input type="hidden" name="op" value="insert" />
+		<input type="hidden" name="subtype" value="{$ssubtype}" />   
+		<table>   
+		<tr>
+        <th width="40">选择</th>
+        <th width="260">应用名称</th> 
+		<th width="50">类型</th> 
+		<th width="80">默认栏目</th>         
+        <th width="100">应用插入栏目</th>
+		<th width="90">添加时间</th> 
+        <th width="90">入库时间</th> 
+        <th width="100">操作</th>    
+        </tr>
+        <!--{loop $listapp $value}-->
+		<tr>
+        <td><input id="Checkbox$value[id]" type="checkbox" name="ids[]" class="checkbox1" value="$value[id]" 	<!--{if $gamelist[$value[id]]}-->checked<!--{/if}-->></td>
+        <td class="text_left"><a href="{$value[url]}">$value[name]</a></td>
+		<td><!--{if $value[apptype]==1}-->游戏<!--{else}-->软件<!--{/if}--></td>
+		<td >$catalogs[$value[categoryid]][categoryname]</td>            
+        <td> <select name="catalogids" id="cat{$value['id']}"><option value="0">选择栏目</option>
+       <!--{loop $catalog $key $valuec}-->
+       <option value="$valuec[categoryid]">$valuec['categoryname']</option>
+       <!--{/loop}-->
+       </select></td>
+       <td > <!--{eval echo sgmdate('Y-m-d', $value['dateline'])}--></td> 
+        <td > <!--{eval echo sgmdate('Y-m-d', $value['updatetime'])}--></td> 
+        <td><a href="javascript:void(0)" onclick="fabu($value['id'])" >采用</a> <a id="jb{$value['id']}" href="javascript:void(0)" onclick="jubao($value['id'])" >举报</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+        
+	   <!--{if $multi}-->
+		<div class="fenye">$multi</div>
+        <!--{/if}-->
+        <div class="footactions">
+        <!--{if $count}-->
+        <input type="checkbox" id="check" name="chkall" onclick='selectAll(this)'>全选
+        <input type="hidden" name="pageurl" value="{$pageurl}"/>
+        <input type="hidden" name="subtype" value="{$ssubtype}"/>
+        <input type="hidden" name="subjectinfo" value="1"/>
+        <input type="submit" name="article" class="sub6zf" value="批量添加到专辑" class="submit">
+        <!--{/if}-->
+		</div>
+		</form>
+		<!--{/if}-->
+	</div>
+	<div class="bdrcontent text_center">
+	<p class="tishi_con tishi_shuju"><!--{if $sub_appinfos}-->该专题下有数据 <strong>$subnum</strong> 个已添加到本站，可批量关联。<!--{else}-->本地没有相关的专辑应用。查看教程》》》<a href="http://bbs.yyjia.com/thread-1293-1-1.html">专辑的管理和使用</a><!--{/if}--></p>	
+		<!--{if $sub_appinfos}-->
+		<form method="post" id="batchform" action="admincp.php?ac=subclient&op=applist">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<input type="hidden" name="subtype" value="{$ssubtype}" />
+		<table>   
+		<tr>
+        <th width="40">选择</th>
+        <th width="260">应用名称</th> 
+		<th width="50">类型</th> 
+		<th width="80">默认栏目</th>         
+        <th width="100">应用插入栏目</th>
+		<th width="90">添加时间</th> 
+        <th width="90">入库时间</th> 
+        <th width="100">操作</th>    
+        </tr>
+		
+        <!--{loop $sub_appinfos $value}-->
+		<tr>
+        <td><input id="Checkbox$value[id]" type="checkbox" name="ids[]" value="$value[id]" class="checkbox2" <!--{if $gamelist[$value[id]]}-->checked<!--{/if}-->></td>
+        <td class="text_left"><a href="{$value[url]}">$value[name]</a></td>
+		<td><!--{if $value[apptype]==1}-->游戏<!--{else}-->软件<!--{/if}--></td>
+		<td >$_SGLOBAL[appcate][$value[categoryid]][categoryname]</td>            
+        <td> <select name="catalogids" id="cat{$value['id']}"><option value="0">选择栏目</option>
+       <!--{loop $catalog $key $valuec}-->
+       <option value="$valuec[categoryid]">$valuec['categoryname']</option>
+       <!--{/loop}-->
+       </select></td>
+       <td > <!--{eval echo sgmdate('Y-m-d', $value['dateline'])}--></td> 
+        <td > <!--{eval echo sgmdate('Y-m-d', $value['updatetime'])}--></td> 
+        <td><a href="admincp.php?ac=subclient&op=applist&subserverid={$subserverid}&subtype={$subtype}&subid={$subid}&appid={$value[id]}" >添加</a> <a id="jb{$value['id']}" href="javascript:void(0)" onclick="jubao($value['id'])" >举报</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		
+	  <!--{if $multi}-->
+		<div class="fenye">$multi</div>
+        <!--{/if}-->
+		
+        <div class="footactions">
+        <!--{if $sub_appinfos}-->
+        <input type="checkbox" id="check2" name="chkall" onclick='selectAll2(this)'>全选
+		<input type="hidden" name="subid" value="$subid" >
+		<input type="hidden" name="subtype" value="$subtype" />
+		<input type="hidden" name="subserverid" value="$subserverid" />
+        <input type="submit" name="addapptosub" class="sub6zf" value="批量关联" class="submit">
+          <!--{/if}-->
+		</div>
+		</form>
+        <!--{/if}-->
+	 </div>
+ <!--{template footer}-->

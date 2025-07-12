@@ -1,0 +1,144 @@
+<!--{template header}-->
+<div id="main" class="layout">
+  <div class="newscon">
+      <div class="newscontent">
+        <h1 class="newscontent_tit">{$newsinfo[title]}</h1>
+        <p class="newscontent_info">文章来源：{$_SCONFIG['sitename']} 时间：<!--{eval echo date("Y-m-d H:i",$newsinfo[dateline])}--> 浏览：{$newsinfo[viewnum]} 次</p>
+        <div class="newscontentbox">
+		<!--{if $_SCONFIG[newsbtlink]}-->
+		 <!--{if $_SCONFIG[newstoplink]}-->
+		 <p>{$_SCONFIG[newsbtlink]}</p>
+		 <!--{/if}-->
+		 <!--{/if}-->
+         {$newsinfo[content]}
+		 <!--{if $_SCONFIG[newsbtlink]}-->
+		 <!--{if $_SCONFIG[newsbuttonlink]}-->
+		 <p>{$_SCONFIG[newsbtlink]}</p>
+		 <!--{/if}-->
+		 <!--{/if}-->		
+		 <p class="zx_share">{$_SCONFIG[bdshare]}</p>
+		</div>
+      </div>
+      <div class="newsconapp clearfix">
+        <div class="newsconapp_tu">
+              <div class="app_120">
+                <a href="$newsappinfo[url]" target="_blank">
+				<i class="app_img_120"></i>
+                <img src="{$newsappinfo[logo]}"></a>
+              </div>
+        </div>
+        <div class="newsconapp_info">
+              <h1><a href="$newsappinfo[url]" target="_blank">{$newsappinfo[name]}</a></h1>
+              <dl class="clearfix">
+                <dt>状&#12288;态：</dt><dd><!--{if $newsappinfo[yystate]=="1"}-->运营<!--{elseif $newsappinfo[yystate]=="2"}-->公测<!--{elseif $newsappinfo[yystate]=="3"}-->内测<!--{elseif $newsappinfo[yystate]=="4"}-->封测<!--{elseif $newsappinfo[yystate]=="5"}-->预告<!--{else}-->暂无<!--{/if}--></dd>
+                <dt>标签&#12288;：</dt><dd><!--{if $newsappinfo[tags]}-->{$newsappinfo[tags]}<!--{else}-->暂无<!--{/if}--></dd>
+                <dt>下载量：</dt><dd><!--{if $newsappinfo[downloadcount]<100000}-->{$newsappinfo[downloadcount]}<!--{else}-->10万+<!--{/if}--></dd>
+                <dt>开发商：</dt><dd><!--{if $newsappinfo[developers]}-->{$newsappinfo[developers]}<!--{else}-->暂无<!--{/if}--></dd>
+                <dt>时&#12288;间：</dt><dd><!--{eval echo date('y-m-d',$newsappinfo[updatetime])}--></dd>
+                <dt>语&#12288;言：</dt><dd><!--{if $newsappinfo[language]}-->{$newsappinfo[language]}<!--{else}-->暂无<!--{/if}--></dd>
+              </dl>
+        </div>
+        <div class="newsconapp_down">
+          <div class="app_content_xiazai clearfix">
+             <div class="app_content_xiazai_b">
+                 <div class="app_content_xiazai_ban">
+					<a href="javascript:void(0);" class="button_an">安卓下载</a>
+					<a href="javascript:void(0);" class="button_an2">安卓下载</a>
+                 </div>
+                 <div class="app_content_xiazai_bios">
+                    <a href="javascript:void(0);" class="button_ios">IOS下载</a>
+                    <a href="javascript:void(0);" class="button_ios2">IOS下载</a>
+                 </div>
+			 </div>
+             <div class="app_content_xiazai_box_an">
+               <div class="app_content_lvsj"></div>
+				<!--{if $downurls}-->
+					<!--{loop $durl $k $v}-->
+					   <p><a href="{$v[url]}" target="_blank">{$v[name]}</a></p>
+					<!--{/loop}-->
+				<!--{else}-->
+					   <p>暂无下载地址</p>
+		        <!--{/if}-->
+             </div>
+             <div class="app_content_xiazai_box_ios">
+               <div class="app_content_lansj"></div>
+  				<!--{if $iosdownurls}-->
+					<!--{loop $iosdurl $k $v}-->
+                     <p><a href="{$v[url]}" target="_blank">{$v[name]}</a></p>
+             		<!--{/loop}-->
+					<!--{else}-->
+					   <p>暂无下载地址</p>
+		        <!--{/if}-->
+             </div>
+          </div>
+        </div>
+      </div>
+	  <div class="news_new">
+        <h2 class="h2tit"><a href="index.php?ac=news"  class="more">查看更多</a>相关文章</h2>
+          <ul>
+           <!--{eval $xgnews=getnewslist(4,-1,-1,1,"dateline",5,0,0,'',$newsinfo['appid'])}-->
+           <!--{if $xgnews[list]}-->
+		   <!--{loop $xgnews[list] $key $value}-->
+		   <!--{if $value[title]!=$newsinfo[title]}-->
+            <li><span class="time"><!--{eval echo date("m-d",$value[dateline])}--></span><a title="{$value['newsurl']}" target="_blank" href="{$value['newsurl']}">{$value['title']}</a></li>
+			<!--{/if}-->
+           <!--{/loop}-->
+           <!--{else}-->
+           <div>暂时还没有相关文章</div>
+           <!--{/if}-->	
+         </ul>
+      </div>
+      <div class="news_hot">
+        <h2 class="h2tit"><a href="index.php?ac=news"  class="more">查看更多</a>热门文章</h2>
+          <ul>
+          <!--{eval $rmnews=getnewslist(4,-1,-1,1,"viewnum",5,$newcatelists[engname][$cname][categoryid],0)}-->
+            <!--{if $rmnews[list]}-->
+            <!--{loop  $rmnews[list] $value}-->
+            <li><span class="time"><!--{eval echo date("m-d",$value[dateline])}--></span><a href="{$value['newsurl']}" title="{$value[title]}" target="_blank" >{$value[title]}</a></li>
+            <!--{/loop}-->
+            <!--{else}-->
+            <div>暂时还没有相关的文章</div>
+            <!--{/if}-->
+         </ul>
+      </div>
+  </div>
+  <div class="newsside">
+    <div class="newscainixihuan">
+      <div class="itit">猜你喜欢</div>
+      <ul class="newscainixihuancon clearfix">
+          <!--{loop $syapps $key $value}-->
+		  <li>
+              <a href="{$value[url]}" class="app_90" target="_blank" >
+                <i class="app_img_90"></i>
+                <img src="{$value[logo]}">
+              </a>
+              <p class="app_tit_90"><a href="{$value[url]}" target="_blank" >{$value[name]}</a></p>
+          </li>
+		  <!--{/loop}-->
+      </ul>
+    </div>
+	<!--{if $_SCONFIG[newsdetailad]}-->
+	<div class="ad_xx">{$_SCONFIG[newsdetailad]}</div>
+	<!--{/if}-->
+    <div class="newspaihang">
+      <div class="itit"><a href="index.php?ac=recommend" class="more" target="_blank">更多</a>排行榜</div>
+      <ul class="ipaihangcon">
+     <!--{eval $sypaihang=getapplists(4,0,-1,-1,0,"viewnum",10)}-->
+    	<!--{loop $sypaihang[app][list] $key $value}-->
+	    <li>
+          <div class="ph_mun"><em <!--{if $key=="0"}-->class="first"<!--{elseif $key=="1"}-->class="second"<!--{elseif $key=="2"}-->class="third"<!--{/if}-->><!--{eval echo ++$key}--></em></div>
+          <div class="ph_app">
+            <a href="{$value[url]}" class="app_36" target="_blank">
+                <i class="app_img_36"></i>
+                <img src="{$value[logo]}">
+            </a>
+            <p><a href="{$value[url]}" target="_blank">{$value[name]}</a></p>
+          </div>
+          <div class="ph_down">{$value[viewnum]}</div>
+        </li>
+      <!--{/loop}-->
+      </ul>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->

@@ -1,0 +1,76 @@
+ <!--{template header}-->
+	<form method="post" action="admincp.php?ac=sycate&op=save">
+	<h2 class="con_title">添加资讯分类</h2>
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+			<input  type="hidden" name="id" value="{$categoryinfo[categoryid]}"/>
+			</tr>
+				<td class="td_tit">栏目名称：</td>
+				<td>
+					<input class="con_input" name="categoryinfo[categoryname]" type="text"  value="{$categoryinfo[categoryname]}" /> <span style="color:#FF0000">&nbsp;*</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="td_tit">别名：</td>
+				<td><input class="con_input" type="text" name="categoryinfo[engname]"  value="{$categoryinfo[engname]}"><span style="color:#FF0000">&nbsp;*</span>在URL中使用的别称，请使用英文或者拼音。</td>
+			</tr>
+            <tr>
+				<td class="td_tit">服务器端对应类别：</td>
+				<td><select name="categoryinfo[serverid]"><option value="0">请选择类别</option>
+				<!--{loop $catalog $key $val}-->
+				<!--{if $val[isshouyou]=="1"}-->
+				<option value="{$val['categoryid']}" <!--{if $categoryinfo[serverid]==$val[categoryid]}--> selected="selected" <!--{/if}-->>{$val['categoryname']}</option>
+				<!--{/if}-->
+				<!--{/loop}--></select></td>
+			</tr>
+            <tr>
+				<td class="td_tit">栏目SEO标题：</td>
+				<td><textarea style="height:32px;" name="categoryinfo[seotitle]">{$categoryinfo[seotitle]}</textarea><p class="b_conintro">(' %catalogname% ' 当前栏目名称  '  %sitename%  '  站点名称)</p></td>
+			</tr>
+            <tr>
+				<td class="td_tit">栏目SEO关键词：</td>
+				<td><textarea style="height:32px;" name="categoryinfo[seokeyword]">{$categoryinfo[seokeyword]}</textarea></td>
+			</tr>
+            <tr>
+				<td class="td_tit">栏目SEO描述：</td>
+				<td><textarea style="height:70px;" name="categoryinfo[seodescription]">{$categoryinfo[seodescription]}</textarea></td>
+			</tr>
+			<tr>
+				<td class="td_tit">级别：</td>
+				<td>
+					<input class="con_input" type="text" name="categoryinfo[displayorder]" value="{$categoryinfo[displayorder]}"/>
+				</td>
+			</tr>           
+            <tr>
+				<td class="td_tit">外部链接地址：</td>
+				<td>
+					<input class="con_input" type="text" name="categoryinfo[redirecturl]" value="{$categoryinfo[redirecturl]}"/>
+				</td>
+			</tr>
+            
+            <tr>
+				<td class="td_tit">审核状态：</td>
+				<td>
+					<input type="radio" name="categoryinfo[isverify]" value="1" <!--{if $categoryinfo[isverify]==1}-->checked="checked"<!--{/if}-->/>生效 <input type="radio" name="categoryinfo[isverify]" value="0" <!--{if $categoryinfo[isverify]==0 }-->checked="checked"<!--{/if}-->/>未生效
+				</td>
+			</tr>
+            
+             <tr>
+				<td class="td_tit">应用页显示：</td>
+				<td>
+					<input type="radio" name="categoryinfo[isnav]" value="1" <!--{if $categoryinfo[isnav]==1 }-->checked="checked"<!--{/if}-->/>显示 <input type="radio" name="categoryinfo[isnav]" value="0" <!--{if $categoryinfo[isnav]==0 }-->checked="checked"<!--{/if}-->/>不显示
+				</td>
+			</tr>
+
+		</table>
+	</div>
+
+	<div class="footactions">
+	<input type="hidden" name="categoryinfo[isshouyou]" value="1" />
+    <input type="hidden" name="categoryinfo[type]" value="2" />
+	<input type="submit" name="networksubmit" value="提交" class="tijiao_button">
+	</div>
+	</form>
+ <!--{template footer}-->
+

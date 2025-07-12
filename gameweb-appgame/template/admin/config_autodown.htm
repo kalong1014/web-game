@@ -1,0 +1,62 @@
+ <!--{template header}-->	
+	<div class="bdrcontent">
+		<h2 class="con_title">数据更新情况</h2>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+          <tr> 
+		  	 <td class="td_tit">更新游戏：</td>		
+			 <td>{$_SCONFIG[updateappsnums]} 条</td>
+			 <td class="td_tit">最后更新时间：</td>
+			 <td><!--{eval echo date('Y-m-d H:i',$_SCONFIG[starttime])}--></td>
+		  </tr>
+          <tr>	     
+		  	 <td class="td_tit">更新资讯：</td>		
+			 <td>{$_SCONFIG[updatenewsnums]} 条</td>
+		  	 <td class="td_tit">最后更新时间：</td>
+			 <td><!--{eval echo date('Y-m-d H:i',$_SCONFIG[newsstarttime])}--></td>
+		  </tr>
+		</table>
+		<h2 class="con_title">配置自动更新</h2>
+        <p class="tishi_con">注：最优设置：更新游戏条数≤40条；更新资讯条数≤10条；数据持续而又稳定的更新更符合搜索引擎的喜好。</p>
+		<form method="post" action="admincp.php?ac=config&op=autodown">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		 <tr>
+           <td class="td_tit">当前自动更新状态：</td>
+           <td><select name="config[isautodown]"><option value="1" <!--{if $_SCONFIG[chkupdate]==1}-->selected="selected"<!--{/if}-->>开启</option><option value="0" <!--{if $_SCONFIG[isautodown]==0}-->selected="selected"<!--{/if}-->>关闭</option></select></td>
+         <tr>
+		  <tr>
+           <td class="td_tit">版本更新设置：</td>
+           <td><select name="config[chkupdate]"><option value="1" <!--{if $_SCONFIG[chkupdate]==1}-->selected="selected"<!--{/if}-->>开启</option><option value="0" <!--{if $_SCONFIG[chkupdate]==0}-->selected="selected"<!--{/if}-->>关闭</option></select>(注:如果某款游戏不更新替换，请到游戏编辑页面把该游戏锁定。)</td>
+         <tr>
+		 <tr>
+           <td class="td_tit">锁定更新设置：</td>
+           <td><select name="config[sdupdate]"><option value="1" <!--{if $_SCONFIG[sdupdate]==1}-->selected="selected"<!--{/if}-->>重新插入</option><option value="0" <!--{if $_SCONFIG[sdupdate]==0}-->selected="selected"<!--{/if}-->>跳过处理</option></select></td>
+         <tr>
+		 <tr>
+		  <td class="td_tit">自动更新间隔（单位/小时）：</td>
+		  <td><input class="con_input" type="text" name="config[htime]"  <!--{if $_SCONFIG['htime']}-->value="{$_SCONFIG['htime']}"<!--{else}-->value="0"<!--{/if}-->/></td>
+		  </tr>
+          <tr> 
+		  	 <td class="td_tit">更新游戏条数：</td>		
+			 <td><input class="con_input" type="text" name="config[downnum]"  <!--{if $_SCONFIG['downnum']}-->value="{$_SCONFIG['downnum']}"<!--{else}-->value="0"<!--{/if}-->/> (最大设置条数40条)</td>	
+		  </tr>
+          <tr>	     
+		  	 <td class="td_tit">更新资讯条数：</td>		
+			 <td><input class="con_input" type="text" name="config[newsdownnum]"  <!--{if $_SCONFIG['newsdownnum']}-->value="{$_SCONFIG['newsdownnum']}"<!--{else}-->value="0"<!--{/if}-->/> (最大设置条数10条)</td>	
+		  </tr>
+		
+		</table>
+		<div class="footactions" style="padding-left:215px;"><input class="submit sub6zf" type="submit" name="submit" value="设置" /></div>
+		</form>
+		<h2 class="con_title">快速更新游戏</h2>
+		<form method="get" action="index.php?ac=fastdown">
+		<input type="hidden" name="ac" value="fastdown" />
+		<table>
+          <tr>
+            <td class="td_tit">快速更新游戏：</td>
+            <td><input class="con_input" type="text" name="fastdownnum" value=""> (设置更新条数)  <input type="submit" class="submit sub6zf" value="快速更新"></td>
+          </tr>
+        </table>
+		</form>
+		</div>
+
+<!--{template footer}-->

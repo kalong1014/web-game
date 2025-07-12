@@ -1,0 +1,53 @@
+ <!--{template header}-->	
+	<div class="bdrcontent">
+		<h2 class="con_title">QQ登入配置</h2>
+		<form method="post" action="admincp.php?ac=config&op=otherlogin">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		 <tr>
+           <td class="td_tit">状态</td>
+           <td><select name="isqqlogin"><option value="1" <!--{if $_SCONFIG[isqqlogin]==1}-->selected="selected"<!--{/if}-->>开启</option><option value="0" <!--{if $_SCONFIG[isqqlogin]==0}-->selected="selected"<!--{/if}-->>关闭</option></select>	<a href="http://connect.qq.com/" target="_blank">点击申请QQ登入</a></td>
+         </tr>
+		 <tr>
+           <td class="td_tit">APP ID：</td>
+           <td><input type="text" class="con_input" name="qqconfig[appid]" value="<!--{eval echo $qqconfg[appid]}-->" /></td>
+         </tr>
+		  <tr>
+           <td class="td_tit">APP KEY：</td>
+           <td><input type="text" class="con_input" name="qqconfig[appkey]" value="<!--{eval echo $qqconfg[appkey]}-->" /></td>
+         </tr>
+		  <tr>
+           <td class="td_tit">回调地址</td>
+           <td><input type="text" class="con_input" name="qqconfig[callback]" value="<!--{eval echo $qqconfg[callback]}-->" /></td>
+         </tr>
+		 <tr>
+           <td class="td_tit">验证<meta>代码：</td>
+           <td><input type="text" class="con_input" name="qqmeta" value="{$_SCONFIG[qqmeta]}" /> (注：只需填写< meta > 中 content的属性值。)</td>
+         </tr>
+		</table>
+		<div class="footactions" style="padding-left:215px;"><input class="submit sub6zf" type="submit" name="qqsubmit" value="设置" /></div>
+		</form>
+		<h2 class="con_title">微博登入配置</h2>
+		<form method="post" action="admincp.php?ac=config&op=otherlogin">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		 <tr>
+           <td class="td_tit">状态</td>
+           <td><select name="iswblogin"><option value="1" <!--{if $_SCONFIG[iswblogin]==1}-->selected="selected"<!--{/if}-->>开启</option><option value="0" <!--{if $_SCONFIG[iswblogin]==0}-->selected="selected"<!--{/if}-->>关闭</option></select>	<a href="http://open.weibo.com/" target="_blank">点击申请微博登入</a></td>
+         <tr>
+		 <tr>
+           <td class="td_tit">WB_AKEY：</td>
+           <td><input type="text" class="con_input" name="wbconfig[WBAKEY]" value="<!--{eval echo $wbconfg[WBAKEY]}-->" /></td>
+         <tr>
+		  <tr>
+           <td class="td_tit">WB_SKEY：</td>
+           <td><input type="text" class="con_input" name="wbconfig[WBSKEY]" value="<!--{eval echo $wbconfg[WBSKEY]}-->" /></td>
+         <tr>
+		 <tr>
+           <td class="td_tit">验证<meta>代码：</td>
+           <td><input type="text" class="con_input" name="wbmeta" value="{$_SCONFIG[wbmeta]}" />(注：只需填写< meta > 中 content的属性值。)</td>
+         <tr>
+		</table>
+		<div class="footactions" style="padding-left:215px;"><input class="submit sub6zf" type="submit" name="wbsubmit" value="设置" /></div>
+		</form>
+		</div>
+
+<!--{template footer}-->

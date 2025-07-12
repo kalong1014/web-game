@@ -1,0 +1,55 @@
+<!--{template header}-->
+<script type="text/javascript" src="/template/$_SCONFIG[template]/js/ZeroClipboard.js"></script>
+<script language="javascript">
+  var clip = null;  
+// function $(id) { return document.getElementById(id); }  
+  function init(k) {
+          clip = new ZeroClipboard.Client();
+          clip.setHandCursor(true);   
+		  clip.addEventListener('mouseOver', function (client,text) {
+			// update the text on mouse over
+			clip.setText($('#cardnum_'+k).text());
+		  }); 
+          clip.addEventListener('complete', function (client, text) {
+			//debugstr("Copied text to clipboard: " + text )
+			alert("该地址已经复制，你可以使用Ctrl+V 粘贴。");
+          });
+          clip.glue('clip_button_'+k, 'clip_container_'+k);
+  }
+</script>
+<div id="main">
+<!--{template user_left}-->
+  <div class="user_content">
+    <div class="open_ctit">我的卡号</div>
+    <div class="o_appcon o_renzheng">
+	  <div class="o_appglcon">
+      <table width="100%" class="shouyou_tb">
+        <tbody>
+		<!--{if $pcinfo}-->
+          <tr> 
+			<th width="200" class="text_left">礼包名称</th>
+			<th width="80">适用平台</th>
+			<th width="120">有效期</th>
+			<th>卡号</th>
+			<th width="80">相关链接</th>
+          </tr>
+		 <!--{loop $pcinfo $key $value}-->
+          <tr>
+            <td class="text_left">{$value[packname]}</td>
+			<td>{$value[useplatform]}</td>
+			<td><!--{eval echo date('Y.m.d',$value[starttime])}-->--<!--{eval echo date('Y.m.d',$value[endtime])}--></td>
+			<td><span id="cardnum_$key">{$value[card]}</span><!--<span id="clip_container_$key" class="clip_container_ckx"><span id="clip_button_$key"><input type="button" value="复制" onmousemove="init($key)"></span></span>--></td>
+          	<td><a href="{$value[packdetail]}" target="_blank">礼包详情</a></td>
+		  </tr>
+		  <!--{/loop}-->
+		  <!--{else}-->
+		  <div>您还没有相关的卡号信息。</div>
+		  <!--{/if}-->
+        </tbody>
+      </table>
+	  <div class="fenye">{$multi}</div>
+	  </div>
+    </div>
+  </div>
+</div>
+<!--{template footer}-->
